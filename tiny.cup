@@ -72,13 +72,16 @@ parser code {:
 terminal ELSE, IF, INT, RETURN, VOID, WHILE;
 terminal PLUS, MINUS, STAR, SLASH, LT, LTE, GT, GTE, EQ, NE, ASSIGN, SEMI, COMMA;
 terminal OBRACE, CBRACE, OBRACK, CBRACK, OPAREN, CPAREN, OCOMMENT, CCOMMENT;
+terminal String ID, NUM;
 
    
 terminal THEN, END, REPEAT, UNTIL, READ, WRITE;
-terminal String ID, NUM;
 terminal ERROR;
-   
-non terminal ExpList program, stmt_seq;
+
+non terminal ExpList program, dec_list;
+non terminal dec, var_dec, fun_dec;   
+
+non terminal ExpList stmt_seq;
 non terminal Exp stmt, if_stmt, repeat_stmt, assign_stmt, read_stmt, write_stmt;
 non terminal Exp exp, simple_exp, term, factor;  
 
@@ -90,6 +93,36 @@ program	     ::= stmt_seq:s
                     Absyn.showTree( RESULT, 0 );
                  :}
                ;
+/*
+program      ::= dec_list:s
+                 {: RESULT = s;
+                    System.out.println( "The abstract syntax tree is:" );
+                    Absyn.showTree( RESULT, 0 );
+                 :}
+               ;
+*/
+dec_list     ::= dec_list:s1 dec:s2
+                 {: 
+
+                 :}
+               | dec:s
+                 {: 
+
+                 :}
+               ;
+
+dec         ::= var_dec:s
+                 {:
+
+                 :}
+               | fun_dec
+                 {: 
+
+                 :}
+               ;
+
+
+
 
 stmt_seq     ::= stmt_seq:s1 SEMI stmt:s2 
                  {: ExpList t = s1;
