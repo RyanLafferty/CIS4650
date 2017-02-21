@@ -8,7 +8,6 @@ public class sym {
   /* terminals */
   public static final int CBRACE = 22;
   public static final int LTE = 13;
-  public static final int OVER = 35;
   public static final int SLASH = 11;
   public static final int SEMI = 19;
   public static final int REPEAT = 31;
@@ -23,18 +22,18 @@ public class sym {
   public static final int COMMA = 20;
   public static final int CCOMMENT = 28;
   public static final int UNTIL = 32;
-  public static final int NUM = 37;
+  public static final int NUM = 36;
   public static final int PLUS = 8;
   public static final int ASSIGN = 18;
   public static final int IF = 3;
-  public static final int ID = 36;
+  public static final int ID = 35;
   public static final int EOF = 0;
   public static final int RETURN = 5;
   public static final int CPAREN = 26;
   public static final int error = 1;
   public static final int VOID = 6;
   public static final int EQ = 16;
-  public static final int ERROR = 38;
+  public static final int ERROR = 37;
   public static final int GTE = 15;
   public static final int ELSE = 2;
   public static final int OPAREN = 25;
@@ -81,7 +80,6 @@ public class sym {
   "UNTIL",
   "READ",
   "WRITE",
-  "OVER",
   "ID",
   "NUM",
   "ERROR"

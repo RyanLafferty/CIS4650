@@ -22,5 +22,8 @@ parser.java: tiny.cup
 test:
 	$(CUP) < tiny.cup
 
+run:
+	java -classpath $(CLASSPATH) Main gcd.tiny
+
 clean:
 	rm -f parser.java Lexer.java sym.java *.class absyn/*.class *~

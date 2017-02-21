@@ -75,7 +75,6 @@ terminal OBRACE, CBRACE, OBRACK, CBRACK, OPAREN, CPAREN, OCOMMENT, CCOMMENT;
 
    
 terminal THEN, END, REPEAT, UNTIL, READ, WRITE;
-terminal OVER;
 terminal String ID, NUM;
 terminal ERROR;
    
@@ -161,8 +160,8 @@ simple_exp   ::= simple_exp:s PLUS term:t
 
 term         ::= term:t STAR factor:f
                  {: RESULT = new OpExp(tleft, t, OpExp.STAR, f); :}
-               | term:t OVER factor:f
-                 {: RESULT = new OpExp(tleft, t, OpExp.OVER, f); :}
+               | term:t SLASH factor:f
+                 {: RESULT = new OpExp(tleft, t, OpExp.SLASH, f); :}
                | factor:f
                  {: RESULT = f; :}
                ;

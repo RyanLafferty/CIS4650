@@ -4,7 +4,7 @@ public class OpExp extends Exp {
   public final static int PLUS  = 0;
   public final static int MINUS = 1;
   public final static int STAR = 2;
-  public final static int OVER  = 3;
+  public final static int SLASH  = 3;
   public final static int EQ    = 4;
   public final static int LT    = 5;
   public final static int GT    = 6;

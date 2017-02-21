@@ -97,20 +97,38 @@ identifier = {letter}+
 "return"           { return symbol(sym.RETURN); }
 "void"             { return symbol(sym.VOID); }
 "while"            { return symbol(sym.WHILE); }
-
 "else"             { return symbol(sym.ELSE); }
 
-":="               { return symbol(sym.ASSIGN); }
-"="                { return symbol(sym.EQ); }
-"<"                { return symbol(sym.LT); }
-">"                { return symbol(sym.GT); }
 "+"                { return symbol(sym.PLUS); }
 "-"                { return symbol(sym.MINUS); }
 "*"                { return symbol(sym.STAR); }
-"/"                { return symbol(sym.OVER); }
+"/*"                { return symbol(sym.OCOMMENT); }
+"*/"                { return symbol(sym.CCOMMENT); }
+"/"                { return symbol(sym.SLASH); }
+"<"                { return symbol(sym.LT); }
+"<="               { return symbol(sym.LTE); }
+">"                { return symbol(sym.GT); }
+">="               { return symbol(sym.GTE); }
+"="                { return symbol(sym.EQ); }
+//"=="               { return symbol(sym.EQ); }
+"!="               { return symbol(sym.NE); }
+":="               { return symbol(sym.ASSIGN); }
+//"="                { return symbol(sym.ASSIGN); }
+";"                { return symbol(sym.SEMI); }
+","                { return symbol(sym.COMMA); }
 "("                { return symbol(sym.OPAREN); }
 ")"                { return symbol(sym.CPAREN); }
-";"                { return symbol(sym.SEMI); }
+//"("                { return symbol(sym.OBRACE); }
+//")"                { return symbol(sym.CBRACE); }
+"["                { return symbol(sym.OBRACK); }
+"]"                { return symbol(sym.CBRACK); }
+"{"                { return symbol(sym.OPAREN); }
+"}"                { return symbol(sym.CPAREN); }
+
+
+
+
+
 {number}           { return symbol(sym.NUM, yytext()); }
 {identifier}       { return symbol(sym.ID, yytext()); }
 {WhiteSpace}*      { /* skip whitespace */ }   

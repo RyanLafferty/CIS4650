@@ -74,7 +74,7 @@ abstract public class Absyn {
       case OpExp.STAR:
         System.out.println( " * " );
         break;
-      case OpExp.OVER:
+      case OpExp.SLASH:
         System.out.println( " / " );
         break;
       case OpExp.EQ:
