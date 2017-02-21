@@ -71,7 +71,7 @@ abstract public class Absyn {
       case OpExp.MINUS:
         System.out.println( " - " );
         break;
-      case OpExp.TIMES:
+      case OpExp.STAR:
         System.out.println( " * " );
         break;
       case OpExp.OVER:

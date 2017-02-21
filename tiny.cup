@@ -69,15 +69,19 @@ parser code {:
    
    
 /* ------------Declaration of Terminals and Non Terminals Section----------- */
+terminal ELSE, IF, INT, RETURN, VOID, WHILE;
+terminal PLUS, MINUS, STAR, SLASH, LT, LTE, GT, GTE, EQ, NE, ASSIGN, SEMI, COMMA;
+terminal OBRACE, CBRACE, OBRACK, CBRACK, OPAREN, CPAREN, OCOMMENT, CCOMMENT;
+
    
-terminal IF, THEN, ELSE, END, REPEAT, UNTIL, READ, WRITE;
-terminal ASSIGN, EQ, LT, GT, PLUS, MINUS, TIMES, OVER, LPAREN, RPAREN, SEMI;
+terminal THEN, END, REPEAT, UNTIL, READ, WRITE;
+terminal OVER;
 terminal String ID, NUM;
 terminal ERROR;
    
 non terminal ExpList program, stmt_seq;
 non terminal Exp stmt, if_stmt, repeat_stmt, assign_stmt, read_stmt, write_stmt;
-non terminal Exp exp, simple_exp, term, factor;   
+non terminal Exp exp, simple_exp, term, factor;  
 
 /* ----------------------------Grammar Section-------------------- */
    
@@ -155,15 +159,15 @@ simple_exp   ::= simple_exp:s PLUS term:t
                  {: RESULT = t; :}
                ;
 
-term         ::= term:t TIMES factor:f
-                 {: RESULT = new OpExp(tleft, t, OpExp.TIMES, f); :}
+term         ::= term:t STAR factor:f
+                 {: RESULT = new OpExp(tleft, t, OpExp.STAR, f); :}
                | term:t OVER factor:f
                  {: RESULT = new OpExp(tleft, t, OpExp.OVER, f); :}
                | factor:f
                  {: RESULT = f; :}
                ;
 
-factor       ::= LPAREN exp:e RPAREN
+factor       ::= OPAREN exp:e CPAREN
                  {: RESULT = e; :}
                | NUM:n
                  {: RESULT = new IntExp(nleft, n); :}

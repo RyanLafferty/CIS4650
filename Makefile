@@ -19,5 +19,8 @@ Lexer.java: tiny.flex
 parser.java: tiny.cup
 	$(CUP) -dump -expect 3 tiny.cup
 
+test:
+	$(CUP) < tiny.cup
+
 clean:
 	rm -f parser.java Lexer.java sym.java *.class absyn/*.class *~
