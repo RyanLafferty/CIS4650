@@ -78,11 +78,14 @@ terminal String ID, NUM;
 terminal THEN, END, REPEAT, UNTIL, READ, WRITE;
 terminal ERROR;
 
-non terminal ExpList program, dec_list;
-non terminal dec, var_dec, fun_dec;   
+non terminal dec_list, params, param_list, stmt_list, local_decs;
+non terminal dec, var_dec, fun_dec, type_spec, param, comp_stmt, empty, var;
+non terminal expr_stmt, sele_stmt, iter_stmt, ret_stmt, expr, sim_expr;   
+non terminal ExpList program;
+non terminal Exp stmt;
 
 non terminal ExpList stmt_seq;
-non terminal Exp stmt, if_stmt, repeat_stmt, assign_stmt, read_stmt, write_stmt;
+non terminal Exp if_stmt, repeat_stmt, assign_stmt, read_stmt, write_stmt;
 non terminal Exp exp, simple_exp, term, factor;  
 
 /* ----------------------------Grammar Section-------------------- */
@@ -94,6 +97,7 @@ program	     ::= stmt_seq:s
                  :}
                ;
 /*
+//1
 program      ::= dec_list:s
                  {: RESULT = s;
                     System.out.println( "The abstract syntax tree is:" );
@@ -101,6 +105,7 @@ program      ::= dec_list:s
                  :}
                ;
 */
+//2
 dec_list     ::= dec_list:s1 dec:s2
                  {: 
 
@@ -110,7 +115,7 @@ dec_list     ::= dec_list:s1 dec:s2
 
                  :}
                ;
-
+//3
 dec         ::= var_dec:s
                  {:
 
@@ -120,6 +125,30 @@ dec         ::= var_dec:s
 
                  :}
                ;
+//4
+var_dec         ::= type_spec:s ID SEMI
+                 {:
+
+                 :}
+               | type_spec:s ID SEMI
+                 {: 
+
+                 :}
+               | type_spec:s ID OBRACK NUM CBRACK SEMI
+                 {: 
+
+                 :}
+               ;
+//5
+
+
+//6
+//7
+//8
+//9
+//10
+//11
+//12
 
 
 
