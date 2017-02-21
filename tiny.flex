@@ -126,7 +126,12 @@ identifier = {letter}+
 "}"                { return symbol(sym.CPAREN); }
 
 
-
+"then"             { return symbol(sym.THEN); }
+"end"              { return symbol(sym.END); }
+"repeat"           { return symbol(sym.REPEAT); }
+"until"            { return symbol(sym.UNTIL); }
+"read"             { return symbol(sym.READ); }
+"write"            { return symbol(sym.WRITE); }
 
 
 {number}           { return symbol(sym.NUM, yytext()); }
