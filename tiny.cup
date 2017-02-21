@@ -140,15 +140,62 @@ var_dec         ::= type_spec:s ID SEMI
                  :}
                ;
 //5
+type_spec        ::= INT
+                 {:
 
+                 :}
+                 | VOID
+                 {: 
+
+                 :}
+               ;
 
 //6
+fun_dec        ::= type_spec:s1 ID OBRACE params:s2 CBRACE comp_stmt:s3
+                 {:
+
+                 :}
+               ;
+
 //7
+params        ::= param_list:s
+                 {:
+
+                 :}
+                 | VOID
+                 {: 
+
+                 :}
+               ;
+
 //8
+param_list        ::= param_list:s1 COMMA param:s2
+                 {:
+
+                 :}
+                 | param:s
+                 {: 
+
+                 :}
+               ;
+
 //9
+param        ::= type_spec:s ID
+                 {:
+
+                 :}
+                 | type_spec:s ID OBRACK CBRACK
+                 {: 
+
+                 :}
+               ;
+
 //10
-//11
-//12
+comp_stmt        ::= OBRACE local_decs:s1 stmt_list:s2 CBRACE
+                 {:
+
+                 :}
+               ;
 
 
 
