@@ -190,9 +190,9 @@ param_list        ::= param_list:s1 COMMA param:s2
                ;
 
 //9
-param        ::= type_spec:s ID
+param        ::= type_spec:s ID:i
                  {:
-                    RESULT = new Param(s,ID);
+                    RESULT = new Param(s,i);
                  :}
                  | type_spec:s ID OBRACK CBRACK
                  {: 
