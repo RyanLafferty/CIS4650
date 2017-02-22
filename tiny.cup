@@ -136,17 +136,17 @@ dec         ::= var_dec:s
                  :}
                ;
 //4
-var_dec         ::= type_spec:s ID SEMI
+var_dec         ::= type_spec:s ID:i SEMI
                  {:
-
+                    RESULT = new VarDec(sleft,s,i);
                  :}
-               | type_spec:s ID SEMI
-                 {: 
-
+               | type_spec:s ID:i SEMI
+                 {: //This one is the same as the first, Ryan?
+                    RESULT = new VarDec(sleft,s,i);
                  :}
-               | type_spec:s ID OBRACK NUM CBRACK SEMI
+               | type_spec:s ID:i OBRACK NUM:n CBRACK SEMI
                  {: 
-
+                    RESULT = new ArrayDec(sleft,s,i,n);
                  :}
                ;
 //5
@@ -251,11 +251,15 @@ stmt         ::= if_stmt:i
                  :}
               | type_spec:s
               {: RESULT = s;
-                 System.out.println( "stmt 6" );
+                 System.out.println( "TypeSpec" );
               :}
               | param:s
               {: //RESULT = s;
-                 System.out.println( "stmt 7" );
+                 System.out.println( "Param" );
+              :}
+              | var_dec:s
+              {: //RESULT = s;
+                 System.out.println( "Var Dec" );
               :}
                ;
               }
