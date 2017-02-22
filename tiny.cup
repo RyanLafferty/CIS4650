@@ -79,10 +79,11 @@ terminal THEN, END, REPEAT, UNTIL, READ, WRITE;
 terminal ERROR;
 
 non terminal dec_list, params, param_list, stmt_list, local_decs;
-non terminal dec, var_dec, fun_dec, type_spec, param, comp_stmt, empty, var;
+non terminal dec, var_dec, fun_dec, param, comp_stmt, empty, var;
 non terminal expr_stmt, sele_stmt, iter_stmt, ret_stmt, expr, sim_expr;   
 non terminal ExpList program;
 non terminal Exp stmt;
+non terminal TypeSpec type_spec;
 
 non terminal ExpList stmt_seq;
 non terminal Exp if_stmt, repeat_stmt, assign_stmt, read_stmt, write_stmt;
@@ -142,11 +143,11 @@ var_dec         ::= type_spec:s ID SEMI
 //5
 type_spec        ::= INT
                  {:
-
+                    RESULT = new TypeSpec(TypeSpec.INT);
                  :}
                  | VOID
                  {: 
-
+                    RESULT = new TypeSpec(TypeSpec.VOID);
                  :}
                ;
 

@@ -47,6 +47,12 @@ abstract public class Absyn {
     showTree( tree.rhs, spaces );
   }
 
+  static private void showTree( TypeSpec tree, int spaces ) {
+
+    System.out.println( "AOSDOASD" );
+    
+  }
+
   static private void showTree( IfExp tree, int spaces ) {
     indent( spaces );
     System.out.println( "IfExp:" );

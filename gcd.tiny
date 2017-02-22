@@ -8,4 +8,5 @@ if x > 0 then { don't compute if x <= 0 }
     x := x - 1
   until x = 0;
   write fact { output factorial of x }
+  INT
 end
