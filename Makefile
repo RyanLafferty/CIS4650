@@ -24,6 +24,9 @@ test:
 
 run:
 	java $(CLASSPATH) Main gcd.tiny
+play:
+	java $(CLASSPATH) Main chris.tiny
+
 
 clean:
 	rm -f parser.java Lexer.java sym.java *.class absyn/*.class *~
