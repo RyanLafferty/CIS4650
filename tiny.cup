@@ -80,7 +80,8 @@ terminal ERROR;
 
 non terminal dec_list, params, param_list, stmt_list, local_decs;
 non terminal dec, var_dec, fun_dec, type_spec, param, comp_stmt, empty, var;
-non terminal expr_stmt, sele_stmt, iter_stmt, ret_stmt, expr, sim_expr;   
+non terminal expr_stmt, sele_stmt, iter_stmt, ret_stmt, expr, sim_expr;  
+non terminal add_expr, relop; 
 non terminal ExpList program;
 non terminal Exp stmt;
 
@@ -196,6 +197,115 @@ comp_stmt        ::= OBRACE local_decs:s1 stmt_list:s2 CBRACE
 
                  :}
                ;
+
+//11
+local_decs        ::= local_decs:s1 var_dec:s2
+                 {:
+
+                 :}
+                 | 
+                 {: 
+
+                 :}
+               ;
+//12
+stmt_list        ::= stmt_list:s1 stmt:s2
+                 {:
+
+                 :}
+                 | 
+                 {: 
+
+                 :}
+               ;
+//13
+stmt        ::= expr_stmt:s
+                 {:
+
+                 :}
+                 | comp_stmt:s
+                 {: 
+
+                 :}
+                 | sele_stmt:s
+                 {: 
+
+                 :}
+                 | iter_stmt:s
+                 {: 
+
+                 :}
+                 | ret_stmt:s
+                 {: 
+
+                 :}
+               ;
+//14
+expr_stmt        ::= expr SEMI
+                 {:
+
+                 :}
+                 |  SEMI
+                 {:
+
+                 :}
+               ;
+//15
+expr_stmt        ::= expr SEMI
+                 {:
+
+                 :}
+                 ;
+//16
+iter_stmt        ::= WHILE OBRACE expr:s1 CBRACE stmt:s2
+                 {:
+
+                 :}
+                 ;
+//17
+ret_stmt        ::= RETURN SEMI
+                 {:
+
+                 :}
+                 | RETURN expr:s SEMI
+                 {:
+
+                 :}
+                 ;
+//18
+expr        ::= var:s1 ASSIGN expr:s2
+                 {:
+
+                 :}
+                 | sim_expr:s
+                 {:
+
+                 :}
+                 ;
+//19
+var        ::= ID
+                 {:
+
+                 :}
+                 | ID OBRACK expr:s CBRACK
+                 {:
+
+                 :}
+                 ;
+//20
+sim_expr        ::= add_expr:s1 relop:s2 add_expr:s3
+                 {:
+
+                 :}
+                 | add_expr:s1
+                 {:
+
+                 :}
+                 ;
+//21
+//22
+//23
+//24
 
 
 
