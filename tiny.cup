@@ -252,10 +252,10 @@ repeat_stmt  ::= REPEAT:r stmt_seq:s UNTIL exp:e
 
 assign_stmt  ::= ID:i ASSIGN exp:e
                  {: RESULT = new AssignExp(ileft, new VarExp(ileft, i), e); :} 
-                 | type_spec:s ID:i ASSIGN exp:e
-                 {: RESULT = new AssignExp(ileft, new VarExp(ileft, i), e, s); :}
-                 | type_spec:s
-                 {: RESULT = new AssignExp(s); :}
+                 /*| type_spec:s ID:i ASSIGN exp:e
+                 {: RESULT = new AssignExp(ileft, new VarExp(ileft, i), e, s); :}*/
+                 /*| type_spec:s
+                 {: RESULT = new AssignExp(s); :}*/
                ;
 
 read_stmt    ::= READ:r ID:i
