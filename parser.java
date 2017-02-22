@@ -561,6 +561,7 @@ class CUP$parser$actions {
                       t = t.tail;
                     t.tail = new ExpList(s2, null);
                     RESULT = s1;
+                    System.out.println( "stmt_seq 1" );
                  
               CUP$parser$result = parser.getSymbolFactory().newSymbol("stmt_seq",21, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -574,6 +575,8 @@ class CUP$parser$actions {
 		int sright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Exp s = (Exp)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		 RESULT = new ExpList(s, null); 
+                    System.out.println( "stmt_seq 2" );
+                 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("stmt_seq",21, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -587,6 +590,7 @@ class CUP$parser$actions {
 		Exp s = (Exp)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		 parser.report_error("invalid", null); 
                     RESULT = new ExpList(s, null); 
+                    System.out.println( "stmt_seq 3" );
                  
               CUP$parser$result = parser.getSymbolFactory().newSymbol("stmt_seq",21, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -600,6 +604,8 @@ class CUP$parser$actions {
 		int iright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Exp i = (Exp)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		 RESULT = i; 
+                    System.out.println( "stmt 1" );
+                 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("stmt",19, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -612,6 +618,8 @@ class CUP$parser$actions {
 		int rright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Exp r = (Exp)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		 RESULT = r; 
+                    System.out.println( "stmt 2" );
+                 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("stmt",19, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -624,6 +632,8 @@ class CUP$parser$actions {
 		int aright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Exp a = (Exp)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		 RESULT = a; 
+                    System.out.println( "stmt 3" );
+                 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("stmt",19, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -636,6 +646,8 @@ class CUP$parser$actions {
 		int rright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Exp r = (Exp)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		 RESULT = r; 
+                    System.out.println( "stmt 4" );
+                 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("stmt",19, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -648,6 +660,8 @@ class CUP$parser$actions {
 		int wright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Exp w = (Exp)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		 RESULT = w; 
+                    System.out.println( "stmt 5" );
+                 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("stmt",19, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -660,6 +674,8 @@ class CUP$parser$actions {
 		int sright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		TypeSpec s = (TypeSpec)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		 RESULT = s;
+                 System.out.println( "stmt 6" );
+              
               CUP$parser$result = parser.getSymbolFactory().newSymbol("stmt",19, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;

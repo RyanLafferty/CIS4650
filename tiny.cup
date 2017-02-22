@@ -216,27 +216,43 @@ stmt_seq     ::= stmt_seq:s1 SEMI stmt:s2
                       t = t.tail;
                     t.tail = new ExpList(s2, null);
                     RESULT = s1;
+                    System.out.println( "stmt_seq 1" );
                  :}
                | stmt:s
-                 {: RESULT = new ExpList(s, null); :}
+                 {: RESULT = new ExpList(s, null); 
+                    System.out.println( "stmt_seq 2" );
+                 :}
                | error SEMI stmt:s
                  {: parser.report_error("invalid", null); 
                     RESULT = new ExpList(s, null); 
+                    System.out.println( "stmt_seq 3" );
                  :}
                ;
 
 stmt         ::= if_stmt:i
-                 {: RESULT = i; :}
+                 {: RESULT = i; 
+                    System.out.println( "stmt 1" );
+                 :}
                | repeat_stmt:r
-                 {: RESULT = r; :}
+                 {: RESULT = r; 
+                    System.out.println( "stmt 2" );
+                 :}
                | assign_stmt:a
-                 {: RESULT = a; :}
+                 {: RESULT = a; 
+                    System.out.println( "stmt 3" );
+                 :}
                | read_stmt:r
-                 {: RESULT = r; :}
+                 {: RESULT = r; 
+                    System.out.println( "stmt 4" );
+                 :}
                | write_stmt:w
-                 {: RESULT = w; :}
+                 {: RESULT = w; 
+                    System.out.println( "stmt 5" );
+                 :}
               | type_spec:s
-              {: RESULT = s;:}
+              {: RESULT = s;
+                 System.out.println( "stmt 6" );
+              :}
                ;
               }
 
