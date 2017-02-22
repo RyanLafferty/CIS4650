@@ -91,20 +91,20 @@ non terminal Exp exp, simple_exp, term, factor;
 
 /* ----------------------------Grammar Section-------------------- */
    
-/*program	     ::= stmt_seq:s
-                 {: RESULT = s;
-                    System.out.println( "The abstract syntax tree is:" );
-                    //Absyn.showTree( RESULT, 0 );
-                 :}
-               ;
-*/
-//temp program so chris can play
-program      ::= type_spec:s
+program	     ::= stmt_seq:s
                  {: RESULT = s;
                     System.out.println( "The abstract syntax tree is:" );
                     Absyn.showTree( RESULT, 0 );
                  :}
                ;
+
+//temp program so chris can play
+/*program      ::= type_spec:s
+                 {: //RESULT = s;
+                    System.out.println( "The abstract syntax tree is:" + s );
+                    //Absyn.showTree( RESULT, 0 );
+                 :}
+               ;*/
 
 /*
 //1
@@ -235,7 +235,10 @@ stmt         ::= if_stmt:i
                  {: RESULT = r; :}
                | write_stmt:w
                  {: RESULT = w; :}
+              | type_spec:s
+              {: RESULT = s;:}
                ;
+              }
 
 if_stmt      ::= IF:i exp:e THEN stmt_seq:s END
                  {: RESULT = new IfExp(ileft, e, s, null); :}

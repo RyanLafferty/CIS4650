@@ -1,6 +1,6 @@
 package absyn;
 
-public class TypeSpec {
+public class TypeSpec extends Exp {
   public final static int INT  = 0;
   public final static int VOID  = 1;
   public int type;
