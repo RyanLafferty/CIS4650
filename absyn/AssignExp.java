@@ -16,4 +16,8 @@ public class AssignExp extends Exp {
     this.rhs = rhs;
     this.type = type;
   }
+
+  public AssignExp(TypeSpec type ) {
+    this.type = type;
+  }
 }
