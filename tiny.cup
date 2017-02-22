@@ -194,9 +194,9 @@ param        ::= type_spec:s ID:i
                  {:
                     RESULT = new Param(s,i);
                  :}
-                 | type_spec:s ID OBRACK CBRACK
+                 | type_spec:s ID:i OBRACK CBRACK
                  {: 
-
+                    RESULT = new Param(s,i);
                  :}
                ;
 
