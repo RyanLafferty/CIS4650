@@ -49,7 +49,11 @@ abstract public class Absyn {
 
   static private void showTree( TypeSpec tree, int spaces ) {
 
-    System.out.println( "AOSDOASD" );
+    if(tree.type == TypeSpec.INT) {
+        System.out.println("Int");
+    } else {
+        System.out.println("Void");
+    }
     
   }
 
