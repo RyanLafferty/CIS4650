@@ -300,13 +300,13 @@ expr        ::= var:s1 ASSIGN expr:s2
                  :}
                  ;
 //19
-var        ::= ID
+var        ::= ID:i
                  {:
-
+                    RESULT = new Var(ileft,i);
                  :}
-                 | ID OBRACK expr:s CBRACK
+                 | ID:i OBRACK expr:s CBRACK
                  {:
-
+                    //RESULT = new Array(ileft,i,s); *This needs work*
                  :}
                  ;
 //20
