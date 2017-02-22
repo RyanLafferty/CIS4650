@@ -407,7 +407,7 @@ class CUP$parser$actions {
           case 9: // type_spec ::= INT 
             {
               TypeSpec RESULT =null;
-		
+		 
                     RESULT = new TypeSpec(TypeSpec.INT);
                  
               CUP$parser$result = parser.getSymbolFactory().newSymbol("type_spec",20, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
@@ -509,7 +509,7 @@ class CUP$parser$actions {
 		int sright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		TypeSpec s = (TypeSpec)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
 		
-
+                    RESULT = new Param(s,ID);
                  
               CUP$parser$result = parser.getSymbolFactory().newSymbol("param",8, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
