@@ -78,16 +78,16 @@ terminal String ID, NUM;
 terminal THEN, END, REPEAT, UNTIL, READ, WRITE;
 terminal ERROR;
 
-non terminal dec_list, params, param_list, stmt_list, local_decs;
+non terminal dec_list, params, param_list, stmt_list, local_decs, arg_list;
 non terminal dec, var_dec, fun_dec, type_spec, param, comp_stmt, empty, var;
 non terminal expr_stmt, sele_stmt, iter_stmt, ret_stmt, expr, sim_expr;  
-non terminal add_expr, relop; 
+non terminal add_expr, relop, addop, mulop, call, args; 
 non terminal ExpList program;
-non terminal Exp stmt;
+non terminal Exp stmt, term, factor;
 
 non terminal ExpList stmt_seq;
 non terminal Exp if_stmt, repeat_stmt, assign_stmt, read_stmt, write_stmt;
-non terminal Exp exp, simple_exp, term, factor;  
+non terminal Exp exp, simple_exp;  
 
 /* ----------------------------Grammar Section-------------------- */
    
@@ -219,7 +219,7 @@ stmt_list        ::= stmt_list:s1 stmt:s2
                  :}
                ;
 //13
-stmt        ::= expr_stmt:s
+/*stmt        ::= expr_stmt:s
                  {:
 
                  :}
@@ -239,7 +239,7 @@ stmt        ::= expr_stmt:s
                  {: 
 
                  :}
-               ;
+               ;*/
 //14
 expr_stmt        ::= expr SEMI
                  {:
@@ -303,9 +303,125 @@ sim_expr        ::= add_expr:s1 relop:s2 add_expr:s3
                  :}
                  ;
 //21
+relop        ::= LTE
+                 {:
+
+                 :}
+                 | LT
+                 {:
+
+                 :}
+                 | GT
+                 {:
+
+                 :}
+                 | GTE
+                 {:
+
+                 :}
+                 | EQ
+                 {:
+
+                 :}
+                 | NE
+                 {:
+
+                 :}
+                 ;
+
+
 //22
+add_expr        ::= add_expr:s1 addop:s2 term:s3
+                 {:
+
+                 :}
+                 | term
+                 {:
+
+                 :}
+                 ;
 //23
+addop        ::= PLUS
+                 {:
+
+                 :}
+                 | MINUS
+                 {:
+
+                 :}
+                 ;
+
 //24
+/*
+term        ::= term:s1 mulop:s2 factor:s3
+                 {:
+
+                 :}
+                 | factor:s
+                 {:
+
+                 :}
+                 ;
+*/
+//25
+
+mulop        ::= STAR
+                 {:
+
+                 :}
+                 | SLASH
+                 {:
+
+                 :}
+                 ;
+
+//26
+/*
+factor        ::= OBRACE expr:s1 CBRACE
+                 {:
+
+                 :}
+                 | var
+                 {:
+
+                 :}
+                 | call
+                 {:
+
+                 :}
+                 | NUM
+                 {:
+
+                 :}
+                 ;
+*/
+//27
+
+call        ::= ID OBRACE args:s CBRACE
+                 {:
+
+                 :}
+                 ;
+//28
+args        ::= arg_list:s
+                 {:
+
+                 :}
+                 | 
+                 {:
+
+                 :}
+                 ;
+//29
+arg_list        ::= arg_list:s1 COMMA expr:s2
+                 {:
+
+                 :}
+                 | expr:s
+                 {:
+
+                 :}
+                 ;
 
 
 
