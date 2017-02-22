@@ -150,13 +150,13 @@ var_dec         ::= type_spec:s ID SEMI
                  :}
                ;
 //5
-type_spec        ::= INT
+type_spec        ::= INT:i
                  {: 
-                    RESULT = new TypeSpec(TypeSpec.INT);
+                    RESULT = new TypeSpec(ileft,TypeSpec.INT);
                  :}
-                 | VOID
+                 | VOID:i
                  {: 
-                    RESULT = new TypeSpec(TypeSpec.VOID);
+                    RESULT = new TypeSpec(ileft,TypeSpec.VOID);
                  :}
                ;
 
@@ -192,11 +192,11 @@ param_list        ::= param_list:s1 COMMA param:s2
 //9
 param        ::= type_spec:s ID:i
                  {:
-                    RESULT = new Param(s,i);
+                    RESULT = new Param(sleft,s,i);
                  :}
                  | type_spec:s ID:i OBRACK CBRACK
                  {: 
-                    RESULT = new Param(s,i);
+                    RESULT = new Param(sleft,s,i);
                  :}
                ;
 
@@ -252,6 +252,10 @@ stmt         ::= if_stmt:i
               | type_spec:s
               {: RESULT = s;
                  System.out.println( "stmt 6" );
+              :}
+              | param:s
+              {: //RESULT = s;
+                 System.out.println( "stmt 7" );
               :}
                ;
               }

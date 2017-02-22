@@ -5,7 +5,8 @@ public class TypeSpec extends Exp {
   public final static int VOID  = 1;
   public int type;
   
-  public TypeSpec(int type) {
+  public TypeSpec(int pos, int type) {
+  	this.pos = pos;
     this.type = type;
   }
 }
