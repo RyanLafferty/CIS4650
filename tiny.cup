@@ -80,7 +80,7 @@ terminal ERROR;
 
 
 non terminal params, param_list, local_decs, arg_list;
-non terminal empty, var;
+non terminal empty;
 non terminal relop, addop, mulop, call, args; 
 
 non terminal ExpList program;
@@ -89,6 +89,7 @@ non terminal TypeSpec type_spec;
 non terminal DecList dec_list;
 non terminal Dec dec, fun_dec;
 non terminal VarDec var_dec, param;
+non terminal Var var;
 
 non terminal ExpList stmt_seq, stmt_list;
 non terminal Exp if_stmt, repeat_stmt, assign_stmt, read_stmt, write_stmt;
@@ -310,11 +311,11 @@ expr        ::= var:s1 ASSIGN expr:s2
 //19
 var        ::= ID:i
                  {:
-                    RESULT = new VarExp(ileft,i);
+                    RESULT = new RegularVar(ileft,i);
                  :}
                  | ID:i OBRACK expr:s CBRACK
                  {:
-                    RESULT = new Array(ileft,i,s); 
+                    RESULT = new ArrayVar(ileft,i,s); 
                  :}
                  ;
 //20
@@ -414,7 +415,7 @@ factor        ::= OBRACE expr:s1 CBRACE
                  :}
                  | var:v
                  {:
-                    RESULT = new VarExp(vleft,v);
+                    RESULT = new RegularVar(vleft,v);
                  :}
                  | call:c
                  {:
