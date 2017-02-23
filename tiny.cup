@@ -81,10 +81,10 @@ terminal ERROR;
 
 non terminal dec_list, params, param_list, local_decs, arg_list;
 non terminal dec, var_dec, fun_dec, param, comp_stmt, empty, var;
-non terminal expr_stmt, sele_stmt, iter_stmt, ret_stmt, expr, sim_expr;  
+non terminal expr_stmt, sele_stmt, iter_stmt, ret_stmt, sim_expr;  
 non terminal add_expr, relop, addop, mulop, call, args; 
 non terminal ExpList program;
-non terminal Exp stmt, term, factor;
+non terminal Exp expr, stmt, term, factor;
 non terminal TypeSpec type_spec;
 
 
@@ -121,7 +121,7 @@ program      ::= dec_list:s
 //2
 dec_list     ::= dec_list:s1 dec:s2
                  {: 
-
+                    
                  :}
                | dec:s
                  {: 
@@ -308,7 +308,7 @@ var        ::= ID:i
                  :}
                  | ID:i OBRACK expr:s CBRACK
                  {:
-                    //RESULT = new Array(ileft,i,s); *This needs work*
+                    RESULT = new Array(ileft,i,s); 
                  :}
                  ;
 //20
