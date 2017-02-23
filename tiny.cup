@@ -143,10 +143,6 @@ var_dec         ::= type_spec:s ID:i SEMI
                  {:
                     RESULT = new VarDec(sleft,s,i);
                  :}
-               | type_spec:s ID:i SEMI
-                 {: //This one is the same as the first, Ryan?
-                    RESULT = new VarDec(sleft,s,i);
-                 :}
                | type_spec:s ID:i OBRACK NUM:n CBRACK SEMI
                  {: 
                     RESULT = new ArrayDec(sleft,s,i, new IntExp(nleft,n));
