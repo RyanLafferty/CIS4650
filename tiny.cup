@@ -276,13 +276,13 @@ iter_stmt        ::= WHILE OBRACE expr:s1 CBRACE stmt:s2
                  :}
                  ;
 //17
-ret_stmt        ::= RETURN SEMI
+ret_stmt        ::= RETURN:i SEMI
                  {:
-
+                    RESULT = new ReturnStmt(ileft,null);
                  :}
-                 | RETURN expr:s SEMI
+                 | RETURN:i exp:s SEMI
                  {:
-
+                    RESULT = new ReturnStmt(ileft,s);
                  :}
                  ;
 //18
