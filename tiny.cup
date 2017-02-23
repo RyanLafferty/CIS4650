@@ -131,11 +131,11 @@ dec_list     ::= dec_list:s1 dec:s2
 //3
 dec         ::= var_dec:s
                  {:
-
+                    RESULT = s;
                  :}
-               | fun_dec
+               | fun_dec:s
                  {: 
-
+                    RESULT = s;
                  :}
                ;
 //4
