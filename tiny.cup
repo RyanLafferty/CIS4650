@@ -149,7 +149,7 @@ var_dec         ::= type_spec:s ID:i SEMI
                  :}
                | type_spec:s ID:i OBRACK NUM:n CBRACK SEMI
                  {: 
-                    RESULT = new ArrayDec(sleft,s,i,n);
+                    RESULT = new ArrayDec(sleft,s,i, new IntExp(nleft,n));
                  :}
                ;
 //5
