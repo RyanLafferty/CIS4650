@@ -328,29 +328,29 @@ sim_expr        ::= add_expr:s1 relop:s2 add_expr:s3
                  :}
                  ;
 //21
-relop        ::= LTE
+relop        ::= LTE:i
                  {:
-
+                    RESULT = i;
                  :}
-                 | LT
+                 | LT:i
                  {:
-
+                    RESULT = i;
                  :}
-                 | GT
+                 | GT:i
                  {:
-
+                    RESULT = i;
                  :}
-                 | GTE
+                 | GTE:i
                  {:
-
+                    RESULT = i;
                  :}
-                 | EQ
+                 | EQ:i
                  {:
-
+                    RESULT = i;
                  :}
-                 | NE
+                 | NE:i
                  {:
-
+                    RESULT = i;
                  :}
                  ;
 
@@ -378,15 +378,21 @@ addop        ::= PLUS:i
 
 //24
 /*
-term        ::= term:s1 mulop:s2 factor:s3
+term        ::= term:s1 STAR factor:s3
                  {:
-
+                    RESULT = new OpExp(s1left,s1,OpExp.STAR,s3);
+                 :}
+                 |
+                 term:s1 SLASH factor:s3
+                 {:
+                    RESULT = new OpExp(s1left,s1,OpExp.SLASH,s3);
                  :}
                  | factor:s
                  {:
-
+                    RESULT = s;
                  :}
                  ;
+                 
 */
 //25
 
