@@ -232,23 +232,23 @@ stmt_list        ::= stmt_list:s1 stmt:s2
 //13
 /*stmt        ::= expr_stmt:s
                  {:
-                    //RESULT = s;
+                    RESULT = s;
                  :}
                  | comp_stmt:s
                  {: 
-                   // RESULT = s;
+                   RESULT = s;
                  :}
                  | sele_stmt:s
                  {: 
-                    //RESULT = s;
+                    RESULT = s;
                  :}
                  | iter_stmt:s
                  {: 
-                    //RESULT = s;
+                    RESULT = s;
                  :}
                  | ret_stmt:s
                  {: 
-                    //RESULT = s;
+                    RESULT = s;
                  :}
                ;*/
 
