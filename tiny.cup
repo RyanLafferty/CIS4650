@@ -79,14 +79,17 @@ terminal THEN, END, REPEAT, UNTIL, READ, WRITE;
 terminal ERROR;
 
 
-non terminal dec_list, params, param_list, local_decs, arg_list;
-non terminal dec, var_dec, fun_dec, param, comp_stmt, empty, var;
-non terminal expr_stmt, sele_stmt, iter_stmt, ret_stmt, sim_expr;  
+non terminal params, param_list, local_decs, arg_list;
+non terminal fun_dec, param, comp_stmt, empty, var;
+non terminal expr_stmt, sele_stmt, iter_stmt, sim_expr;  
 non terminal add_expr, relop, addop, mulop, call, args; 
-non terminal ExpList program;
-non terminal Exp expr, stmt, term, factor;
-non terminal TypeSpec type_spec;
 
+non terminal ExpList program;
+non terminal Exp expr, stmt, term, factor, ret_stmt;
+non terminal TypeSpec type_spec;
+non terminal DecList dec_list;
+non terminal Dec dec;
+non terminal VarDec var_dec;
 
 non terminal ExpList stmt_seq, stmt_list;
 non terminal Exp if_stmt, repeat_stmt, assign_stmt, read_stmt, write_stmt;
@@ -121,7 +124,11 @@ program      ::= dec_list:s
 //2
 dec_list     ::= dec_list:s1 dec:s2
                  {: 
-                    
+                    DecList t = s1;
+                    while( t.tail != null )
+                      t = t.tail;
+                    t.tail = new DecList(s2, null);
+                    RESULT = s1;
                  :}
                | dec:s
                  {: 
@@ -135,13 +142,13 @@ dec         ::= var_dec:s
                  :}
                | fun_dec:s
                  {: 
-                    RESULT = s;
+                    //RESULT = s;
                  :}
                ;
 //4
 var_dec         ::= type_spec:s ID:i SEMI
                  {:
-                    RESULT = new VarDec(sleft,s,i);
+                    RESULT = new RegularDec(sleft,s,i);
                  :}
                | type_spec:s ID:i OBRACK NUM:n CBRACK SEMI
                  {: 
@@ -191,11 +198,11 @@ param_list        ::= param_list:s1 COMMA param:s2
 //9
 param        ::= type_spec:s ID:i
                  {:
-                    RESULT = new Param(sleft,s,i);
+                    RESULT = new RegularDec(sleft,s,i);
                  :}
                  | type_spec:s ID:i OBRACK CBRACK
                  {: 
-                    RESULT = new Param(sleft,s,i);
+                    RESULT = new RegularDec(sleft,s,i);
                  :}
                ;
 
