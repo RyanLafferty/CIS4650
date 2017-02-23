@@ -80,16 +80,15 @@ terminal ERROR;
 
 
 non terminal params, param_list, local_decs, arg_list;
-non terminal fun_dec, param, comp_stmt, empty, var;
-non terminal expr_stmt, sele_stmt, iter_stmt, sim_expr;  
-non terminal add_expr, relop, addop, mulop, call, args; 
+non terminal empty, var;
+non terminal relop, addop, mulop, call, args; 
 
 non terminal ExpList program;
-non terminal Exp expr, stmt, term, factor, ret_stmt;
+non terminal Exp expr, stmt, term, factor, ret_stmt, add_expr, sim_expr, iter_stmt, sele_stmt, expr_stmt, comp_stmt;
 non terminal TypeSpec type_spec;
 non terminal DecList dec_list;
-non terminal Dec dec;
-non terminal VarDec var_dec;
+non terminal Dec dec, fun_dec;
+non terminal VarDec var_dec, param;
 
 non terminal ExpList stmt_seq, stmt_list;
 non terminal Exp if_stmt, repeat_stmt, assign_stmt, read_stmt, write_stmt;
@@ -132,7 +131,7 @@ dec_list     ::= dec_list:s1 dec:s2
                  :}
                | dec:s
                  {: 
-
+                   RESULT = new DecList(s, null); 
                  :}
                ;
 //3
@@ -142,7 +141,7 @@ dec         ::= var_dec:s
                  :}
                | fun_dec:s
                  {: 
-                    //RESULT = s;
+                    RESULT = s;
                  :}
                ;
 //4
@@ -369,11 +368,11 @@ add_expr        ::= add_expr:s1 addop:s2 term:s3
 //23
 addop        ::= PLUS:i
                  {:
-                    
+                    RESULT = i;
                  :}
                  | MINUS:i
                  {:
-
+                    RESULT = i;
                  :}
                  ;
 
@@ -391,13 +390,13 @@ term        ::= term:s1 mulop:s2 factor:s3
 */
 //25
 
-mulop        ::= STAR
+mulop        ::= STAR:i
                  {:
-
+                    RESULT = i;
                  :}
-                 | SLASH
+                 | SLASH:i
                  {:
-
+                    RESULT = i;
                  :}
                  ;
 
