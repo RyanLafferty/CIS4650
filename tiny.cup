@@ -79,7 +79,7 @@ terminal THEN, END, REPEAT, UNTIL, READ, WRITE;
 terminal ERROR;
 
 
-non terminal dec_list, params, param_list, stmt_list, local_decs, arg_list;
+non terminal dec_list, params, param_list, local_decs, arg_list;
 non terminal dec, var_dec, fun_dec, param, comp_stmt, empty, var;
 non terminal expr_stmt, sele_stmt, iter_stmt, ret_stmt, expr, sim_expr;  
 non terminal add_expr, relop, addop, mulop, call, args; 
@@ -88,7 +88,7 @@ non terminal Exp stmt, term, factor;
 non terminal TypeSpec type_spec;
 
 
-non terminal ExpList stmt_seq;
+non terminal ExpList stmt_seq, stmt_list;
 non terminal Exp if_stmt, repeat_stmt, assign_stmt, read_stmt, write_stmt;
 non terminal Exp exp, simple_exp;  
 
@@ -219,12 +219,18 @@ local_decs        ::= local_decs:s1 var_dec:s2
 
 //12
 stmt_list        ::= stmt_list:s1 stmt:s2
-                 {:
-
+                 {: ExpList t = s1;
+                    while( t.tail != null )
+                      t = t.tail;
+                    t.tail = new ExpList(s2, null);
+                    RESULT = s1;
                  :}
-                 | 
-                 {: 
-
+                  | stmt:s
+                 {: RESULT = new ExpList(s, null); 
+                 :}
+                  | error SEMI stmt:s
+                 {: parser.report_error("invalid", null); 
+                    RESULT = new ExpList(s, null); 
                  :}
                ;
 
