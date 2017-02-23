@@ -410,21 +410,22 @@ mulop        ::= STAR:i
 /*
 factor        ::= OBRACE expr:s1 CBRACE
                  {:
-
+                    RESULT = s1;
                  :}
-                 | var
+                 | var:v
                  {:
-
+                    RESULT = new VarExp(vleft,v);
                  :}
-                 | call
+                 | call:c
                  {:
-
+                    RESULT = c;
                  :}
-                 | NUM
+                 | NUM:n
                  {:
-
+                    RESULT = new IntExp(nleft,n);
                  :}
                  ;
+
 */
 //27
 
