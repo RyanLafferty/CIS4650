@@ -228,10 +228,10 @@ stmt_list        ::= stmt_list:s1 stmt:s2
                   | stmt:s
                  {: RESULT = new ExpList(s, null); 
                  :}
-                  | error SEMI stmt:s
+                  /*| error:
                  {: parser.report_error("invalid", null); 
                     RESULT = new ExpList(s, null); 
-                 :}
+                 :}*/
                ;
 
 /*
