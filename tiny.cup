@@ -292,7 +292,7 @@ ret_stmt        ::= RETURN SEMI
 //18
 expr        ::= var:s1 ASSIGN expr:s2
                  {:
-
+                    
                  :}
                  | sim_expr:s
                  {:
@@ -302,7 +302,7 @@ expr        ::= var:s1 ASSIGN expr:s2
 //19
 var        ::= ID:i
                  {:
-                    RESULT = new Var(ileft,i);
+                    RESULT = new VarExp(ileft,i);
                  :}
                  | ID:i OBRACK expr:s CBRACK
                  {:
@@ -358,11 +358,11 @@ add_expr        ::= add_expr:s1 addop:s2 term:s3
                  :}
                  ;
 //23
-addop        ::= PLUS
+addop        ::= PLUS:i
                  {:
-
+                    
                  :}
-                 | MINUS
+                 | MINUS:i
                  {:
 
                  :}
