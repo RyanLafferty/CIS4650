@@ -78,10 +78,10 @@ terminal String ID, NUM;
 terminal THEN, END, REPEAT, UNTIL, READ, WRITE;
 terminal ERROR;
 
-
+non terminal Integer relop;
 non terminal params, local_decs;
 non terminal empty;
-non terminal relop, addop, mulop, call, args; 
+non terminal addop, mulop, call, args; 
 
 non terminal ExpList program;
 non terminal Exp stmt, term, factor, ret_stmt, add_expr, sim_expr, iter_stmt, sele_stmt, expr_stmt, comp_stmt;
@@ -330,37 +330,39 @@ var        ::= ID:i
 //20
 sim_expr        ::= add_expr:s1 relop:s2 add_expr:s3
                  {:
-
+                     //figure out how to convert relop to int
+                    //RESULT = new OpExp(s1left,s1,s2,s3);
                  :}
-                 | add_expr:s1
+                 | add_expr:s
                  {:
 
                  :}
                  ;
+
 //21
-relop        ::= LTE:i
+relop        ::= LTE
                  {:
-                    RESULT = i;
+                    RESULT = new Integer(7);
                  :}
-                 | LT:i
+                 | LT
                  {:
-                    RESULT = i;
+                    RESULT = new Integer(5);
                  :}
-                 | GT:i
+                 | GT
                  {:
-                    RESULT = i;
+                    RESULT = new Integer(6);
                  :}
-                 | GTE:i
+                 | GTE
                  {:
-                    RESULT = i;
+                    RESULT = new Integer(8);
                  :}
-                 | EQ:i
+                 | EQ
                  {:
-                    RESULT = i;
+                    RESULT = new Integer(4);
                  :}
-                 | NE:i
+                 | NE
                  {:
-                    RESULT = i;
+                    RESULT = new Integer(9);
                  :}
                  ;
 
@@ -441,7 +443,7 @@ factor        ::= OBRACE expr:s1 CBRACE
 
 call        ::= ID OBRACE args:s CBRACE
                  {:
-
+                    //TODO
                  :}
                  ;
 //28
