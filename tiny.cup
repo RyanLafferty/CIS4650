@@ -368,11 +368,11 @@ relop        ::= LTE:i
 //22
 add_expr        ::= add_expr:s1 addop:s2 term:s3
                  {:
-
+                    RESULT = new OpExp(s1left,s1,OpExp.PLUS,s3);
                  :}
-                 | term
+                 | term:s
                  {:
-
+                    RESULT = s;
                  :}
                  ;
 //23
