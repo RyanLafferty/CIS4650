@@ -84,10 +84,10 @@ non terminal empty;
 non terminal addop, mulop, call, args; 
 
 non terminal ExpList program;
-non terminal Exp stmt, term, factor, ret_stmt, add_expr, sim_expr, iter_stmt, sele_stmt, expr_stmt, comp_stmt;
+non terminal Exp stmt, term, factor, ret_stmt, add_expr, sim_expr, iter_stmt, comp_stmt;
 non terminal TypeSpec type_spec;
 non terminal DecList dec_list, param_list, arg_list, local_decs;
-non terminal Dec dec, fun_dec, expr;
+non terminal Dec dec, fun_dec, expr, expr_stmt, sele_stmt;
 non terminal VarDec var_dec, param;
 non terminal Var var;
 
@@ -275,24 +275,24 @@ stmt_list        ::= stmt_list:s1 stmt:s2
                  :}
                ;*/
 
-//14 TODO
-expr_stmt        ::= expr SEMI
+//14
+expr_stmt        ::= expr:i SEMI
                  {:
-
+                    RESULT = new ExprStmt(ileft,i);
                  :}
-                 |  SEMI
+                 |  SEMI:i
                  {:
-
+                    RESULT = new ExprStmt(ileft,null);
                  :}
                ;
 //15 TODO
-sele_stmt        ::= IF OBRACE expr CBRACE stmt
+sele_stmt        ::= IF:i OBRACE expr:s1 CBRACE stmt:s2
                  {:
-
+                    RESULT = new SeleStmt(ileft, s1, s2);
                  :}
-                 | IF OBRACE expr CBRACE stmt ELSE stmt
+                 | IF:i OBRACE expr:s1 CBRACE stmt:s2 ELSE stmt:s3
                  {:
-
+                    RESULT = new SeleStmt(ileft, s1, s2, s3);
                  :}
                  ;
 
@@ -315,7 +315,7 @@ ret_stmt        ::= RETURN:i SEMI
 //18 TODO
 expr        ::= var:s1 ASSIGN expr:s2
                  {:
-                    
+
                  :}
                  | sim_expr:s
                  {:
