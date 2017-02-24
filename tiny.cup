@@ -84,10 +84,10 @@ non terminal empty;
 non terminal addop, mulop, call, args; 
 
 non terminal ExpList program;
-non terminal Exp stmt, term, factor, ret_stmt, add_expr, sim_expr, iter_stmt, comp_stmt;
+non terminal Exp stmt, term, factor, ret_stmt, add_expr, sim_expr;
 non terminal TypeSpec type_spec;
 non terminal DecList dec_list, param_list, arg_list, local_decs;
-non terminal Dec dec, fun_dec, expr, expr_stmt, sele_stmt;
+non terminal Dec dec, fun_dec, expr, expr_stmt, sele_stmt, iter_stmt, comp_stmt;
 non terminal VarDec var_dec, param;
 non terminal Var var;
 
@@ -211,10 +211,10 @@ param        ::= type_spec:s ID:i
                  :}
                ;
 
-//10 TODO
-comp_stmt        ::= OBRACE local_decs:s1 stmt_list:s2 CBRACE
+//10
+comp_stmt        ::= OBRACE:i local_decs:s1 stmt_list:s2 CBRACE
                  {:
-
+                    RESULT = new CompStmt(ileft, s1, s2);
                  :}
                ;
 
@@ -285,7 +285,7 @@ expr_stmt        ::= expr:i SEMI
                     RESULT = new ExprStmt(ileft,null);
                  :}
                ;
-//15 TODO
+//15
 sele_stmt        ::= IF:i OBRACE expr:s1 CBRACE stmt:s2
                  {:
                     RESULT = new SeleStmt(ileft, s1, s2);
@@ -296,10 +296,10 @@ sele_stmt        ::= IF:i OBRACE expr:s1 CBRACE stmt:s2
                  :}
                  ;
 
-//16 TODO
-iter_stmt        ::= WHILE OBRACE expr:s1 CBRACE stmt:s2
+//16 
+iter_stmt        ::= WHILE:i OBRACE expr:s1 CBRACE stmt:s2
                  {:
-
+                    RESULT = new IterStmt(ileft, s1, s2);
                  :}
                  ;
 //17
