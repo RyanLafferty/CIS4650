@@ -166,10 +166,10 @@ type_spec        ::= INT:i
                  :}
                ;
 
-//6
+//6 TODO
 fun_dec        ::= type_spec:s1 ID OBRACE params:s2 CBRACE comp_stmt:s3
                  {:
-                    //TODO
+
                  :}
                ;
 
@@ -211,14 +211,14 @@ param        ::= type_spec:s ID:i
                  :}
                ;
 
-//10
+//10 TODO
 comp_stmt        ::= OBRACE local_decs:s1 stmt_list:s2 CBRACE
                  {:
 
                  :}
                ;
 
-//11
+//11 TODO
 local_decs        ::= local_decs:s1 var_dec:s2
                  {:
 
@@ -270,7 +270,7 @@ stmt_list        ::= stmt_list:s1 stmt:s2
                  :}
                ;*/
 
-//14
+//14 TODO
 expr_stmt        ::= expr SEMI
                  {:
 
@@ -280,7 +280,7 @@ expr_stmt        ::= expr SEMI
 
                  :}
                ;
-//15
+//15 TODO
 sele_stmt        ::= IF OBRACE expr CBRACE stmt
                  {:
 
@@ -291,7 +291,7 @@ sele_stmt        ::= IF OBRACE expr CBRACE stmt
                  :}
                  ;
 
-//16
+//16 TODO
 iter_stmt        ::= WHILE OBRACE expr:s1 CBRACE stmt:s2
                  {:
 
@@ -307,7 +307,7 @@ ret_stmt        ::= RETURN:i SEMI
                     RESULT = new ReturnStmt(ileft,s);
                  :}
                  ;
-//18
+//18 TODO
 expr        ::= var:s1 ASSIGN expr:s2
                  {:
                     
@@ -438,11 +438,11 @@ factor        ::= OBRACE expr:s1 CBRACE
                  ;
 
 */
-//27
+//27 TODO
 
 call        ::= ID OBRACE args:s CBRACE
                  {:
-                    //TODO
+
                  :}
                  ;
 //28
