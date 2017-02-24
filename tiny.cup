@@ -79,15 +79,15 @@ terminal THEN, END, REPEAT, UNTIL, READ, WRITE;
 terminal ERROR;
 
 
-non terminal params, param_list, local_decs, arg_list;
+non terminal params, local_decs;
 non terminal empty;
 non terminal relop, addop, mulop, call, args; 
 
 non terminal ExpList program;
-non terminal Exp expr, stmt, term, factor, ret_stmt, add_expr, sim_expr, iter_stmt, sele_stmt, expr_stmt, comp_stmt;
+non terminal Exp stmt, term, factor, ret_stmt, add_expr, sim_expr, iter_stmt, sele_stmt, expr_stmt, comp_stmt;
 non terminal TypeSpec type_spec;
-non terminal DecList dec_list;
-non terminal Dec dec, fun_dec;
+non terminal DecList dec_list, param_list, arg_list;
+non terminal Dec dec, fun_dec, expr;
 non terminal VarDec var_dec, param;
 non terminal Var var;
 
@@ -169,29 +169,34 @@ type_spec        ::= INT:i
 //6
 fun_dec        ::= type_spec:s1 ID OBRACE params:s2 CBRACE comp_stmt:s3
                  {:
-
+                    //TODO
                  :}
                ;
 
 //7
 params        ::= param_list:s
                  {:
-
+                    RESULT = s;
                  :}
                  | VOID
                  {: 
-
+                    RESULT = null;
+                    //????
                  :}
                ;
 
 //8
 param_list        ::= param_list:s1 COMMA param:s2
                  {:
-
+                    DecList t = s1;
+                    while( t.tail != null )
+                      t = t.tail;
+                    t.tail = new DecList(s2, null);
+                    RESULT = s1;
                  :}
                  | param:s
                  {: 
-
+                    RESULT = new DecList(s, null); 
                  :}
                ;
 
@@ -442,21 +447,26 @@ call        ::= ID OBRACE args:s CBRACE
 //28
 args        ::= arg_list:s
                  {:
-
+                    RESULT = s;
                  :}
                  | 
                  {:
-
+                    //???
+                    RESULT = null;
                  :}
                  ;
 //29
 arg_list        ::= arg_list:s1 COMMA expr:s2
                  {:
-
+                    DecList t = s1;
+                    while( t.tail != null )
+                      t = t.tail;
+                    t.tail = new DecList(s2, null);
+                    RESULT = s1;
                  :}
                  | expr:s
                  {:
-
+                    RESULT = new DecList(s, null);
                  :}
                  ;
 
