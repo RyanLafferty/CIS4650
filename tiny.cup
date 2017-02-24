@@ -275,7 +275,11 @@ expr_stmt        ::= expr SEMI
                  :}
                ;
 //15
-expr_stmt        ::= expr SEMI
+sele_stmt        ::= IF OBRACE expr CBRACE stmt
+                 {:
+
+                 :}
+                 | IF OBRACE expr CBRACE stmt ELSE stmt
                  {:
 
                  :}
