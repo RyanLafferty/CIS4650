@@ -330,12 +330,11 @@ var        ::= ID:i
 //20
 sim_expr        ::= add_expr:s1 relop:s2 add_expr:s3
                  {:
-                     //figure out how to convert relop to int
-                    //RESULT = new OpExp(s1left,s1,s2,s3);
+                    RESULT = new OpExp(s1left,s1,s2,s3);
                  :}
                  | add_expr:s
                  {:
-
+                    RESULT = s;
                  :}
                  ;
 
