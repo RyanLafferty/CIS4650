@@ -167,7 +167,7 @@ type_spec        ::= INT:i
                ;
 
 //6 TODO
-fun_dec        ::= type_spec:s1 ID OBRACE params:s2 CBRACE comp_stmt:s3
+fun_dec        ::= type_spec:s1 ID:i OBRACE params:s2 CBRACE comp_stmt:s3
                  {:
 
                  :}
