@@ -16,6 +16,13 @@ abstract public class Absyn {
     } 
   }
 
+static public void showTree( DecList tree, int spaces ) {//TODO
+    while( tree != null ) {
+      showTree( tree.head, spaces );
+      tree = tree.tail;
+    } 
+  }
+
   static private void showTree( Exp tree, int spaces ) {
     if( tree instanceof AssignExp )
       showTree( (AssignExp)tree, spaces );
@@ -37,6 +44,15 @@ abstract public class Absyn {
       indent( spaces );
       System.out.println( "Illegal expression at line " + tree.pos  );
     }
+  }
+
+  static private void showTree( Dec tree, int spaces ) { //TODO
+    /*if( tree instanceof AssignExp )
+      showTree( (AssignExp)tree, spaces );
+    else {
+      indent( spaces );
+      System.out.println( "Illegal expression at line " + tree.pos  );
+    }*/
   }
 
   static private void showTree( AssignExp tree, int spaces ) {
@@ -128,5 +144,7 @@ abstract public class Absyn {
     System.out.println( "WriteExp:" );
     showTree( tree.output, spaces + SPACES ); 
   }
+
+  //TODO - create show tree functions
 
 }
