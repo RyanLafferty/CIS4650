@@ -11,7 +11,7 @@ public class OpExp extends Exp {
   public final static int LTE    = 7;
   public final static int GTE    = 8;
   public final static int NE    = 9;
-  
+
   public Exp left;
   public int op;
   public Exp right;

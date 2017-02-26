@@ -317,7 +317,7 @@ expr        ::= var:s1 ASSIGN expr:s2
                  {:
 
                  :}
-                 | sim_expr:s
+                 | sim_expr:s //TODO change OPExp to dec
                  {:
 
                  :}
@@ -445,7 +445,7 @@ factor        ::= OBRACE expr:s1 CBRACE
 */
 //27 TODO
 
-call        ::= ID OBRACE args:s CBRACE
+call        ::= ID:i OBRACE args:s CBRACE
                  {:
 
                  :}
