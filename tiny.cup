@@ -71,13 +71,12 @@ parser code {:
 /* ------------Declaration of Terminals and Non Terminals Section----------- */
 terminal ELSE, IF, INT, RETURN, VOID, WHILE;
 terminal PLUS, MINUS, STAR, SLASH, LT, LTE, GT, GTE, EQ, NE, ASSIGN, SEMI, COMMA;
-terminal OBRACE, CBRACE, OBRACK, CBRACK, OPAREN, CPAREN, OCOMMENT, CCOMMENT;
+terminal OBRACE, CBRACE, OBRACK, CBRACK;
 terminal String ID, NUM;   
 terminal ERROR;
 
 non terminal DecList program;
 non terminal Integer relop;
-non terminal empty;
 
 non terminal DecList dec_list, params, param_list, arg_list, local_decs, args, stmt_list;
 non terminal Dec dec, fun_dec, expr, expr_stmt, sele_stmt, iter_stmt;
@@ -88,9 +87,9 @@ non terminal TypeSpec type_spec;
 non terminal VarDec var, var_dec, param;
 //non terminal Var var;
 
-precedence left ID ,OBRACE, CBRACE;
+precedence left NUM, ID ,OBRACE, CBRACE;
 precedence left ID ,OBRACK, CBRACK;
-precedence left OBRACE local_decs stmt_list CBRACE;
+
 
 /* ----------------------------Grammar Section-------------------- */
   
@@ -375,14 +374,9 @@ addop        ::= PLUS:i
 
 //24
 
-term        ::= term:s1 STAR factor:s3
+term        ::= term:s1 mulop factor:s3
                  {:
                     RESULT = new OpExp2(s1left,s1,OpExp.STAR,s3);
-                 :}
-                 |
-                 term:s1 SLASH factor:s3
-                 {:
-                    RESULT = new OpExp2(s1left,s1,OpExp.SLASH,s3);
                  :}
                  | factor:s
                  {:
