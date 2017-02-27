@@ -77,10 +77,9 @@ terminal ERROR;
 
 non terminal DecList program;
 non terminal Integer relop;
-non terminal params;
 non terminal empty;
 
-non terminal DecList dec_list, param_list, arg_list, local_decs, args, stmt_list;
+non terminal DecList dec_list, params, param_list, arg_list, local_decs, args, stmt_list;
 non terminal Dec dec, fun_dec, expr, expr_stmt, sele_stmt, iter_stmt;
 non terminal Dec stmt, term, factor, ret_stmt, add_expr, sim_expr, comp_stmt;
 non terminal Dec addop, mulop, call;
