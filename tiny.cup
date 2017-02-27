@@ -78,17 +78,17 @@ terminal String ID, NUM;
 terminal THEN, END, REPEAT, UNTIL, READ, WRITE;
 terminal ERROR;
 
-//non terminal DecList program;
+non terminal DecList program;
 non terminal Integer relop;
 non terminal params;
 non terminal empty;
-non terminal addop, mulop, call, args; 
 
-non terminal ExpList program;
+//non terminal ExpList program;
 non terminal Exp stmt, term, factor, ret_stmt, add_expr, sim_expr;
 non terminal TypeSpec type_spec;
-non terminal DecList dec_list, param_list, arg_list, local_decs;
+non terminal DecList dec_list, param_list, arg_list, local_decs, args;
 non terminal Dec dec, fun_dec, expr, expr_stmt, sele_stmt, iter_stmt, comp_stmt;
+non terminal Dec addop, mulop, call; 
 non terminal VarDec var_dec, param;
 non terminal Var var;
 
@@ -98,7 +98,7 @@ non terminal Exp exp, simple_exp;
 
 /* ----------------------------Grammar Section-------------------- */
   
-   
+/*  
 program	     ::= stmt_seq:s
                  {: RESULT = s;
                     System.out.println( "The abstract syntax tree is:" );
@@ -106,7 +106,7 @@ program	     ::= stmt_seq:s
                  :}
                ;
 
-/*
+*/
 //1
 program      ::= dec_list:s
                  {: RESULT = s;
@@ -114,7 +114,7 @@ program      ::= dec_list:s
                     Absyn.showTree( RESULT, 0 );
                  :}
                ;
-*/
+
 //2
 dec_list     ::= dec_list:s1 dec:s2
                  {: 
@@ -247,7 +247,7 @@ stmt_list        ::= stmt_list:s1 stmt:s2
 
 /*
 //13
-/*stmt        ::= expr_stmt:s
+stmt        ::= expr_stmt:s
                  {:
                     RESULT = s;
                  :}
@@ -267,7 +267,7 @@ stmt_list        ::= stmt_list:s1 stmt:s2
                  {: 
                     RESULT = s;
                  :}
-               ;*/
+               ;
 
 //14
 expr_stmt        ::= expr:i SEMI
@@ -387,7 +387,7 @@ addop        ::= PLUS:i
                  ;
 
 //24
-/*
+
 term        ::= term:s1 STAR factor:s3
                  {:
                     RESULT = new OpExp(s1left,s1,OpExp.STAR,s3);
@@ -403,7 +403,7 @@ term        ::= term:s1 STAR factor:s3
                  :}
                  ;
                  
-*/
+
 //25
 
 mulop        ::= STAR:i
@@ -417,7 +417,7 @@ mulop        ::= STAR:i
                  ;
 
 //26
-/*
+
 factor        ::= OBRACE expr:s1 CBRACE
                  {:
                     RESULT = s1;
@@ -436,7 +436,7 @@ factor        ::= OBRACE expr:s1 CBRACE
                  :}
                  ;
 
-*/
+
 //27 TODO
 
 call        ::= ID:i OBRACE args:s CBRACE
@@ -491,7 +491,7 @@ stmt_seq     ::= stmt_seq:s1 SEMI stmt:s2
                     System.out.println( "stmt_seq 3" );
                  :}
                ;
-
+/*
 stmt         ::= if_stmt:i
                  {: RESULT = i; 
                     System.out.println( "stmt 1" );
@@ -525,7 +525,7 @@ stmt         ::= if_stmt:i
                  System.out.println( "Var Dec" );
               :}
                ;
-              
+*/              
 
 if_stmt      ::= IF:i exp:e THEN stmt_seq:s END
                  {: RESULT = new IfExp(ileft, e, s, null); :}
@@ -570,19 +570,19 @@ simple_exp   ::= simple_exp:s PLUS term:t
                | term:t
                  {: RESULT = t; :}
                ;
-
+/*
 term         ::= term:t STAR factor:f
                  {: RESULT = new OpExp(tleft, t, OpExp.STAR, f); :}
                | term:t SLASH factor:f
                  {: RESULT = new OpExp(tleft, t, OpExp.SLASH, f); :}
                | factor:f
                  {: RESULT = f; :}
-               ;
-
+               ;*/
+/*
 factor       ::= OPAREN exp:e CPAREN
                  {: RESULT = e; :}
                | NUM:n
                  {: RESULT = new IntExp(nleft, n); :}
                | ID:i
                  {: RESULT = new VarExp(ileft, i); :}
-               ;
+               ;*/
