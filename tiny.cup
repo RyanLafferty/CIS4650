@@ -84,15 +84,16 @@ non terminal params;
 non terminal empty;
 
 //non terminal ExpList program;
-non terminal Exp stmt, term, factor, ret_stmt, add_expr, sim_expr;
+non terminal Dec stmt, term, factor, ret_stmt, add_expr, sim_expr;
+
 non terminal TypeSpec type_spec;
-non terminal DecList dec_list, param_list, arg_list, local_decs, args;
+non terminal DecList dec_list, param_list, arg_list, local_decs, args, stmt_list;
 non terminal Dec dec, fun_dec, expr, expr_stmt, sele_stmt, iter_stmt, comp_stmt;
 non terminal Dec addop, mulop, call; 
 non terminal VarDec var_dec, param;
 non terminal Var var;
 
-non terminal ExpList stmt_seq, stmt_list;
+non terminal ExpList stmt_seq;
 non terminal Exp if_stmt, repeat_stmt, assign_stmt, read_stmt, write_stmt;
 non terminal Exp exp, simple_exp;  
 
@@ -230,18 +231,18 @@ local_decs        ::= local_decs:s1 var_dec:s2
 
 //12
 stmt_list        ::= stmt_list:s1 stmt:s2
-                 {: ExpList t = s1;
+                 {: DecList t = s1;
                     while( t.tail != null )
                       t = t.tail;
-                    t.tail = new ExpList(s2, null);
+                    t.tail = new DecList(s2, null);
                     RESULT = s1;
                  :}
                   | stmt:s
-                 {: RESULT = new ExpList(s, null); 
+                 {: RESULT = new DecList(s, null); 
                  :}
                   /*| error:
                  {: parser.report_error("invalid", null); 
-                    RESULT = new ExpList(s, null); 
+                    RESULT = new DecList(s, null); 
                  :}*/
                ;
 
@@ -329,7 +330,7 @@ var        ::= ID:i
 //20
 sim_expr        ::= add_expr:s1 relop:s2 add_expr:s3
                  {:
-                    RESULT = new OpExp(s1left,s1,s2,s3);
+                    RESULT = new OpExp2(s1left,s1,s2,s3);
                  :}
                  | add_expr:s
                  {:
@@ -368,7 +369,7 @@ relop        ::= LTE
 //22
 add_expr        ::= add_expr:s1 addop:s2 term:s3
                  {:
-                    RESULT = new OpExp(s1left,s1,OpExp.PLUS,s3);
+                    RESULT = new OpExp2(s1left,s1,OpExp.PLUS,s3);
                  :}
                  | term:s
                  {:
@@ -390,12 +391,12 @@ addop        ::= PLUS:i
 
 term        ::= term:s1 STAR factor:s3
                  {:
-                    RESULT = new OpExp(s1left,s1,OpExp.STAR,s3);
+                    RESULT = new OpExp2(s1left,s1,OpExp.STAR,s3);
                  :}
                  |
                  term:s1 SLASH factor:s3
                  {:
-                    RESULT = new OpExp(s1left,s1,OpExp.SLASH,s3);
+                    RESULT = new OpExp2(s1left,s1,OpExp.SLASH,s3);
                  :}
                  | factor:s
                  {:
@@ -564,11 +565,14 @@ exp          ::= simple_exp:s1 LT simple_exp:s2
                ;
 
 simple_exp   ::= simple_exp:s PLUS term:t
-                 {: RESULT = new OpExp(sleft, s, OpExp.PLUS, t); :}
+                 {: //RESULT = new OpExp(sleft, s, OpExp.PLUS, t); 
+                 :}
                | simple_exp:s MINUS term:t
-                 {: RESULT = new OpExp(sleft, s, OpExp.MINUS, t); :}
+                 {: //RESULT = new OpExp(sleft, s, OpExp.MINUS, t); 
+                 :}
                | term:t
-                 {: RESULT = t; :}
+                 {: //RESULT = t; 
+                 :}
                ;
 /*
 term         ::= term:t STAR factor:f
