@@ -405,7 +405,7 @@ factor        ::= OBRACE expr:s1 CBRACE
                  :}
                  | var:v
                  {:
-                    RESULT = new RegularVar(vleft,v);
+                    RESULT = new RegularVar(vleft, v);
                  :}
                  | call:c
                  {:

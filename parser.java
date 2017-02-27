@@ -1213,7 +1213,7 @@ class CUP$parser$actions {
 		int vright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		VarDec v = (VarDec)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		
-                    RESULT = new RegularVar(vleft,v);
+                    RESULT = new RegularVar(vleft, v.value);
                  
               CUP$parser$result = parser.getSymbolFactory().newSymbol("factor",19, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
