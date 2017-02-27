@@ -83,31 +83,22 @@ non terminal Integer relop;
 non terminal params;
 non terminal empty;
 
-//non terminal ExpList program;
-non terminal Dec stmt, term, factor, ret_stmt, add_expr, sim_expr;
+non terminal DecList dec_list, param_list, arg_list, local_decs, args, stmt_list;
+non terminal Dec dec, fun_dec, expr, expr_stmt, sele_stmt, iter_stmt;
+non terminal Dec stmt, term, factor, ret_stmt, add_expr, sim_expr, comp_stmt;
+non terminal Dec addop, mulop, call;
 
 non terminal TypeSpec type_spec;
-non terminal DecList dec_list, param_list, arg_list, local_decs, args, stmt_list;
-non terminal Dec dec, fun_dec, expr, expr_stmt, sele_stmt, iter_stmt, comp_stmt;
-non terminal Dec addop, mulop, call; 
-non terminal VarDec var_dec, param;
-non terminal Var var;
+non terminal VarDec var, var_dec, param;
+//non terminal Var var;
 
+//non terminal ExpList program;
 non terminal ExpList stmt_seq;
 non terminal Exp if_stmt, repeat_stmt, assign_stmt, read_stmt, write_stmt;
 non terminal Exp exp, simple_exp;  
 
 /* ----------------------------Grammar Section-------------------- */
   
-/*  
-program	     ::= stmt_seq:s
-                 {: RESULT = s;
-                    System.out.println( "The abstract syntax tree is:" );
-                    Absyn.showTree( RESULT, 0 );
-                 :}
-               ;
-
-*/
 //1
 program      ::= dec_list:s
                  {: RESULT = s;
@@ -161,10 +152,10 @@ type_spec        ::= INT:i
                  :}
                ;
 
-//6 TODO
+//6
 fun_dec        ::= type_spec:s1 ID:i OBRACE params:s2 CBRACE comp_stmt:s3
                  {:
-
+                    RESULT = new FunDec(s1left, s1, i, s2, s3);
                  :}
                ;
 
@@ -246,7 +237,7 @@ stmt_list        ::= stmt_list:s1 stmt:s2
                  :}*/
                ;
 
-/*
+
 //13
 stmt        ::= expr_stmt:s
                  {:
@@ -307,14 +298,14 @@ ret_stmt        ::= RETURN:i SEMI
                     RESULT = new ReturnStmt(ileft,s);
                  :}
                  ;
-//18 TODO
+//18 
 expr        ::= var:s1 ASSIGN expr:s2
                  {:
-
+                    RESULT = new Expr(s1left, s1, s2);
                  :}
-                 | sim_expr:s //TODO change OPExp to dec
+                 | sim_expr:s
                  {:
-
+                    RESULT = new Expr(sleft);
                  :}
                  ;
 //19
@@ -438,11 +429,10 @@ factor        ::= OBRACE expr:s1 CBRACE
                  ;
 
 
-//27 TODO
-
+//27
 call        ::= ID:i OBRACE args:s CBRACE
                  {:
-
+                    RESULT = new Call(ileft, i, s);
                  :}
                  ;
 //28
@@ -471,122 +461,5 @@ arg_list        ::= arg_list:s1 COMMA expr:s2
                  :}
                  ;
 
+             
 
-
-
-stmt_seq     ::= stmt_seq:s1 SEMI stmt:s2 
-                 {: ExpList t = s1;
-                    while( t.tail != null )
-                      t = t.tail;
-                    t.tail = new ExpList(s2, null);
-                    RESULT = s1;
-                    System.out.println( "stmt_seq 1" );
-                 :}
-               | stmt:s
-                 {: RESULT = new ExpList(s, null); 
-                    System.out.println( "stmt_seq 2" );
-                 :}
-               | error SEMI stmt:s
-                 {: parser.report_error("invalid", null); 
-                    RESULT = new ExpList(s, null); 
-                    System.out.println( "stmt_seq 3" );
-                 :}
-               ;
-/*
-stmt         ::= if_stmt:i
-                 {: RESULT = i; 
-                    System.out.println( "stmt 1" );
-                 :}
-               | repeat_stmt:r
-                 {: RESULT = r; 
-                    System.out.println( "stmt 2" );
-                 :}
-               | assign_stmt:a
-                 {: RESULT = a; 
-                    System.out.println( "stmt 3" );
-                 :}
-               | read_stmt:r
-                 {: RESULT = r; 
-                    System.out.println( "stmt 4" );
-                 :}
-               | write_stmt:w
-                 {: RESULT = w; 
-                    System.out.println( "stmt 5" );
-                 :}
-              | type_spec:s
-              {: RESULT = s;
-                 System.out.println( "TypeSpec" );
-              :}
-              | param:s
-              {: //RESULT = s;
-                 System.out.println( "Param" );
-              :}
-              | var_dec:s
-              {: //RESULT = s;
-                 System.out.println( "Var Dec" );
-              :}
-               ;
-*/              
-
-if_stmt      ::= IF:i exp:e THEN stmt_seq:s END
-                 {: RESULT = new IfExp(ileft, e, s, null); :}
-               | IF:i exp:e THEN stmt_seq:s1 ELSE stmt_seq:s2 END
-                 {: RESULT = new IfExp(ileft, e, s1, s2); :}
-               ;
-
-repeat_stmt  ::= REPEAT:r stmt_seq:s UNTIL exp:e
-                 {: RESULT = new RepeatExp(rleft, s, e); :}
-               ;
-
-assign_stmt  ::= ID:i ASSIGN exp:e
-                 {: RESULT = new AssignExp(ileft, new VarExp(ileft, i), e); :} 
-                 /*| type_spec:s ID:i ASSIGN exp:e
-                 {: RESULT = new AssignExp(ileft, new VarExp(ileft, i), e, s); :}*/
-                 /*| type_spec:s
-                 {: RESULT = new AssignExp(s); :}*/
-               ;
-
-read_stmt    ::= READ:r ID:i
-                 {: RESULT = new ReadExp(rleft, new VarExp(rleft, i)); :}
-               ;
-
-write_stmt   ::= WRITE:w exp:e
-                 {: RESULT = new WriteExp(wleft, e); :}
-               ;
-
-exp          ::= simple_exp:s1 LT simple_exp:s2
-                 {: RESULT = new OpExp(s1left, s1, OpExp.LT, s2); :}
-               | simple_exp:s1 GT simple_exp:s2
-                 {: RESULT = new OpExp(s1left, s1, OpExp.GT, s2); :}
-               | simple_exp:s1 EQ simple_exp:s2
-                 {: RESULT = new OpExp(s1left, s1, OpExp.EQ, s2); :}
-               | simple_exp:s
-                 {: RESULT = s; :}
-               ;
-
-simple_exp   ::= simple_exp:s PLUS term:t
-                 {: //RESULT = new OpExp(sleft, s, OpExp.PLUS, t); 
-                 :}
-               | simple_exp:s MINUS term:t
-                 {: //RESULT = new OpExp(sleft, s, OpExp.MINUS, t); 
-                 :}
-               | term:t
-                 {: //RESULT = t; 
-                 :}
-               ;
-/*
-term         ::= term:t STAR factor:f
-                 {: RESULT = new OpExp(tleft, t, OpExp.STAR, f); :}
-               | term:t SLASH factor:f
-                 {: RESULT = new OpExp(tleft, t, OpExp.SLASH, f); :}
-               | factor:f
-                 {: RESULT = f; :}
-               ;*/
-/*
-factor       ::= OPAREN exp:e CPAREN
-                 {: RESULT = e; :}
-               | NUM:n
-                 {: RESULT = new IntExp(nleft, n); :}
-               | ID:i
-                 {: RESULT = new VarExp(ileft, i); :}
-               ;*/

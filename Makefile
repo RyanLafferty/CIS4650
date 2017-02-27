@@ -20,7 +20,7 @@ parser.java: tiny.cup
 	$(CUP) -dump -expect 3 tiny.cup
 
 test:
-	$(CUP) < tiny.cup
+	$(CUP) < tiny.cup > out.txt
 
 run:
 	java $(CLASSPATH) Main gcd.tiny
