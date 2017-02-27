@@ -1,6 +1,6 @@
 package absyn;
 
-public class ArrayVar extends Var {
+public class ArrayVar extends VarDec {
 
   public String id; 
   public Dec number;

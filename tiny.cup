@@ -76,12 +76,12 @@ terminal String ID, NUM;
 terminal ERROR;
 
 non terminal DecList program;
-non terminal Integer relop;
+non terminal Integer relop, mulop, addop;
 
 non terminal DecList dec_list, params, param_list, arg_list, local_decs, args, stmt_list;
 non terminal Dec dec, fun_dec, expr, expr_stmt, sele_stmt, iter_stmt;
 non terminal Dec stmt, term, factor, ret_stmt, add_expr, sim_expr, comp_stmt;
-non terminal Dec addop, mulop, call;
+non terminal Dec call;
 
 non terminal TypeSpec type_spec;
 non terminal VarDec var, var_dec, param;
@@ -299,7 +299,7 @@ expr        ::= var:s1 ASSIGN expr:s2
                  :}
                  | sim_expr:s
                  {:
-                    RESULT = new Expr(sleft);
+                    RESULT = new Expr(sleft, s);
                  :}
                  ;
 //19
@@ -364,11 +364,11 @@ add_expr        ::= add_expr:s1 addop:s2 term:s3
 //23
 addop        ::= PLUS:i
                  {:
-                    RESULT = i;
+                    RESULT = new Integer(0);
                  :}
                  | MINUS:i
                  {:
-                    RESULT = i;
+                    RESULT = new Integer(1);
                  :}
                  ;
 
@@ -389,11 +389,11 @@ term        ::= term:s1 mulop factor:s3
 
 mulop        ::= STAR:i
                  {:
-                    RESULT = i;
+                    RESULT = new Integer(2);
                  :}
                  | SLASH:i
                  {:
-                    RESULT = i;
+                    RESULT = new Integer(3);
                  :}
                  ;
 
