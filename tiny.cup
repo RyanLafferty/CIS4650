@@ -72,10 +72,7 @@ parser code {:
 terminal ELSE, IF, INT, RETURN, VOID, WHILE;
 terminal PLUS, MINUS, STAR, SLASH, LT, LTE, GT, GTE, EQ, NE, ASSIGN, SEMI, COMMA;
 terminal OBRACE, CBRACE, OBRACK, CBRACK, OPAREN, CPAREN, OCOMMENT, CCOMMENT;
-terminal String ID, NUM;
-
-   
-terminal THEN, END, REPEAT, UNTIL, READ, WRITE;
+terminal String ID, NUM;   
 terminal ERROR;
 
 non terminal DecList program;
@@ -91,11 +88,6 @@ non terminal Dec addop, mulop, call;
 non terminal TypeSpec type_spec;
 non terminal VarDec var, var_dec, param;
 //non terminal Var var;
-
-//non terminal ExpList program;
-non terminal ExpList stmt_seq;
-non terminal Exp if_stmt, repeat_stmt, assign_stmt, read_stmt, write_stmt;
-non terminal Exp exp, simple_exp;  
 
 /* ----------------------------Grammar Section-------------------- */
   
@@ -293,7 +285,7 @@ ret_stmt        ::= RETURN:i SEMI
                  {:
                     RESULT = new ReturnStmt(ileft,null);
                  :}
-                 | RETURN:i exp:s SEMI
+                 | RETURN:i expr:s SEMI
                  {:
                     RESULT = new ReturnStmt(ileft,s);
                  :}
