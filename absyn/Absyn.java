@@ -28,8 +28,8 @@ static public void showTree( DecList tree, int spaces ) {//TODO
       showTree( (AssignExp)tree, spaces );
     else if( tree instanceof IfExp )
       showTree( (IfExp)tree, spaces );
-    else if( tree instanceof IntExp )
-      showTree( (IntExp)tree, spaces );
+    //else if( tree instanceof IntExp )
+      //showTree( (IntExp)tree, spaces );
     else if( tree instanceof OpExp )
       showTree( (OpExp)tree, spaces );
     else if( tree instanceof ReadExp )
