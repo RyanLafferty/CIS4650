@@ -88,7 +88,9 @@ non terminal TypeSpec type_spec;
 non terminal VarDec var, var_dec, param;
 //non terminal Var var;
 
-
+precedence left ID ,OBRACE, CBRACE;
+precedence left ID ,OBRACK, CBRACK;
+precedence left OBRACE local_decs stmt_list CBRACE;
 
 /* ----------------------------Grammar Section-------------------- */
   
