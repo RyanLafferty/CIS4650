@@ -354,7 +354,7 @@ relop        ::= LTE
 //22
 add_expr        ::= add_expr:s1 addop:s2 term:s3
                  {:
-                    RESULT = new OpExp2(s1left,s1,OpExp.PLUS,s3);
+                    RESULT = new OpExp2(s1left,s1,s2,s3);
                  :}
                  | term:s
                  {:
@@ -374,9 +374,9 @@ addop        ::= PLUS:i
 
 //24
 
-term        ::= term:s1 mulop factor:s3
+term        ::= term:s1 mulop:s2 factor:s3
                  {:
-                    RESULT = new OpExp2(s1left,s1,OpExp.STAR,s3);
+                    RESULT = new OpExp2(s1left,s1,s2,s3);
                  :}
                  | factor:s
                  {:
@@ -405,7 +405,8 @@ factor        ::= OBRACE expr:s1 CBRACE
                  :}
                  | var:v
                  {:
-                    RESULT = new RegularVar(vleft, v);
+                    //RESULT = new RegularVar(vleft, v);
+                    RESULT = v;
                  :}
                  | call:c
                  {:
