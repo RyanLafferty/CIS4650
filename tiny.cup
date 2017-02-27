@@ -78,6 +78,7 @@ terminal String ID, NUM;
 terminal THEN, END, REPEAT, UNTIL, READ, WRITE;
 terminal ERROR;
 
+//non terminal DecList program;
 non terminal Integer relop;
 non terminal params;
 non terminal empty;
@@ -96,6 +97,7 @@ non terminal Exp if_stmt, repeat_stmt, assign_stmt, read_stmt, write_stmt;
 non terminal Exp exp, simple_exp;  
 
 /* ----------------------------Grammar Section-------------------- */
+  
    
 program	     ::= stmt_seq:s
                  {: RESULT = s;
