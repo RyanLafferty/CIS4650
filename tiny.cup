@@ -71,7 +71,7 @@ parser code {:
 /* ------------Declaration of Terminals and Non Terminals Section----------- */
 terminal ELSE, IF, INT, RETURN, VOID, WHILE;
 terminal PLUS, MINUS, STAR, SLASH, LT, LTE, GT, GTE, EQ, NE, ASSIGN, SEMI, COMMA;
-terminal OBRACE, CBRACE, OBRACK, CBRACK;
+terminal OBRACE, CBRACE, OBRACK, CBRACK, OPAREN, CPAREN, OCOMMENT, CCOMMENT;
 terminal String ID, NUM;   
 terminal ERROR;
 

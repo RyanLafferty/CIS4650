@@ -116,8 +116,6 @@ identifier = {letter}+
 "="                { return symbol(sym.ASSIGN); }
 ";"                { return symbol(sym.SEMI); }
 ","                { return symbol(sym.COMMA); }
-//"("                { return symbol(sym.OPAREN); }
-//")"                { return symbol(sym.CPAREN); }
 "("                { return symbol(sym.OBRACE); }
 ")"                { return symbol(sym.CBRACE); }
 "["                { return symbol(sym.OBRACK); }
@@ -126,12 +124,6 @@ identifier = {letter}+
 "}"                { return symbol(sym.CPAREN); }
 
 
-"then"             { return symbol(sym.THEN); }
-"end"              { return symbol(sym.END); }
-"repeat"           { return symbol(sym.REPEAT); }
-"until"            { return symbol(sym.UNTIL); }
-"read"             { return symbol(sym.READ); }
-"write"            { return symbol(sym.WRITE); }
 
 
 {number}           { return symbol(sym.NUM, yytext()); }
