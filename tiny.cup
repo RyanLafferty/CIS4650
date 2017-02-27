@@ -89,6 +89,8 @@ non terminal TypeSpec type_spec;
 non terminal VarDec var, var_dec, param;
 //non terminal Var var;
 
+
+
 /* ----------------------------Grammar Section-------------------- */
   
 //1
