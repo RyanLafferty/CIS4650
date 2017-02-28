@@ -9,8 +9,4 @@ public class Expr extends Dec {
     this.var = var;
     this.expression = expression;
   }
-  public Expr( int pos, Dec sime) {
-    this.pos = pos;
-    this.sime = sime;
-  }
 }

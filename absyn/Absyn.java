@@ -66,6 +66,9 @@ static public void showTree( Dec tree, int spaces ) { //TODO
     else if ( tree instanceof Expr) { 
       showTree ((Expr)tree, spaces);
     }
+    else if (tree instanceof SimpleExpr){
+       showTree ((SimpleExpr)tree, spaces);
+    }
     else if( tree instanceof VarDec) { 
       showTree( (VarDec)tree, spaces );
     }
@@ -114,7 +117,7 @@ static public void showTree( Dec tree, int spaces ) { //TODO
     System.out.println( "ArrayVar:" );
     spaces += SPACES;
     System.out.println(tree.id);
-    showTree ((Expr)tree.number, spaces);
+    showTree ((SimpleExpr)tree.number, spaces);
   }
 
   static private void showTree( AssignExp tree, int spaces ) {
@@ -185,6 +188,19 @@ static public void showTree( Dec tree, int spaces ) { //TODO
     showTree ((VarDec)tree.var, spaces );
   }
 
+  static private void showTree( SimpleExpr tree, int spaces ) {
+    indent( spaces );
+    System.out.println( "SimpleExpr:" );
+    spaces += SPACES;
+    //System.out.println(tree.sime);
+    if(tree.sime instanceof OpExp2) {
+      showTree ((OpExp2)tree.sime,spaces);
+    } 
+    else if(tree.sime instanceof IntExp) {
+      showTree ((IntExp)tree.sime,spaces);
+    }
+   
+  }
 
   //fei's dirty code
   static private void showTree( IfExp tree, int spaces ) {

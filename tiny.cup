@@ -310,7 +310,7 @@ expr        ::= var:s1 ASSIGN expr:s2
                  :}
                  | sim_expr:s
                  {:
-                    RESULT = new Expr(sleft, s);
+                    RESULT = new SimpleExpr(sleft, s);
                  :}
                  ;
 //19
