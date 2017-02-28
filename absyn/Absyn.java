@@ -67,7 +67,7 @@ static public void showTree( Dec tree, int spaces ) { //TODO
       showTree ((Expr)tree, spaces);
     }
     else if( tree instanceof VarDec) { 
-      
+      showTree( (VarDec)tree, spaces );
     }
  
     else 
@@ -77,14 +77,10 @@ static public void showTree( Dec tree, int spaces ) { //TODO
     }
   }
 
-  /*static public void showTree( VarDec tree, int spaces ) { //TODO
+  static public void showTree( VarDec tree, int spaces ) { //TODO
     if( tree instanceof RegularDec)
     {
-      System.out.println("rope tugger!");
-
-      of
-      showTree( (RegularDec) tree.type, spaces );
-      showTree( (RegularDec) tree.id, spaces );
+      System.out.println("ASD");
 
     }
     else 
@@ -92,7 +88,7 @@ static public void showTree( Dec tree, int spaces ) { //TODO
       indent( spaces );
       System.out.println( "Illegal expression at line " + tree.pos  );
     }
-  }*/
+  }
 
 
   static private void showTree( RegularDec tree, int spaces ) {
