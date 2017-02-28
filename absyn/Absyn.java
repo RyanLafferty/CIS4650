@@ -57,6 +57,13 @@ static public void showTree( Dec tree, int spaces ) { //TODO
       showTree( (ArrayDec)tree, spaces );
 
     }
+    else if( tree instanceof OpExp2) {
+      showTree ((OpExp2)tree, spaces );
+    }
+    else if( tree instanceof IntExp) {
+      showTree ((IntExp)tree, spaces);
+    }
+ 
     else 
     {
       indent( spaces );
@@ -125,6 +132,39 @@ static private void showTree( ArrayDec tree, int spaces ) {
     System.out.println( "IntExp: " + tree.value ); 
   }
 
+  static private void showTree( OpExp2 tree, int spaces ) {
+    indent( spaces );
+    System.out.print( "OpExp:" ); 
+    switch( tree.op ) {
+      case OpExp2.PLUS:
+        System.out.println( " + " );
+        break;
+      case OpExp2.MINUS:
+        System.out.println( " - " );
+        break;
+      case OpExp2.STAR:
+        System.out.println( " * " );
+        break;
+      case OpExp2.SLASH:
+        System.out.println( " / " );
+        break;
+      case OpExp2.EQ:
+        System.out.println( " = " );
+        break;
+      case OpExp2.LT:
+        System.out.println( " < " );
+        break;
+      case OpExp2.GT:
+        System.out.println( " > " );
+        break;
+      default:
+        System.out.println( "Unrecognized operator at line " + tree.pos);
+    }
+    spaces += SPACES;
+    showTree( tree.left, spaces );
+    showTree( tree.right, spaces ); 
+  }
+
 
   //fei's dirty code
   static private void showTree( IfExp tree, int spaces ) {
@@ -138,38 +178,7 @@ static private void showTree( ArrayDec tree, int spaces ) {
 
   
 
-  static private void showTree( OpExp tree, int spaces ) {
-    indent( spaces );
-    System.out.print( "OpExp:" ); 
-    switch( tree.op ) {
-      case OpExp.PLUS:
-        System.out.println( " + " );
-        break;
-      case OpExp.MINUS:
-        System.out.println( " - " );
-        break;
-      case OpExp.STAR:
-        System.out.println( " * " );
-        break;
-      case OpExp.SLASH:
-        System.out.println( " / " );
-        break;
-      case OpExp.EQ:
-        System.out.println( " = " );
-        break;
-      case OpExp.LT:
-        System.out.println( " < " );
-        break;
-      case OpExp.GT:
-        System.out.println( " > " );
-        break;
-      default:
-        System.out.println( "Unrecognized operator at line " + tree.pos);
-    }
-    spaces += SPACES;
-    showTree( tree.left, spaces );
-    showTree( tree.right, spaces ); 
-  }
+  
 
   static private void showTree( ReadExp tree, int spaces ) {
     indent( spaces );
