@@ -114,7 +114,7 @@ static public void showTree( Dec tree, int spaces ) { //TODO
     System.out.println( "ArrayVar:" );
     spaces += SPACES;
     System.out.println(tree.id);
-    showTree(tree.number, spaces);
+    showTree ((Expr)tree.number, spaces);
   }
 
   static private void showTree( AssignExp tree, int spaces ) {
