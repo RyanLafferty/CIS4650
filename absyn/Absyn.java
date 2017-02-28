@@ -78,15 +78,11 @@ static public void showTree( Dec tree, int spaces ) { //TODO
   }
 
   static public void showTree( VarDec tree, int spaces ) { //TODO
-    if( tree instanceof RegularDec)
-    {
-      System.out.println("ASD");
-
-    }
-    else 
-    {
-      indent( spaces );
-      System.out.println( "Illegal expression at line " + tree.pos  );
+    
+    if(tree instanceof RegularVar) {
+      showTree((RegularVar)tree, spaces);
+    } else if (tree instanceof ArrayVar) {
+      showTree((ArrayVar)tree, spaces);
     }
   }
 
@@ -99,12 +95,25 @@ static public void showTree( Dec tree, int spaces ) { //TODO
     showTree(tree.id, spaces);
   }
 
-static private void showTree( ArrayDec tree, int spaces ) {
+  static private void showTree( ArrayDec tree, int spaces ) {
     indent( spaces );
     System.out.println( "ArrayDec:" );
     spaces += SPACES;
     showTree(tree.type, spaces);
     showTree(tree.id, spaces);
+    showTree(tree.number, spaces);
+  }
+  static private void showTree( RegularVar tree, int spaces ) {
+    indent( spaces );
+    System.out.println( "RegularVar:" );
+    spaces += SPACES;
+    System.out.println(tree.name);
+  }
+  static private void showTree( ArrayVar tree, int spaces ) {
+    indent( spaces );
+    System.out.println( "ArrayVar:" );
+    spaces += SPACES;
+    System.out.println(tree.id);
     showTree(tree.number, spaces);
   }
 
@@ -173,8 +182,7 @@ static private void showTree( ArrayDec tree, int spaces ) {
     indent( spaces );
     System.out.println( "Expr:" );
     spaces += SPACES;
-    //TODO: Fix Expr strucutre so var is no longer associated with VarDec
-    //showTree ((VarDec)tree.var, spaces );
+    showTree ((VarDec)tree.var, spaces );
   }
 
 
