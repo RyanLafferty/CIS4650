@@ -373,7 +373,6 @@ addop        ::= PLUS:i
                  ;
 
 //24
-
 term        ::= term:s1 mulop:s2 factor:s3
                  {:
                     RESULT = new OpExp2(s1left,s1,s2,s3);
@@ -386,7 +385,6 @@ term        ::= term:s1 mulop:s2 factor:s3
                  
 
 //25
-
 mulop        ::= STAR:i
                  {:
                     RESULT = new Integer(2);
@@ -398,7 +396,6 @@ mulop        ::= STAR:i
                  ;
 
 //26
-
 factor        ::= OBRACE expr:s1 CBRACE
                  {:
                     RESULT = s1;
