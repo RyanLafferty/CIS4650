@@ -63,6 +63,12 @@ static public void showTree( Dec tree, int spaces ) { //TODO
     else if( tree instanceof IntExp) {
       showTree ((IntExp)tree, spaces);
     }
+    else if ( tree instanceof Expr) { 
+      showTree ((Expr)tree, spaces);
+    }
+    else if( tree instanceof VarDec) { 
+      
+    }
  
     else 
     {
@@ -75,6 +81,8 @@ static public void showTree( Dec tree, int spaces ) { //TODO
     if( tree instanceof RegularDec)
     {
       System.out.println("rope tugger!");
+
+      of
       showTree( (RegularDec) tree.type, spaces );
       showTree( (RegularDec) tree.id, spaces );
 
@@ -163,6 +171,14 @@ static private void showTree( ArrayDec tree, int spaces ) {
     spaces += SPACES;
     showTree( tree.left, spaces );
     showTree( tree.right, spaces ); 
+  }
+
+  static private void showTree( Expr tree, int spaces ) {
+    indent( spaces );
+    System.out.println( "Expr:" );
+    spaces += SPACES;
+    //TODO: Fix Expr strucutre so var is no longer associated with VarDec
+    //showTree ((VarDec)tree.var, spaces );
   }
 
 
