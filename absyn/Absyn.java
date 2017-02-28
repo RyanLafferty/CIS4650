@@ -46,14 +46,45 @@ static public void showTree( DecList tree, int spaces ) {//TODO
     }
   }
 
-  static private void showTree( Dec tree, int spaces ) { //TODO
-    /*if( tree instanceof AssignExp )
-      showTree( (AssignExp)tree, spaces );
-    else {
+static public void showTree( Dec tree, int spaces ) { //TODO
+    if( tree instanceof RegularDec)
+    {
+      showTree( (RegularDec)tree, spaces );
+
+    }
+    else 
+    {
       indent( spaces );
       System.out.println( "Illegal expression at line " + tree.pos  );
-    }*/
+    }
   }
+
+  /*static public void showTree( VarDec tree, int spaces ) { //TODO
+    if( tree instanceof RegularDec)
+    {
+      System.out.println("rope tugger!");
+      showTree( (RegularDec) tree.type, spaces );
+      showTree( (RegularDec) tree.id, spaces );
+
+    }
+    else 
+    {
+      indent( spaces );
+      System.out.println( "Illegal expression at line " + tree.pos  );
+    }
+  }*/
+
+
+  static private void showTree( RegularDec tree, int spaces ) {
+    indent( spaces );
+    System.out.println( "RegularDec:" );
+    spaces += SPACES;
+    //System.out.println("ID: " + tree.id);
+    showTree(tree.id, spaces);
+    showTree(tree.type, spaces);
+  }
+
+
 
   static private void showTree( AssignExp tree, int spaces ) {
     indent( spaces );
@@ -64,15 +95,24 @@ static public void showTree( DecList tree, int spaces ) {//TODO
   }
 
   static private void showTree( TypeSpec tree, int spaces ) {
-
+    indent( spaces );
     if(tree.type == TypeSpec.INT) {
         System.out.println("Int");
     } else {
         System.out.println("Void");
-    }
-    
+    } 
   }
 
+  static private void showTree( String tree, int spaces ) {
+    indent( spaces );
+    System.out.println( "ID: " + tree );
+  }
+
+
+
+
+
+  //fei's dirty code
   static private void showTree( IfExp tree, int spaces ) {
     indent( spaces );
     System.out.println( "IfExp:" );

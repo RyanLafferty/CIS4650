@@ -75,10 +75,12 @@ terminal OBRACE, CBRACE, OBRACK, CBRACK, OPAREN, CPAREN, OCOMMENT, CCOMMENT;
 terminal String ID, NUM;   
 terminal ERROR;
 
-non terminal DecList program;
+non terminal Dec program;
+//non terminal DecList program;
 non terminal Integer relop, mulop, addop;
 
-non terminal DecList dec_list, params, param_list, arg_list, local_decs, args, stmt_list;
+non terminal DecList param_list, params;
+non terminal DecList dec_list, arg_list, local_decs, args, stmt_list;
 non terminal Dec dec, fun_dec, expr, expr_stmt, sele_stmt, iter_stmt;
 non terminal Dec stmt, term, factor, ret_stmt, add_expr, sim_expr, comp_stmt;
 non terminal Dec call;
@@ -92,15 +94,23 @@ precedence left ID ,OBRACK, CBRACK;
 
 
 /* ----------------------------Grammar Section-------------------- */
-  
-//1
-program      ::= dec_list:s
+//test program
+program      ::= param:s
                  {: RESULT = s;
                     System.out.println( "The abstract syntax tree is:" );
                     Absyn.showTree( RESULT, 0 );
                  :}
                ;
 
+  
+//1
+/*program      ::= dec_list:s
+                 {: RESULT = s;
+                    System.out.println( "The abstract syntax tree is:" );
+                    Absyn.showTree( RESULT, 0 );
+                 :}
+               ;
+*/
 //2
 dec_list     ::= dec_list:s1 dec:s2
                  {: 
