@@ -56,12 +56,13 @@ public class parser extends java_cup.runtime.lr_parser {
   /** Parse-action table. */
   protected static final short[][] _action_table = 
     unpackFromStrings(new String[] {
-    "\000\012\000\006\006\010\010\007\001\002\000\004\002" +
-    "\014\001\002\000\004\037\011\001\002\000\004\002\001" +
-    "\001\002\000\004\037\ufff8\001\002\000\004\037\ufff9\001" +
-    "\002\000\006\002\ufff2\031\012\001\002\000\004\032\013" +
-    "\001\002\000\004\002\ufff1\001\002\000\004\002\000\001" +
-    "\002" });
+    "\000\015\000\006\006\010\010\006\001\002\000\004\002" +
+    "\017\001\002\000\004\037\011\001\002\000\004\037\ufff8" +
+    "\001\002\000\004\002\001\001\002\000\004\037\ufff9\001" +
+    "\002\000\006\025\013\031\012\001\002\000\004\040\014" +
+    "\001\002\000\004\002\ufffb\001\002\000\004\032\015\001" +
+    "\002\000\004\025\016\001\002\000\004\002\ufffa\001\002" +
+    "\000\004\002\000\001\002" });
 
   /** Access to parse-action table. */
   public short[][] action_table() {return _action_table;}
@@ -69,10 +70,11 @@ public class parser extends java_cup.runtime.lr_parser {
   /** <code>reduce_goto</code> table. */
   protected static final short[][] _reduce_table = 
     unpackFromStrings(new String[] {
-    "\000\012\000\010\002\003\033\004\036\005\001\001\000" +
+    "\000\015\000\010\002\003\033\004\035\006\001\001\000" +
     "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
     "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
-    "\001\000\002\001\001\000\002\001\001" });
+    "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
+    "\000\002\001\001\000\002\001\001" });
 
   /** Access to <code>reduce_goto</code> table. */
   public short[][] reduce_table() {return _reduce_table;}
@@ -189,9 +191,9 @@ class CUP$parser$actions {
       switch (CUP$parser$act_num)
         {
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 0: // program ::= param 
+          case 0: // program ::= var_dec 
             {
-              Dec RESULT =null;
+              VarDec RESULT =null;
 		int sleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int sright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		VarDec s = (VarDec)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
@@ -209,7 +211,7 @@ class CUP$parser$actions {
               Object RESULT =null;
 		int start_valleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int start_valright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
-		Dec start_val = (Dec)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
+		VarDec start_val = (VarDec)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
 		RESULT = start_val;
               CUP$parser$result = parser.getSymbolFactory().newSymbol("$START",0, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }

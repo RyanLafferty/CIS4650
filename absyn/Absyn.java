@@ -52,6 +52,11 @@ static public void showTree( Dec tree, int spaces ) { //TODO
       showTree( (RegularDec)tree, spaces );
 
     }
+    else if( tree instanceof ArrayDec)
+    {
+      showTree( (ArrayDec)tree, spaces );
+
+    }
     else 
     {
       indent( spaces );
@@ -79,12 +84,18 @@ static public void showTree( Dec tree, int spaces ) { //TODO
     indent( spaces );
     System.out.println( "RegularDec:" );
     spaces += SPACES;
-    //System.out.println("ID: " + tree.id);
-    showTree(tree.id, spaces);
     showTree(tree.type, spaces);
+    showTree(tree.id, spaces);
   }
 
-
+static private void showTree( ArrayDec tree, int spaces ) {
+    indent( spaces );
+    System.out.println( "ArrayDec:" );
+    spaces += SPACES;
+    showTree(tree.type, spaces);
+    showTree(tree.id, spaces);
+    showTree(tree.number, spaces);
+  }
 
   static private void showTree( AssignExp tree, int spaces ) {
     indent( spaces );
@@ -109,7 +120,10 @@ static public void showTree( Dec tree, int spaces ) { //TODO
   }
 
 
-
+  static private void showTree( IntExp tree, int spaces ) {
+    indent( spaces );
+    System.out.println( "IntExp: " + tree.value ); 
+  }
 
 
   //fei's dirty code
@@ -122,10 +136,7 @@ static public void showTree( Dec tree, int spaces ) { //TODO
     showTree( tree.elsepart, spaces );
   }
 
-  static private void showTree( IntExp tree, int spaces ) {
-    indent( spaces );
-    System.out.println( "IntExp: " + tree.value ); 
-  }
+  
 
   static private void showTree( OpExp tree, int spaces ) {
     indent( spaces );
