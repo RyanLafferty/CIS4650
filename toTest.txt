@@ -2,13 +2,31 @@
 =====================
 5, typespec, INT, y
 4, vardec, typespec ID  SEMI, y
-19, var, ID
+19, var, ID, y
 9, param, typespec ID, y
-21, relop, GTE
-23, addop, PLUS
-25, mulop, STAR
-26, factor, NUM
-24, term, factor
+21, relop, GTE, y
+23, addop, PLUS, y
+25, mulop, STAR, y
+26, factor, NUM, y
+24, term, factor, y
 22, addexp, term, y
-7, params, void
-8, paramlist, param
+7, params, void, y/n -> test void alone
+8, paramlist, 'param, param' ,y
+
+
+
+done
+return_stmt
+expr_stmt
+declist
+dec
+simpleexpr
+op's
+
+
+need iter_stmt
+need sele_stmt
+need fun_dec
+need call
+need args
+need arglist

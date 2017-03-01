@@ -96,7 +96,7 @@ precedence left ID ,OBRACK, CBRACK;
 
 /* ----------------------------Grammar Section-------------------- */
 //test program
-program      ::= dec_list:s
+program      ::= param_list:s
                  {: RESULT = s;
                     System.out.println( "The abstract syntax tree is:" );
                     Absyn.showTree( RESULT, 0 );
