@@ -75,16 +75,16 @@ terminal OBRACE, CBRACE, OBRACK, CBRACK, OPAREN, CPAREN, OCOMMENT, CCOMMENT;
 terminal String ID, NUM;   
 terminal ERROR;
 
-//non terminal Dec program;
+non terminal Dec program;
 //non terminal VarDec program;
-non terminal DecList program;
+//non terminal DecList program;
 non terminal Integer relop, mulop, addop;
 
 non terminal DecList param_list, params;
-non terminal DecList dec_list, arg_list, local_decs, args, stmt_list;
+non terminal DecList dec_list, arg_list, local_decs, stmt_list;
 non terminal Dec dec, fun_dec, expr, expr_stmt, sele_stmt, iter_stmt;
 non terminal Dec stmt, term, factor, ret_stmt, add_expr, sim_expr, comp_stmt;
-non terminal Dec call;
+non terminal Dec call, args;
 
 non terminal TypeSpec type_spec;
 non terminal VarDec var, var_dec, param;
@@ -439,7 +439,7 @@ call        ::= ID:i OBRACE args:s CBRACE
 //28
 args        ::= arg_list:s
                  {:
-                    RESULT = s;
+                    RESULT = new Args(sleft, s);
                  :}
                  | 
                  {:

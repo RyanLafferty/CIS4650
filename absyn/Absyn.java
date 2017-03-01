@@ -16,6 +16,13 @@ abstract public class Absyn {
     } 
   }
 
+  static public void showTree( ArgList tree, int spaces ) {
+    while( tree != null ) {
+      showTree( tree.head, spaces );
+      tree = tree.tail;
+    } 
+  }
+
 static public void showTree( DecList tree, int spaces ) {//TODO
     while( tree != null ) {
       showTree( tree.head, spaces );
@@ -88,6 +95,9 @@ static public void showTree( Dec tree, int spaces ) { //TODO
     }
     else if( tree instanceof FunDec) {
       showTree ((FunDec)tree, spaces);
+    }
+    else if( tree instanceof Args) {
+      showTree ((Args)tree, spaces);
     }
     else if(tree != null)
     {
@@ -305,7 +315,12 @@ static private void showTree( Call tree, int spaces ) {
     showTree (tree.args, spaces ); 
   }
 
-
+static private void showTree( Args tree, int spaces ) {
+    indent( spaces );
+    System.out.println( "Args:" );
+    spaces += SPACES;
+    showTree (tree.args, spaces );
+  }
 
 
   //fei's dirty code
