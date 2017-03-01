@@ -19,7 +19,7 @@ Lexer.java: tiny.flex
 parser.java: tiny.cup
 	$(CUP) -dump -expect 3 tiny.cup
 
-test:
+cup:
 	$(CUP) < tiny.cup > out.txt
 
 run:
@@ -27,6 +27,7 @@ run:
 play:
 	java $(CLASSPATH) Main chris.tiny
 
-
 clean:
 	rm -f parser.java Lexer.java sym.java *.class absyn/*.class *~
+
+test: clean all run
