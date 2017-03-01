@@ -75,6 +75,9 @@ static public void showTree( Dec tree, int spaces ) { //TODO
     else if( tree instanceof ReturnStmt) { 
       showTree( (ReturnStmt)tree, spaces );
     }
+    else if( tree instanceof ExprStmt) {
+      showTree ((ExprStmt)tree, spaces);
+    }
     else 
     {
       indent( spaces );
@@ -217,7 +220,18 @@ static public void showTree( Dec tree, int spaces ) { //TODO
     else if(tree.expression instanceof SimpleExpr && tree.expression != null) {
       showTree((SimpleExpr)tree.expression, spaces); 
     }
-   
+  }
+
+  static private void showTree( ExprStmt tree, int spaces ) {
+    indent( spaces );
+    System.out.println( "ExprStmt:" );
+    spaces += SPACES;
+    if(tree.expression instanceof Expr && tree.expression != null){
+       showTree((Expr)tree.expression, spaces);
+    }
+    else if(tree.expression instanceof SimpleExpr && tree.expression != null) {
+      showTree((SimpleExpr)tree.expression, spaces); 
+    }
   }
 
   //fei's dirty code
