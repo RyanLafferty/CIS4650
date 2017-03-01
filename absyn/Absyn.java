@@ -188,6 +188,7 @@ static public void showTree( Dec tree, int spaces ) { //TODO
     System.out.println( "Expr:" );
     spaces += SPACES;
     showTree ((VarDec)tree.var, spaces );
+    showTree ((Dec)tree.expression, spaces ); 
   }
 
   static private void showTree( SimpleExpr tree, int spaces ) {
