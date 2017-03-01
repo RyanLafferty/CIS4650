@@ -9,6 +9,6 @@
 25, mulop, STAR
 26, factor, NUM
 24, term, factor
-22, addexp, term
+22, addexp, term, y
 7, params, void
 8, paramlist, param

@@ -202,10 +202,10 @@ static public void showTree( Dec tree, int spaces ) { //TODO
     spaces += SPACES;
     //System.out.println(tree.sime);
     if(tree.sime instanceof OpExp2) {
-      showTree ((OpExp2)tree.sime,spaces);
+      showTree ((OpExp2)tree.sime, spaces);
     } 
     else if(tree.sime instanceof IntExp) {
-      showTree ((IntExp)tree.sime,spaces);
+      showTree ((IntExp)tree.sime, spaces);
     }
    
   }
@@ -233,6 +233,15 @@ static public void showTree( Dec tree, int spaces ) { //TODO
       showTree((SimpleExpr)tree.expression, spaces); 
     }
   }
+
+
+
+
+
+
+
+
+
 
   //fei's dirty code
   static private void showTree( IfExp tree, int spaces ) {
