@@ -2,6 +2,8 @@
    comment
 */
 
-if (a > 4)
-b = 2;
-else a = 3;
+/*int chris(int ryan, int a)*/{
+    /*int b = 2;*/
+    /*a = 3;*/
+
+    /*return 4;*/ }

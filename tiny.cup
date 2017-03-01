@@ -92,12 +92,14 @@ non terminal VarDec var, var_dec, param;
 
 precedence left NUM, ID ,OBRACE, CBRACE;
 precedence left ID ,OBRACK, CBRACK;
+precedence left OPAREN, CPAREN;
 precedence left IF, ELSE;
+
 
 
 /* ----------------------------Grammar Section-------------------- */
 //test program
-program      ::= sele_stmt:s
+program      ::= comp_stmt:s
                  {: RESULT = s;
                     System.out.println( "The abstract syntax tree is:" );
                     Absyn.showTree( RESULT, 0 );
@@ -204,7 +206,7 @@ param        ::= type_spec:s ID:i
                ;
 
 //10
-comp_stmt        ::= OBRACE:i local_decs:s1 stmt_list:s2 CBRACE
+comp_stmt        ::= OPAREN:i local_decs:s1 stmt_list:s2 CPAREN
                  {:
                     RESULT = new CompStmt(ileft, s1, s2);
                  :}

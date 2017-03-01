@@ -1,7 +1,6 @@
 package absyn;
 
 public class FunDec extends Dec {
-
   public TypeSpec type;
   public String id;
   public DecList plist;

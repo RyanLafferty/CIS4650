@@ -84,6 +84,12 @@ static public void showTree( Dec tree, int spaces ) { //TODO
     else if( tree instanceof SeleStmt) {
       showTree ((SeleStmt)tree, spaces);
     }
+    else if( tree instanceof CompStmt) {
+      showTree ((CompStmt)tree, spaces);
+    }
+    else if( tree instanceof FunDec) {
+      showTree ((FunDec)tree, spaces);
+    }
     else 
     {
       indent( spaces );
@@ -269,8 +275,23 @@ static private void showTree( SeleStmt tree, int spaces ) {
     }
   }
 
+static private void showTree( CompStmt tree, int spaces ) {
+    indent( spaces );
+    System.out.println( "CompStmt:" );
+    spaces += SPACES;
+    showTree( tree.decs, spaces );
+    showTree( tree.stmt, spaces );
+  }
 
-
+static private void showTree( FunDec tree, int spaces ) {
+    indent( spaces );
+    System.out.println( "FunDec:" );
+    spaces += SPACES;
+    showTree( tree.type, spaces );
+    showTree( tree.id, spaces );
+    showTree( tree.plist, spaces );
+    showTree( tree.cstmt, spaces );
+  }
 
 
 
