@@ -72,7 +72,9 @@ static public void showTree( Dec tree, int spaces ) { //TODO
     else if( tree instanceof VarDec) { 
       showTree( (VarDec)tree, spaces );
     }
- 
+    else if( tree instanceof ReturnStmt) { 
+      showTree( (ReturnStmt)tree, spaces );
+    }
     else 
     {
       indent( spaces );
@@ -201,6 +203,19 @@ static public void showTree( Dec tree, int spaces ) { //TODO
     } 
     else if(tree.sime instanceof IntExp) {
       showTree ((IntExp)tree.sime,spaces);
+    }
+   
+  }
+
+  static private void showTree( ReturnStmt tree, int spaces ) {
+    indent( spaces );
+    System.out.println( "ReturnStmt:" );
+    spaces += SPACES;
+    if(tree.expression instanceof Expr && tree.expression != null){
+       showTree((Expr)tree.expression, spaces);
+    }
+    else if(tree.expression instanceof SimpleExpr && tree.expression != null) {
+      showTree((SimpleExpr)tree.expression, spaces); 
     }
    
   }

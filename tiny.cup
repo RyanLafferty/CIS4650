@@ -96,7 +96,7 @@ precedence left ID ,OBRACK, CBRACK;
 
 /* ----------------------------Grammar Section-------------------- */
 //test program
-program      ::= expr:s
+program      ::= ret_stmt:s
                  {: RESULT = s;
                     System.out.println( "The abstract syntax tree is:" );
                     Absyn.showTree( RESULT, 0 );
@@ -295,7 +295,7 @@ iter_stmt        ::= WHILE:i OBRACE expr:s1 CBRACE stmt:s2
                  ;
 //17
 ret_stmt        ::= RETURN:i SEMI
-                 {:
+                 {: 
                     RESULT = new ReturnStmt(ileft,null);
                  :}
                  | RETURN:i expr:s SEMI
