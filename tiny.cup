@@ -75,7 +75,7 @@ terminal OBRACE, CBRACE, OBRACK, CBRACK, OPAREN, CPAREN, OCOMMENT, CCOMMENT;
 terminal String ID, NUM;   
 terminal ERROR;
 
-non terminal DecList program;
+non terminal Dec program;
 //non terminal VarDec program;
 //non terminal DecList program;
 non terminal Integer relop, mulop, addop;
@@ -92,11 +92,12 @@ non terminal VarDec var, var_dec, param;
 
 precedence left NUM, ID ,OBRACE, CBRACE;
 precedence left ID ,OBRACK, CBRACK;
+precedence left IF, ELSE;
 
 
 /* ----------------------------Grammar Section-------------------- */
 //test program
-program      ::= param_list:s
+program      ::= sele_stmt:s
                  {: RESULT = s;
                     System.out.println( "The abstract syntax tree is:" );
                     Absyn.showTree( RESULT, 0 );
@@ -279,11 +280,11 @@ expr_stmt        ::= expr:i SEMI
 //15
 sele_stmt        ::= IF:i OBRACE expr:s1 CBRACE stmt:s2
                  {:
-                    RESULT = new SeleStmt(ileft, s1, s2);
+                    RESULT = new SeleStmt(ileft, s1, s2, SeleStmt.IF);
                  :}
                  | IF:i OBRACE expr:s1 CBRACE stmt:s2 ELSE stmt:s3
                  {:
-                    RESULT = new SeleStmt(ileft, s1, s2, s3);
+                    RESULT = new SeleStmt(ileft, s1, s2, s3, SeleStmt.ELSE);
                  :}
                  ;
 

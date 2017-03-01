@@ -2,4 +2,6 @@
    comment
 */
 
-int chris[], void john
+if (a > 4)
+b = 2;
+else a = 3;

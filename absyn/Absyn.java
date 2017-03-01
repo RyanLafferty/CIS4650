@@ -78,6 +78,12 @@ static public void showTree( Dec tree, int spaces ) { //TODO
     else if( tree instanceof ExprStmt) {
       showTree ((ExprStmt)tree, spaces);
     }
+    else if( tree instanceof IterStmt) {
+      showTree ((IterStmt)tree, spaces);
+    }
+    else if( tree instanceof SeleStmt) {
+      showTree ((SeleStmt)tree, spaces);
+    }
     else 
     {
       indent( spaces );
@@ -234,8 +240,34 @@ static public void showTree( Dec tree, int spaces ) { //TODO
     }
   }
 
+static private void showTree( IterStmt tree, int spaces ) {
+    indent( spaces );
+    System.out.println( "IterStmt:" );
+    spaces += SPACES;
+    showTree( tree.expression, spaces );
+    showTree( tree.stmt, spaces );
+  }
 
-
+static private void showTree( SeleStmt tree, int spaces ) {
+    indent( spaces );
+    System.out.println( "SeleStmt:" );
+    spaces += SPACES;
+    if(tree.type == SeleStmt.IF)
+    {
+      showTree( tree.expression, spaces );
+      showTree( tree.stmt, spaces );
+    }
+    else if(tree.type == SeleStmt.ELSE)
+    {
+      showTree( tree.expression, spaces );
+      showTree( tree.stmt, spaces );
+      showTree( tree.estmt, spaces );
+    }
+    else
+    {
+      System.out.println("WAT!");
+    }
+  }
 
 
 

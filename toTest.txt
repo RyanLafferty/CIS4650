@@ -22,9 +22,8 @@ declist
 dec
 simpleexpr
 op's
+iter_stmt
 
-
-need iter_stmt
 need sele_stmt
 need fun_dec
 need call
