@@ -1,9 +1,11 @@
 /*
-   comment
+   the comp_stmt issue appears to be caused by local decs and/or syntax seen below
 */
+    /* int a = 2; problem with this syntax */
 
-/*int chris(int ryan, int a)*/{
-    /*int b = 2;*/
-    /*a = 3;*/
 
-    /*return 4;*/ }
+
+{
+    a = 2;
+    return 1;
+}

@@ -279,7 +279,9 @@ static private void showTree( CompStmt tree, int spaces ) {
     indent( spaces );
     System.out.println( "CompStmt:" );
     spaces += SPACES;
-    showTree( tree.decs, spaces );
+    if(tree.decs != null){
+      showTree( tree.decs, spaces );
+    }
     showTree( tree.stmt, spaces );
   }
 

@@ -26,8 +26,13 @@ op's
 iter_stmt
 sele_stmt
 
+to fix
+======
+local decs
+
 not done
 ========
+need comp_stmt
 need fun_dec
 need call
 need args
