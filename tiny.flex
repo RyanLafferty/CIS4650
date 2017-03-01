@@ -129,5 +129,6 @@ identifier = {letter}+
 {number}           { return symbol(sym.NUM, yytext()); }
 {identifier}       { return symbol(sym.ID, yytext()); }
 {WhiteSpace}*      { /* skip whitespace */ }   
-"{"[^\}]*"}"       { /* skip comments */ }
+//"{"[^\}]*"}"       { /* skip comments */ }
+"/*"[^\}]*"*/"       { /* skip comments */ }
 .                  { return symbol(sym.ERROR); }
