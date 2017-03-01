@@ -50,7 +50,6 @@ static public void showTree( Dec tree, int spaces ) { //TODO
     if( tree instanceof RegularDec)
     {
       showTree( (RegularDec)tree, spaces );
-
     }
     else if( tree instanceof ArrayDec)
     {
@@ -90,10 +89,15 @@ static public void showTree( Dec tree, int spaces ) { //TODO
     else if( tree instanceof FunDec) {
       showTree ((FunDec)tree, spaces);
     }
-    else 
+    else if(tree != null)
     {
       indent( spaces );
       System.out.println( "Illegal expression at line " + tree.pos  );
+    }
+    else
+    {
+      indent( spaces );
+      System.out.println( "Illegal expression, object is null");
     }
   }
 
@@ -291,7 +295,9 @@ static private void showTree( FunDec tree, int spaces ) {
     spaces += SPACES;
     showTree( tree.type, spaces );
     showTree( tree.id, spaces );
-    showTree( tree.plist, spaces );
+    if(tree.plist != null){
+      showTree( tree.plist, spaces );
+    }
     showTree( tree.cstmt, spaces );
   }
 

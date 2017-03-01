@@ -25,6 +25,8 @@ simpleexpr
 op's
 iter_stmt
 sele_stmt
+comp_stmt
+fun_dec
 
 to fix
 ======
@@ -32,8 +34,7 @@ local decs
 
 not done
 ========
-need comp_stmt
-need fun_dec
+
 need call
 need args
 need arglist

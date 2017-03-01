@@ -4,7 +4,7 @@
     /* int a = 2; problem with this syntax */
 
 
-
+void chris(int a)
 {
     a = 2;
     return 1;

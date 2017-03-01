@@ -5,7 +5,7 @@ public class FunDec extends Dec {
   public String id;
   public DecList plist;
   public Dec cstmt;
-  public FunDec(int pos, TypeSpec type, String id, DecList plist, Dec stmt) {
+  public FunDec(int pos, TypeSpec type, String id, DecList plist, Dec cstmt) {
     this.pos = pos;
     this.type = type;
     this.id = id;
