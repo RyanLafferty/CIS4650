@@ -110,12 +110,14 @@ static public void showTree( Dec tree, int spaces ) { //TODO
     indent( spaces );
     System.out.println( "RegularVar:" );
     spaces += SPACES;
+    indent( spaces );
     System.out.println(tree.name);
   }
   static private void showTree( ArrayVar tree, int spaces ) {
     indent( spaces );
     System.out.println( "ArrayVar:" );
     spaces += SPACES;
+    indent( spaces );
     System.out.println(tree.id);
     showTree ((SimpleExpr)tree.number, spaces);
   }
