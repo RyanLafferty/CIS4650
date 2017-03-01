@@ -38,3 +38,14 @@ not done
 need call
 need args
 need arglist
+
+/*
+   the comp_stmt issue appears to be caused by local decs and/or syntax seen below
+*/
+    /* int a = 2; problem with this syntax */
+
+
+/*figure outwhy parenthese cant be commented out*/
+
+
+/*need to test arglist and args first*/

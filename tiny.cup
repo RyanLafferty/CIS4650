@@ -75,9 +75,9 @@ terminal OBRACE, CBRACE, OBRACK, CBRACK, OPAREN, CPAREN, OCOMMENT, CCOMMENT;
 terminal String ID, NUM;   
 terminal ERROR;
 
-non terminal Dec program;
+//non terminal Dec program;
 //non terminal VarDec program;
-//non terminal DecList program;
+non terminal DecList program;
 non terminal Integer relop, mulop, addop;
 
 non terminal DecList param_list, params;
@@ -99,7 +99,7 @@ precedence left IF, ELSE;
 
 /* ----------------------------Grammar Section-------------------- */
 //test program
-program      ::= fun_dec:s
+program      ::= args:s
                  {: RESULT = s;
                     System.out.println( "The abstract syntax tree is:" );
                     Absyn.showTree( RESULT, 0 );

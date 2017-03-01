@@ -283,9 +283,7 @@ static private void showTree( CompStmt tree, int spaces ) {
     indent( spaces );
     System.out.println( "CompStmt:" );
     spaces += SPACES;
-    if(tree.decs != null){
-      showTree( tree.decs, spaces );
-    }
+    showTree( tree.decs, spaces );
     showTree( tree.stmt, spaces );
   }
 
@@ -295,10 +293,16 @@ static private void showTree( FunDec tree, int spaces ) {
     spaces += SPACES;
     showTree( tree.type, spaces );
     showTree( tree.id, spaces );
-    if(tree.plist != null){
-      showTree( tree.plist, spaces );
-    }
+    showTree( tree.plist, spaces );
     showTree( tree.cstmt, spaces );
+  }
+
+static private void showTree( Call tree, int spaces ) {
+    indent( spaces );
+    System.out.println( "Call:" );
+    spaces += SPACES;
+    showTree (tree.id, spaces );
+    showTree (tree.args, spaces ); 
   }
 
 
