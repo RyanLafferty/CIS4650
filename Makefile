@@ -24,6 +24,7 @@ cup:
 
 run:
 	java $(CLASSPATH) Main gcd.tiny
+
 play:
 	java $(CLASSPATH) Main chris.tiny
 
@@ -31,3 +32,9 @@ clean:
 	rm -f parser.java Lexer.java sym.java *.class absyn/*.class *~
 
 test: clean all run
+
+test1:
+	java $(CLASSPATH) Main a.cm
+
+test2:
+	java $(CLASSPATH) Main b.cm
