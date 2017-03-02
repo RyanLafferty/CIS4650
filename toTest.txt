@@ -27,6 +27,7 @@ iter_stmt
 sele_stmt
 comp_stmt
 fun_dec
+args
 
 to fix
 ======
@@ -36,7 +37,6 @@ not done
 ========
 
 need call
-need args
 need arglist
 
 /*
@@ -48,4 +48,3 @@ need arglist
 /*figure outwhy parenthese cant be commented out*/
 
 
-/*need to test arglist and args first*/
