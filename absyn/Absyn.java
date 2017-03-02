@@ -99,6 +99,9 @@ static public void showTree( Dec tree, int spaces ) { //TODO
     else if( tree instanceof Args) {
       showTree ((Args)tree, spaces);
     }
+    else if( tree instanceof Call) {
+      showTree ((Call)tree, spaces);
+    }
     else if(tree != null)
     {
       indent( spaces );

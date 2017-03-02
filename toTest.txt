@@ -29,6 +29,7 @@ comp_stmt
 fun_dec
 args
 arglist
+call
 
 
 to fix
@@ -37,7 +38,6 @@ local decs
 
 not done
 ========
-need call
 
 /*
    the comp_stmt issue appears to be caused by local decs and/or syntax seen below
