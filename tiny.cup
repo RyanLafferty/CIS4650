@@ -138,6 +138,9 @@ dec         ::= var_dec:s
                  {: 
                     RESULT = s;
                  :}
+                 | error
+                 {: parser.report_error("Invalid Statement", null); 
+                 :}
                ;
 //4
 var_dec         ::= type_spec:s ID:i SEMI
