@@ -99,7 +99,7 @@ precedence left IF, ELSE;
 
 /* ----------------------------Grammar Section-------------------- */
 //test program
-program      ::= call:s
+program      ::= fun_dec:s
                  {: RESULT = s;
                     System.out.println( "The abstract syntax tree is:" );
                     Absyn.showTree( RESULT, 0 );

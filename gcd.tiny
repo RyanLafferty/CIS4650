@@ -1,4 +1,10 @@
 
-chris(a, b, c)
+int chris(int a, int b, int c)
+{
+    int d ;
+    d = 2;
+
+    return 2;
+}
 
 /*a, b*/
