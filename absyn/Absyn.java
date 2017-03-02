@@ -236,9 +236,11 @@ static public void showTree( Dec tree, int spaces ) { //TODO
     else if(tree.sime instanceof IntExp) {
       showTree ((IntExp)tree.sime, spaces);
     }
-    else if(tree.sime instanceof VarDec)
-    {
+    else if(tree.sime instanceof VarDec) {
       showTree ((VarDec)tree.sime, spaces);
+    }
+    else if(tree.sime instanceof Call) {
+      showTree ((Call)tree.sime, spaces);
     }
    
   }
