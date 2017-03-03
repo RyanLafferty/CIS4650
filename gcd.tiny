@@ -1,5 +1,6 @@
 int chris;
 
 void suck(void) {
-	2 = chris = 5;
+	chris = 5;
+	
 }

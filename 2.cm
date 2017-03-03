@@ -1,0 +1,11 @@
+/*This file will demonstrate if statements are written outside of functions*/
+
+int chris; /*This is valid*/
+
+
+
+
+int main(void) {
+	
+	chris = 2 * 2;
+}

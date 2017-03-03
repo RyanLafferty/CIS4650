@@ -34,10 +34,10 @@ clean:
 test: clean all run
 
 test1:
-	java $(CLASSPATH) Main a.cm
+	java $(CLASSPATH) Main 1.cm
 
 test2:
-	java $(CLASSPATH) Main b.cm
+	java $(CLASSPATH) Main 2.cm
 
 test3:
-	java $(CLASSPATH) Main c.cm
+	java $(CLASSPATH) Main 3.cm
