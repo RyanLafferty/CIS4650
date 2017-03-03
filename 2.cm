@@ -1,7 +1,7 @@
 /*This file will demonstrate if statements are written outside of functions*/
 
-/*This is valid*/
-int chris; 
+
+int chris; /*This is valid*/
 
 
 
