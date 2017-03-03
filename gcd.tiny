@@ -1,6 +1,5 @@
 int chris;
 
-void suck(int dick) {
-	test = 2;
-	int chris;
+void suck(void) {
+	2 = chris = 5;
 }

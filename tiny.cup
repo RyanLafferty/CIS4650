@@ -181,6 +181,11 @@ params        ::= param_list:s
                     RESULT = null;
                     //????
                  :}
+                 | error
+                 {: parser.report_error("Not a valid parameter", null); 
+                    
+                    RESULT = new DecList(new Nil("Param Error"), null); 
+                 :}
                ;
 
 //8
@@ -280,6 +285,10 @@ stmt        ::= expr_stmt:s
                  | ret_stmt:s
                  {: 
                     RESULT = s;
+                 :}
+                 | error
+                 {: parser.report_error("Not a valid statement", null); 
+                    RESULT = new Nil("Statement Error");
                  :}
                ;
 

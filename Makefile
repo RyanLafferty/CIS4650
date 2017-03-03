@@ -38,3 +38,6 @@ test1:
 
 test2:
 	java $(CLASSPATH) Main b.cm
+
+test3:
+	java $(CLASSPATH) Main c.cm

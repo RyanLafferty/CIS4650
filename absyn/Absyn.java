@@ -340,8 +340,6 @@ static private void showTree( Args tree, int spaces ) {
     indent( spaces );
     System.out.println(tree.error);
   }
-
-
   //fei's dirty code
   static private void showTree( IfExp tree, int spaces ) {
     indent( spaces );
