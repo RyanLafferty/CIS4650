@@ -1,3 +1,22 @@
+/*
+Tests a program that takes in 10 numbers and
+sorts them.
+
+This program will test:
+Function declarations,
+parameters,
+type specs,
+local decs,
+control statements,
+assignments,
+var decs,
+calls,
+arithmetic expressions,
+arrays,
+comments,
+operations such as comparisons
+*/
+
 void sort( int a[], int low, int high) { 
     int i; int k;
     i = low;
@@ -22,6 +41,7 @@ void main(void)
         i = i + 1; 
     }
 
+    /*call sort function*/
     sort(x,0,10);
     i = 0;
     
