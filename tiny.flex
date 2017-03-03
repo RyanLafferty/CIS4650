@@ -130,5 +130,5 @@ identifier = {letter}+
 {identifier}       { return symbol(sym.ID, yytext()); }
 {WhiteSpace}*      { /* skip whitespace */ }   
 //"{"[^\}]*"}"       { /* skip comments */ }
-"/*"[^\}]*"*/"       { /* skip comments */ }
+"/*"[^\}]*"*/"       { /* skip comments */ } //there are issues with the way that this is written
 .                  { return symbol(sym.ERROR); }
