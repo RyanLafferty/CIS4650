@@ -134,12 +134,13 @@ dec         ::= var_dec:s
                  {:
                     RESULT = s;
                  :}
-               | fun_dec:s
+                | fun_dec:s
                  {: 
                     RESULT = s;
                  :}
                  | error
-                 {: parser.report_error("Invalid Statement", null); 
+                 {: parser.report_error("Not a valid decleration", null); 
+                    RESULT = new Nil("Dec Error");
                  :}
                ;
 //4
@@ -212,6 +213,11 @@ param        ::= type_spec:s ID:i
 comp_stmt        ::= OPAREN:i local_decs:s1 stmt_list:s2 CPAREN
                  {:
                     RESULT = new CompStmt(ileft, s1, s2);
+                 :}
+                 | error
+                 {: 
+                    parser.report_error("Not a valid comp statements", null); 
+                    RESULT = new Nil("Comp error");
                  :}
                ;
 

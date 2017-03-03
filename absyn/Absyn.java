@@ -102,10 +102,13 @@ static public void showTree( Dec tree, int spaces ) { //TODO
     else if( tree instanceof Call) {
       showTree ((Call)tree, spaces);
     }
-    else if(tree != null)
+    /*else if(tree != null)
     {
       indent( spaces );
       System.out.println( "Illegal expression at line " + tree.pos  );
+    }*/
+    else if(tree instanceof Nil) {
+      showTree ((Nil)tree, spaces);
     }
     else
     {
@@ -329,6 +332,13 @@ static private void showTree( Args tree, int spaces ) {
     System.out.println( "Args:" );
     spaces += SPACES;
     showTree (tree.args, spaces );
+  }
+  static private void showTree(Nil tree, int spaces) {
+    indent( spaces );
+    System.out.println(" Nil: ");
+    spaces += SPACES;
+    indent( spaces );
+    System.out.println(tree.error);
   }
 
 
