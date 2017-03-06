@@ -57,6 +57,7 @@ parser code {:
         /* Print the contents of the StringBuffer 'm', which contains
            an error message, out on a line. */
         System.err.println(m);
+        out.println(m);
     }
    
     /* Change the method report_fatal_error so when it reports a fatal
@@ -106,6 +107,8 @@ program      ::= dec_list:s
                  {: RESULT = s;
                     
                     if(parser.abs == true) {
+                        System.out.println("\n\n===\nAST\n===\n");
+                        parser.out.println("\n\n===\nAST\n===\n");
                         System.out.println( "The abstract syntax tree is:" );
                         parser.ab.showTree( RESULT, 0, parser.out );
                     }

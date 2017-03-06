@@ -25,6 +25,7 @@ class Main {
 
   public void run(String argv[])
   {
+    System.out.println("======\nErrors\n=====\n");
     try {
       if(argv.length == 2) {
         if(argv[1].equals("-a")) {
@@ -38,6 +39,7 @@ class Main {
           }
         }
       }
+      out.println("======\nErrors\n======\n");
       parser p = new parser(new Lexer(new FileReader(argv[0])));
       p.abs = abs;
       p.out = out;
