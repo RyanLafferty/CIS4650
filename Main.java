@@ -14,8 +14,15 @@
 import java.io.*;
    
 class Main {
+   public static PrintWriter out = null;
   static public void main(String argv[]) {    
-    /* Start the parser */
+    
+    try {
+      out = new PrintWriter("out.txt");
+    } catch (Exception e) {
+
+    }
+
     try {
       parser p = new parser(new Lexer(new FileReader(argv[0])));
       Object result = p.parse().value;      
@@ -23,7 +30,11 @@ class Main {
       /* do cleanup here -- possibly rethrow e */
       e.printStackTrace();
     }
-  }
+
+    if(out != null){
+      out.close();
+    }
+  } 
 }
 
 
