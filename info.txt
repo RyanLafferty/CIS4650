@@ -1,2 +1,0 @@
-#cup readme
-http://www2.cs.tum.edu/projects/cup/
