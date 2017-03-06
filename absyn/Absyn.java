@@ -369,7 +369,14 @@ import java.io.*;
     p.println("Call:");
     spaces += SPACES;
     showTree (tree.id, spaces );
-    showTree (tree.args, spaces ); 
+    if(tree.args == null) {
+      indent( spaces );
+      System.out.println( "Args empty" );
+      p.println("Args empty");
+    } else {
+      showTree (tree.args, spaces ); 
+    }
+    
   }
 
  private void showTree( Args tree, int spaces ) {
