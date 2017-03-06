@@ -102,7 +102,7 @@ precedence left IF, ELSE;
 
 
 /* ----------------------------Grammar Section-------------------- */
-//test program
+//1
 program      ::= dec_list:s
                  {: RESULT = s;
                     
@@ -115,16 +115,6 @@ program      ::= dec_list:s
                     
                  :}
                ;
-
-  
-//1
-/*program      ::= dec_list:s
-                 {: RESULT = s;
-                    System.out.println( "The abstract syntax tree is:" );
-                    Absyn.showTree( RESULT, 0 );
-                 :}
-               ;
-*/
 //2
 dec_list     ::= dec_list:s1 dec:s2
                  {: 

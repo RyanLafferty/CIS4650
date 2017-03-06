@@ -3,7 +3,7 @@ outside of functions as well as comp errors*/
 
 
 int chris; /*This is valid*/
-chris = 5
+chris = 5; /*This is invalid*/
 
 
 

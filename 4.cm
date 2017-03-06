@@ -1,0 +1,15 @@
+/*This file will demonstrate RELOP errors as well as conditional errors*/
+
+
+void Cond(int a) {
+	
+	if(a == b) {  
+		chris = 5;
+	} /*Valid*/
+
+	if(a>====b) { /*Invalid*/
+
+	} else {
+
+	}
+}
