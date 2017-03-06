@@ -13,19 +13,28 @@
    
 import java.io.*;
    
+
 class Main {
    public static PrintWriter out = null;
+   public static Boolean abs = false;
+
   static public void main(String argv[]) {    
-    
-    try {
-      out = new PrintWriter("out.txt");
-    } catch (Exception e) {
-
-    }
 
     try {
+      if(argv.length == 2) {
+        if(argv[1].equals("-a")) {
+          abs = true;
+          try {
+            //out = new PrintWriter(argv[0]+".txt"); TODO: Add filename.abs
+          } catch (Exception e) {
+
+          }
+        }
+      }
       parser p = new parser(new Lexer(new FileReader(argv[0])));
-      Object result = p.parse().value;      
+      p.abs = abs;
+      Object result = p.parse().value;
+
     } catch (Exception e) {
       /* do cleanup here -- possibly rethrow e */
       e.printStackTrace();
