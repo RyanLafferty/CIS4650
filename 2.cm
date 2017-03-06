@@ -3,7 +3,7 @@
 
 int chris; /*This is valid*/
 
-
+chris = 5;
 
 
 int main(void) {

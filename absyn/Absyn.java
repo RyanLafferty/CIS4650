@@ -217,11 +217,11 @@ import java.io.*;
    private void showTree( OpExp2 tree, int spaces ) {
     indent( spaces );
     System.out.print( "OpExp:" );
-    p.println("OpExp:");
+    p.print("OpExp: ");
     switch( tree.op ) {
       case OpExp2.PLUS:
         System.out.println( " + " );
-        p.println("+:");
+        p.println("+");
         break;
       case OpExp2.MINUS:
         System.out.println( " - " );
