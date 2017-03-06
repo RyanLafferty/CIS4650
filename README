@@ -1,5 +1,5 @@
 /*Name: Ryan Lafferty & Chris Katsaras
-ID: 0853370
+ID: 0853370, 0795555
 Date: 3/6/2017
 PC 1*/
 
@@ -12,21 +12,23 @@ Type "make" to compile the program.
 ***********************
 Running the program(s)
 ***********************
-Type "make server" to run the local server on port 5000.
-Type "make run" to run a client instance that connects to the local server on port 5000.
+java -classpath java-cup-11b.jar Main <filename>
+or modify the make run command / type make run
 
 
-***********
-Limitations
-***********
+*************************
+Limitations & Assumptions 
+*************************
 
 
-***********
-Assumptions
-***********
+Similar to C, unbalanced parenthesis can cause undetectable errors. For instance: 
 
+int main (void) {
+	}{
+}
 
-
+Will cause undetectable errors due to the fact that the opening brace doesn’t know which closing brace to match with.
+For this reason, we assume that these kind of unbalanced parenthesis issues will not be introduced into any .cm files that are tested by our teaching assistant Dave Wickland. If for any reason he decides to test this scenario, our implementation will give undesirable output. 
 
 
 ***********
