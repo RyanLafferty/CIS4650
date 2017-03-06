@@ -12,8 +12,8 @@ Type "make" to compile the program.
 ***********************
 Running the program(s)
 ***********************
-java -classpath java-cup-11b.jar Main <filename>
-or modify the make run command / type make run
+java -classpath java-cup-11b.jar Main <filename> -a 
+or modify the make run command / type make test1..5 to test 1..5.cm files 
 
 
 *************************
