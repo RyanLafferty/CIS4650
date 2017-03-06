@@ -10,11 +10,14 @@
 /* Import the class java_cup.runtime.*  */
 //import java_cup.runtime.*;
 import absyn.*;
+import java.io.*;
    
 /* Parser code to change the way the parser reports errors (include
    line and column number of the error). */
 parser code {:
     public static boolean abs;
+    public PrintWriter out;
+    public Absyn ab = new Absyn();
     /* Change the method report_error so it will display the line and
        column of where the error occurred in the input as well as the
        reason for the error which is passed into the method in the
@@ -104,7 +107,7 @@ program      ::= dec_list:s
                     
                     if(parser.abs == true) {
                         System.out.println( "The abstract syntax tree is:" );
-                        Absyn.showTree( RESULT, 0 );
+                        parser.ab.showTree( RESULT, 0, parser.out );
                     }
                     
                  :}

@@ -1,36 +1,46 @@
 package absyn;
+import java.io.*;
 
-abstract public class Absyn {
+ public class Absyn {
   public int pos;
+  public PrintWriter p;
 
-  final static int SPACES = 4;
+  final  int SPACES = 4;
 
-  static private void indent( int spaces ) {
+   private void indent( int spaces ) {
     for( int i = 0; i < spaces; i++ ) System.out.print( " " );
   }
 
-  static public void showTree( ExpList tree, int spaces ) {
+   public void showTree( ExpList tree, int spaces ) {
     while( tree != null ) {
       showTree( tree.head, spaces );
       tree = tree.tail;
     } 
   }
 
-  static public void showTree( ArgList tree, int spaces ) {
+   public void showTree( ArgList tree, int spaces ) {
     while( tree != null ) {
       showTree( tree.head, spaces );
       tree = tree.tail;
     } 
   }
 
-static public void showTree( DecList tree, int spaces ) {//TODO
+ public void showTree( DecList tree, int spaces ) {//TODO
     while( tree != null ) {
       showTree( tree.head, spaces );
       tree = tree.tail;
     } 
   }
 
-  static private void showTree( Exp tree, int spaces ) {
+ public void showTree( DecList tree, int spaces, PrintWriter p ) {//TODO
+    this.p = p;
+    while( tree != null ) {
+      showTree( tree.head, spaces );
+      tree = tree.tail;
+    } 
+  }
+
+   private void showTree( Exp tree, int spaces ) {
     if( tree instanceof AssignExp )
       showTree( (AssignExp)tree, spaces );
     else if( tree instanceof IfExp )
@@ -53,7 +63,7 @@ static public void showTree( DecList tree, int spaces ) {//TODO
     }
   }
 
-static public void showTree( Dec tree, int spaces ) { //TODO
+ public void showTree( Dec tree, int spaces ) { //TODO
     if( tree instanceof RegularDec)
     {
       showTree( (RegularDec)tree, spaces );
@@ -117,7 +127,7 @@ static public void showTree( Dec tree, int spaces ) { //TODO
     }
   }
 
-  static public void showTree( VarDec tree, int spaces ) { //TODO
+   public void showTree( VarDec tree, int spaces ) { //TODO
     
     if(tree instanceof RegularVar) {
       showTree((RegularVar)tree, spaces);
@@ -127,7 +137,7 @@ static public void showTree( Dec tree, int spaces ) { //TODO
   }
 
 
-  static private void showTree( RegularDec tree, int spaces ) {
+   private void showTree( RegularDec tree, int spaces ) {
     indent( spaces );
     System.out.println( "RegularDec:" );
     spaces += SPACES;
@@ -135,7 +145,7 @@ static public void showTree( Dec tree, int spaces ) { //TODO
     showTree(tree.id, spaces);
   }
 
-  static private void showTree( ArrayDec tree, int spaces ) {
+   private void showTree( ArrayDec tree, int spaces ) {
     indent( spaces );
     System.out.println( "ArrayDec:" );
     spaces += SPACES;
@@ -143,14 +153,14 @@ static public void showTree( Dec tree, int spaces ) { //TODO
     showTree(tree.id, spaces);
     showTree(tree.number, spaces);
   }
-  static private void showTree( RegularVar tree, int spaces ) {
+   private void showTree( RegularVar tree, int spaces ) {
     indent( spaces );
     System.out.println( "RegularVar:" );
     spaces += SPACES;
     indent( spaces );
     System.out.println(tree.name);
   }
-  static private void showTree( ArrayVar tree, int spaces ) {
+   private void showTree( ArrayVar tree, int spaces ) {
     indent( spaces );
     System.out.println( "ArrayVar:" );
     spaces += SPACES;
@@ -159,7 +169,7 @@ static public void showTree( Dec tree, int spaces ) { //TODO
     showTree ((SimpleExpr)tree.number, spaces);
   }
 
-  static private void showTree( AssignExp tree, int spaces ) {
+   private void showTree( AssignExp tree, int spaces ) {
     indent( spaces );
     System.out.println( "AssignExp:" );
     spaces += SPACES;
@@ -167,7 +177,7 @@ static public void showTree( Dec tree, int spaces ) { //TODO
     showTree( tree.rhs, spaces );
   }
 
-  static private void showTree( TypeSpec tree, int spaces ) {
+   private void showTree( TypeSpec tree, int spaces ) {
     indent( spaces );
     if(tree.type == TypeSpec.INT) {
         System.out.println("Int");
@@ -176,18 +186,19 @@ static public void showTree( Dec tree, int spaces ) { //TODO
     } 
   }
 
-  static private void showTree( String tree, int spaces ) {
+   private void showTree( String tree, int spaces ) {
     indent( spaces );
     System.out.println( "ID: " + tree );
+    p.println("ID: " + tree);
   }
 
 
-  static private void showTree( IntExp tree, int spaces ) {
+   private void showTree( IntExp tree, int spaces ) {
     indent( spaces );
     System.out.println( "IntExp: " + tree.value ); 
   }
 
-  static private void showTree( OpExp2 tree, int spaces ) {
+   private void showTree( OpExp2 tree, int spaces ) {
     indent( spaces );
     System.out.print( "OpExp:" ); 
     switch( tree.op ) {
@@ -220,7 +231,7 @@ static public void showTree( Dec tree, int spaces ) { //TODO
     showTree( tree.right, spaces ); 
   }
 
-  static private void showTree( Expr tree, int spaces ) {
+   private void showTree( Expr tree, int spaces ) {
     indent( spaces );
     System.out.println( "Expr:" );
     spaces += SPACES;
@@ -228,7 +239,7 @@ static public void showTree( Dec tree, int spaces ) { //TODO
     showTree ((Dec)tree.expression, spaces ); 
   }
 
-  static private void showTree( SimpleExpr tree, int spaces ) {
+   private void showTree( SimpleExpr tree, int spaces ) {
     indent( spaces );
     System.out.println( "SimpleExpr:" );
     spaces += SPACES;
@@ -248,7 +259,7 @@ static public void showTree( Dec tree, int spaces ) { //TODO
    
   }
 
-  static private void showTree( ReturnStmt tree, int spaces ) {
+   private void showTree( ReturnStmt tree, int spaces ) {
     indent( spaces );
     System.out.println( "ReturnStmt:" );
     spaces += SPACES;
@@ -260,7 +271,7 @@ static public void showTree( Dec tree, int spaces ) { //TODO
     }
   }
 
-  static private void showTree( ExprStmt tree, int spaces ) {
+   private void showTree( ExprStmt tree, int spaces ) {
     indent( spaces );
     System.out.println( "ExprStmt:" );
     spaces += SPACES;
@@ -272,7 +283,7 @@ static public void showTree( Dec tree, int spaces ) { //TODO
     }
   }
 
-static private void showTree( IterStmt tree, int spaces ) {
+ private void showTree( IterStmt tree, int spaces ) {
     indent( spaces );
     System.out.println( "IterStmt:" );
     spaces += SPACES;
@@ -280,7 +291,7 @@ static private void showTree( IterStmt tree, int spaces ) {
     showTree( tree.stmt, spaces );
   }
 
-static private void showTree( SeleStmt tree, int spaces ) {
+ private void showTree( SeleStmt tree, int spaces ) {
     indent( spaces );
     System.out.println( "SeleStmt:" );
     spaces += SPACES;
@@ -301,7 +312,7 @@ static private void showTree( SeleStmt tree, int spaces ) {
     }
   }
 
-static private void showTree( CompStmt tree, int spaces ) {
+ private void showTree( CompStmt tree, int spaces ) {
     indent( spaces );
     System.out.println( "CompStmt:" );
     spaces += SPACES;
@@ -309,7 +320,7 @@ static private void showTree( CompStmt tree, int spaces ) {
     showTree( tree.stmt, spaces );
   }
 
-static private void showTree( FunDec tree, int spaces ) {
+ private void showTree( FunDec tree, int spaces ) {
     indent( spaces );
     System.out.println( "FunDec:" );
     spaces += SPACES;
@@ -319,7 +330,7 @@ static private void showTree( FunDec tree, int spaces ) {
     showTree( tree.cstmt, spaces );
   }
 
-static private void showTree( Call tree, int spaces ) {
+ private void showTree( Call tree, int spaces ) {
     indent( spaces );
     System.out.println( "Call:" );
     spaces += SPACES;
@@ -327,13 +338,13 @@ static private void showTree( Call tree, int spaces ) {
     showTree (tree.args, spaces ); 
   }
 
-static private void showTree( Args tree, int spaces ) {
+ private void showTree( Args tree, int spaces ) {
     indent( spaces );
     System.out.println( "Args:" );
     spaces += SPACES;
     showTree (tree.args, spaces );
   }
-  static private void showTree(Nil tree, int spaces) {
+   private void showTree(Nil tree, int spaces) {
     indent( spaces );
     System.out.println(" Nil: ");
     spaces += SPACES;
@@ -341,7 +352,7 @@ static private void showTree( Args tree, int spaces ) {
     System.out.println(tree.error);
   }
   //fei's dirty code
-  static private void showTree( IfExp tree, int spaces ) {
+   private void showTree( IfExp tree, int spaces ) {
     indent( spaces );
     System.out.println( "IfExp:" );
     spaces += SPACES;
@@ -354,13 +365,13 @@ static private void showTree( Args tree, int spaces ) {
 
   
 
-  static private void showTree( ReadExp tree, int spaces ) {
+   private void showTree( ReadExp tree, int spaces ) {
     indent( spaces );
     System.out.println( "ReadExp:" );
     showTree( tree.input, spaces + SPACES );  
   }
 
-  static private void showTree( RepeatExp tree, int spaces ) {
+   private void showTree( RepeatExp tree, int spaces ) {
     indent( spaces );
     System.out.println( "RepeatExp:" );
     spaces += SPACES;
@@ -368,12 +379,12 @@ static private void showTree( Args tree, int spaces ) {
     showTree( tree.test, spaces ); 
   }
 
-  static private void showTree( VarExp tree, int spaces ) {
+   private void showTree( VarExp tree, int spaces ) {
     indent( spaces );
     System.out.println( "VarExp: " + tree.name );
   }
 
-  static private void showTree( WriteExp tree, int spaces ) {
+   private void showTree( WriteExp tree, int spaces ) {
     indent( spaces );
     System.out.println( "WriteExp:" );
     showTree( tree.output, spaces + SPACES ); 

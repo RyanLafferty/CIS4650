@@ -15,11 +15,16 @@ import java.io.*;
    
 
 class Main {
-   public static PrintWriter out = null;
-   public static Boolean abs = false;
+   public PrintWriter out = null;
+   public Boolean abs = false;
 
-  static public void main(String argv[]) {    
+   public Main()
+   {
 
+   }
+
+  public void run(String argv[])
+  {
     try {
       if(argv.length == 2) {
         if(argv[1].equals("-a")) {
@@ -35,6 +40,7 @@ class Main {
       }
       parser p = new parser(new Lexer(new FileReader(argv[0])));
       p.abs = abs;
+      p.out = out;
       Object result = p.parse().value;
 
     } catch (Exception e) {
@@ -45,6 +51,12 @@ class Main {
     if(out != null){
       out.close();
     }
+  }
+
+  static public void main(String argv[]) {    
+    Main m = new Main();
+    m.run(argv);
+    
   } 
 }
 
