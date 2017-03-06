@@ -23,7 +23,7 @@ cup:
 	$(CUP) < tiny.cup > out.txt
 
 run:
-	java $(CLASSPATH) Main gcd.tiny
+	java $(CLASSPATH) Main gcd.tiny -a 
 
 play:
 	java $(CLASSPATH) Main chris.tiny

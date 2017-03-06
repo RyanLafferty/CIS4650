@@ -24,8 +24,10 @@ class Main {
       if(argv.length == 2) {
         if(argv[1].equals("-a")) {
           abs = true;
+          String name = argv[0].substring(0, argv[0].lastIndexOf('.'));
+
           try {
-            //out = new PrintWriter(argv[0]+".txt"); TODO: Add filename.abs
+            out = new PrintWriter(name+".ast");
           } catch (Exception e) {
 
           }
