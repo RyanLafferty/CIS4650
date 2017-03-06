@@ -1,13 +1,14 @@
-/*This file will demonstrate if statements are written outside of functions*/
+/*This file will demonstrate errors if statements are written 
+outside of functions as well as comp errors*/
 
 
 int chris; /*This is valid*/
+chris = 5
 
-int ryan
-chris = 5;
 
 
 int main(void) {
 	
 	chris = 2 * 2;
+	int chris!
 }
