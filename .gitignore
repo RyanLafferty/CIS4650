@@ -3,3 +3,4 @@ parser.java
 sym.java
 *.class
 absyn/*.class
+*.ast

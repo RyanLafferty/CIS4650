@@ -30,7 +30,7 @@ play:
 
 clean:
 	rm -f parser.java Lexer.java sym.java *.class absyn/*.class *~
-
+	rm -f *.ast
 test: clean all run
 
 test1:
