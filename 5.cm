@@ -1,3 +1,6 @@
+/*This file will demonstrates a constraint with our compiler
+where multiple errors can get "globbed" together*/
+
 rick
 
 adads 
