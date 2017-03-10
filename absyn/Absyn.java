@@ -247,6 +247,14 @@ import java.io.*;
         System.out.println( " > " );
         p.println(">");
         break;
+      case OpExp2.GTE:
+        System.out.println( " >= " );
+        p.println(">=");
+        break;
+      case OpExp2.LTE:
+        System.out.println( " <= " );
+        p.println("<=");
+        break;    
       default:
         System.out.println( "Unrecognized operator at line " + tree.pos);
         p.println("Unrecognized operator at line " + tree.pos);

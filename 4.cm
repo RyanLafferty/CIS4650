@@ -2,8 +2,8 @@
 
 
 void Cond(int a) {
-	
-	if(a == b) {  
+	int c;
+	if(a <= b) {  
 		chris = 5;
 	} /*Valid*/
 
