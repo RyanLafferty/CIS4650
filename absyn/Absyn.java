@@ -168,6 +168,11 @@ import java.util.*;
   }
    private void showTree( RegularVar tree, int spaces ) {
     indent( spaces );
+
+    //TODO - in progress
+    Symbol.isDeclared(tree.name, depth, table);
+
+
     System.out.println( "RegularVar:" );
     p.println("RegularVar:");
     spaces += SPACES;
@@ -460,7 +465,4 @@ import java.util.*;
     p.println("WriteExp:");
     showTree( tree.output, spaces + SPACES ); 
   }
-
-  //TODO - create show tree functions
-
 }
