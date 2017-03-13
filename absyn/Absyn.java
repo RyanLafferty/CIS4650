@@ -236,8 +236,8 @@ import java.io.*;
         p.println("/");
         break;
       case OpExp2.EQ:
-        System.out.println( " = " );
-        p.println("=");
+        System.out.println( " == " );
+        p.println("==");
         break;
       case OpExp2.LT:
         System.out.println( " < " );
