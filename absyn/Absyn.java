@@ -7,7 +7,7 @@ import java.util.*;
   public int depth = 0;
   public int currentDID = 0;
   public PrintWriter p;
-  public ArrayList table = new ArrayList();
+  public ArrayList<Symbol> table = new ArrayList<Symbol>();
 
   final  int SPACES = 4;
 
@@ -141,7 +141,6 @@ import java.util.*;
     
     if(tree instanceof RegularVar) {
       showTree((RegularVar)tree, spaces);
-      test = new Symbol()
     } else if (tree instanceof ArrayVar) {
       showTree((ArrayVar)tree, spaces);
     }
@@ -155,6 +154,7 @@ import java.util.*;
     spaces += SPACES;
     showTree(tree.type, spaces);
     showTree(tree.id, spaces);
+    table.add(new Symbol(depth, tree.id,tree.type));
   }
 
    private void showTree( ArrayDec tree, int spaces ) {
