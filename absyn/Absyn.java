@@ -1,10 +1,12 @@
 package absyn;
 import java.io.*;
+import java.util.*;
 
  public class Absyn {
   public int pos;
   public int depth = 0;
   public PrintWriter p;
+  public ArrayList table = new ArrayList();
 
   final  int SPACES = 4;
 
@@ -138,6 +140,7 @@ import java.io.*;
     
     if(tree instanceof RegularVar) {
       showTree((RegularVar)tree, spaces);
+      test = new Symbol()
     } else if (tree instanceof ArrayVar) {
       showTree((ArrayVar)tree, spaces);
     }
