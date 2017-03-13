@@ -5,6 +5,7 @@ import java.util.*;
  public class Absyn {
   public int pos;
   public int depth = 0;
+  public int currentDID = 0;
   public PrintWriter p;
   public ArrayList table = new ArrayList();
 
