@@ -4,6 +4,7 @@ import java.io.*;
  public class Absyn {
   public int pos;
   public int depth = 0;
+  public int currentDID = 0;
   public PrintWriter p;
 
   final  int SPACES = 4;
