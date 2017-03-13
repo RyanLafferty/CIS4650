@@ -3,6 +3,7 @@ import java.io.*;
 
  public class Absyn {
   public int pos;
+  public int depth = 0;
   public PrintWriter p;
 
   final  int SPACES = 4;
@@ -321,17 +322,22 @@ import java.io.*;
   }
 
  private void showTree( IterStmt tree, int spaces ) {
+    depth++;
     indent( spaces );
-    System.out.println( "IterStmt:" );
+    //System.out.println( "IterStmt:" );
+    System.out.println(depth +  ":IterStmt:" );
     p.println("IterStmt:");
     spaces += SPACES;
     showTree( tree.expression, spaces );
     showTree( tree.stmt, spaces );
+    depth--;
   }
 
  private void showTree( SeleStmt tree, int spaces ) {
+    depth++;
     indent( spaces );
-    System.out.println( "SeleStmt:" );
+    //System.out.println( "SeleStmt:" );
+    System.out.println(depth + "SeleStmt:" );
     p.println("SeleStmt:");
     spaces += SPACES;
     if(tree.type == SeleStmt.IF)
@@ -349,6 +355,7 @@ import java.io.*;
     {
       System.out.println("WAT!");
     }
+    depth--;
   }
 
  private void showTree( CompStmt tree, int spaces ) {
@@ -361,14 +368,17 @@ import java.io.*;
   }
 
  private void showTree( FunDec tree, int spaces ) {
+    depth++;
     indent( spaces );
-    System.out.println( "FunDec:" );
+    //System.out.println( "FunDec:" );
+    System.out.println(depth + ":FunDec:" );
     p.println("FunDec:");
     spaces += SPACES;
     showTree( tree.type, spaces );
     showTree( tree.id, spaces );
     showTree( tree.plist, spaces );
     showTree( tree.cstmt, spaces );
+    depth--;
   }
 
  private void showTree( Call tree, int spaces ) {
