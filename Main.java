@@ -32,7 +32,7 @@ class Main {
           String name = argv[0].substring(0, argv[0].lastIndexOf('.'));
 
           try {
-            out = new PrintWriter(name+".ast");
+            out = new PrintWriter(name+".abs");
             System.out.println("======\nErrors\n=====\n");
             out.println("======\nErrors\n======\n");
           } catch (Exception e) {
