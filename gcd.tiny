@@ -1,5 +1,13 @@
 int chris;
 
 void suck(void) {
-	chris = 5;	
+	int i;
+    chris = 5;
+    i = 1;	
+}
+
+void chrisy(void) {
+    int t;
+    int i;
+    i = 1;
 }

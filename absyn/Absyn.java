@@ -154,7 +154,7 @@ import java.util.*;
     spaces += SPACES;
     showTree(tree.type, spaces);
     showTree(tree.id, spaces);
-    table.add(new Symbol(depth, tree.id,tree.type));
+    table.add(new Symbol(depth, currentDID, tree.id,tree.type));
   }
 
    private void showTree( ArrayDec tree, int spaces ) {
@@ -170,7 +170,7 @@ import java.util.*;
     indent( spaces );
 
     //TODO - in progress
-    Symbol.isDeclared(tree.name, depth, table);
+    Symbol.isDeclared(tree.name, depth, currentDID, table);
 
 
     System.out.println( "RegularVar:" );
@@ -332,6 +332,7 @@ import java.util.*;
 
  private void showTree( IterStmt tree, int spaces ) {
     depth++;
+    currentDID++;
     indent( spaces );
     //System.out.println( "IterStmt:" );
     System.out.println(depth +  ":IterStmt:" );
@@ -344,6 +345,7 @@ import java.util.*;
 
  private void showTree( SeleStmt tree, int spaces ) {
     depth++;
+    currentDID++;
     indent( spaces );
     //System.out.println( "SeleStmt:" );
     System.out.println(depth + "SeleStmt:" );
@@ -378,6 +380,7 @@ import java.util.*;
 
  private void showTree( FunDec tree, int spaces ) {
     depth++;
+    currentDID++;
     indent( spaces );
     //System.out.println( "FunDec:" );
     System.out.println(depth + ":FunDec:" );
