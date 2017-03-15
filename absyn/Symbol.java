@@ -14,7 +14,7 @@ public class Symbol {
   	this.depth = depth;
     this.dID = dID;
   	this.sID = sID;
- 	this.type = type;
+ 	  this.type = type;
   }
 
   public static boolean isDeclared(String id, int depth, int dID, ArrayList <Symbol> symbolList)

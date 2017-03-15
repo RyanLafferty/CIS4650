@@ -51,3 +51,8 @@ void main(void)
         i = i + 1;
     }
 }
+
+
+int chris;
+
+int chris[5];

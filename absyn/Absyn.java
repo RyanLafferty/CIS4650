@@ -154,7 +154,11 @@ import java.util.*;
     spaces += SPACES;
     showTree(tree.type, spaces);
     showTree(tree.id, spaces);
-    table.add(new Symbol(depth, currentDID, tree.id,tree.type));
+    if(Symbol.isDeclared(tree.id, depth, currentDID, table)){
+      System.out.println("Error: redec of var");
+    } else {
+        table.add(new Symbol(depth, currentDID, tree.id,tree.type));
+    }
   }
 
    private void showTree( ArrayDec tree, int spaces ) {
@@ -165,6 +169,13 @@ import java.util.*;
     showTree(tree.type, spaces);
     showTree(tree.id, spaces);
     showTree(tree.number, spaces);
+
+    if(Symbol.isDeclared(tree.id, depth, currentDID, table)){
+      System.out.println("Error: redec of var");
+    } else {
+      table.add(new Symbol(depth, currentDID, tree.id, tree.type));
+    }
+
   }
    private void showTree( RegularVar tree, int spaces ) {
     indent( spaces );
