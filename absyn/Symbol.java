@@ -122,14 +122,12 @@ public class Symbol {
 
     for(i = 0; i < symbolList.size(); i++)
     {
-        //System.out.println(symbolList.get(i).sID);
         s = symbolList.get(i);
 
         //check depth
         if(depth > s.depth)
         {
             //all good
-            //System.out.println("depth greater, therefore declared");
             scopeTable.add(s);
         }
         else if(depth == s.depth)
@@ -137,19 +135,8 @@ public class Symbol {
             //compare depth id
             if(dID == s.dID)
             {
-                //System.out.println("depth equal, but matched dID, therefore declared");
                 scopeTable.add(s);
             }
-            else
-            {
-              //not found within context
-              //System.out.println("ERROR: dID did not match");
-            }
-        }
-        else
-        {
-            //not a match
-            //System.out.println("ERROR: Not Declared");
         }
       }
 
