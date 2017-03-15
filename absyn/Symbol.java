@@ -5,6 +5,9 @@ import java.util.*;
 
 public class Symbol {
 
+  public final static int INT  = TypeSpec.INT;
+  public final static int VOID  = TypeSpec.VOID;
+
   public int depth;
   public int dID;
   public String sID;
@@ -21,7 +24,7 @@ public class Symbol {
   {
     int i;
     Symbol s;
-    System.out.println("looking for: " + id + " at depth " + depth);
+    //System.out.println("looking for: " + id + " at depth " + depth);
     for(i = 0; i < symbolList.size(); i++)
     {
         //System.out.println(symbolList.get(i).sID);
@@ -41,7 +44,7 @@ public class Symbol {
                 //compare depth id
                 if(dID == s.dID)
                 {
-                    System.out.println("depth equal, but matched dID, therefore declared");
+                    //System.out.println("depth equal, but matched dID, therefore declared");
                     return true;
                 }
                 else
@@ -60,5 +63,53 @@ public class Symbol {
     }
 
     return false;
+  }
+
+  public static int getType(String id, int depth, int dID, ArrayList <Symbol> symbolList)
+  {
+    int i = 0;
+    Symbol s;
+
+    for(i = 0; i < symbolList.size(); i++)
+    {
+      s = symbolList.get(i);
+      //match identifier
+        if(s.sID.equals(id))
+        {
+            //check depth
+            if(depth > s.depth)
+            {
+                //return type
+                if(s.type.type == TypeSpec.INT)
+                {
+                  //System.out.println("int");
+                  return INT;
+                }
+                else if(s.type.type == TypeSpec.VOID)
+                {
+                  return VOID;
+                }
+            }
+            else if(depth == s.depth)
+            {
+                //compare depth id
+                if(dID == s.dID)
+                {
+                  //return type
+                  if(s.type.type == TypeSpec.INT)
+                  {
+                    //System.out.println("int");
+                    return INT;
+                  }
+                  else if(s.type.type == TypeSpec.VOID)
+                  {
+                    return VOID;
+                  }
+                }
+            }
+        }
+    }
+
+    return -1;
   }
 }
