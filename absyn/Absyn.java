@@ -283,7 +283,7 @@ import java.util.*;
     spaces += SPACES;
 
 
-    //type checking - todo
+    //type checking
     int typeL = -1;
     int typeR = -1;
     RegularVar var = null;
@@ -294,7 +294,10 @@ import java.util.*;
     }
     else
     {
-
+      if(tree.left instanceof IntExp)
+      {
+        typeL = Symbol.INT;
+      }
     }
     if(tree.right instanceof RegularVar)
     {
@@ -303,7 +306,10 @@ import java.util.*;
     }
     else
     {
-
+      if(tree.right instanceof IntExp)
+      {
+        typeR = Symbol.INT;
+      }
     }
 
     //check if types match
@@ -313,6 +319,11 @@ import java.util.*;
         System.out.println("int");
       else
         System.out.println("void");
+    }
+    else
+    {
+      //report error - todo
+      System.out.println("Type mismatch error");
     }
 
     showTree( tree.left, spaces );
