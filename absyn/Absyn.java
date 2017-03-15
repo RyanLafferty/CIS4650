@@ -270,6 +270,40 @@ import java.util.*;
         p.println("Unrecognized operator at line " + tree.pos);
     }
     spaces += SPACES;
+
+
+    //type checking - todo
+    int typeL = -1;
+    int typeR = -1;
+    RegularVar var = null;
+    if(tree.left instanceof RegularVar)
+    {
+      var = (RegularVar) tree.left;
+      typeL = Symbol.getType(var.name, depth, currentDID, table);
+    }
+    else
+    {
+
+    }
+    if(tree.right instanceof RegularVar)
+    {
+      var = (RegularVar) tree.right;
+      typeR = Symbol.getType(var.name, depth, currentDID, table);
+    }
+    else
+    {
+
+    }
+
+    //check if types match
+    if(typeL > -1 && typeR > -1 && typeL == typeR)
+    {
+      if(typeL == Symbol.INT)
+        System.out.println("int");
+      else
+        System.out.println("void");
+    }
+
     showTree( tree.left, spaces );
     showTree( tree.right, spaces ); 
   }
