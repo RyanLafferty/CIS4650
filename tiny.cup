@@ -216,7 +216,7 @@ param        ::= type_spec:s ID:i
 
 //10
 comp_stmt        ::= OPAREN:i local_decs:s1 stmt_list:s2 CPAREN
-                 {:
+                 {: 
                     RESULT = new CompStmt(ileft, s1, s2);
                  :}
                  | error

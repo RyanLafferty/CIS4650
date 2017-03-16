@@ -2,8 +2,8 @@ int chris;
 
 void suck(void) {
 	int i;
-    chris = 5;
-    i = 1;	
+    int test;
+    test = 5;
 }
 
 void chrisy(void) {
