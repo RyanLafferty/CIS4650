@@ -207,7 +207,7 @@ public class Symbol {
             s = symbolList.get(i);
             if(i == 0)
             {
-                System.out.println("==========\n depth = " + s.depth + "\n==========");
+                System.out.println("====================\n dID = " + key + ", depth = " + s.depth + "\n====================");
             }
             System.out.println(s.sID);
         }        
