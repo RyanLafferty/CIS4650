@@ -1,4 +1,4 @@
-int i;
+int t;
 
 void suck(void) {
 
@@ -10,7 +10,7 @@ void suck(void) {
 void chrisy(void) {
     int t;
     int i;
-
+    void y;
     i = 1 + 2;
     i = i + y;
     i = 1 + y;

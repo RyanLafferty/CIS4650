@@ -8,6 +8,7 @@ import java.util.*;
   public int depth = 0;
   public int currentDID = 0;
   public PrintWriter p;
+  public ArrayList<Symbol> globalList = new ArrayList<Symbol>();
   public ArrayList<Symbol> table = new ArrayList<Symbol>();
   public Hashtable<Integer,ArrayList<Symbol>> hash = new Hashtable<Integer,ArrayList<Symbol>>();
 
@@ -156,9 +157,10 @@ import java.util.*;
     spaces += SPACES;
     showTree(tree.type, spaces);
     showTree(tree.id, spaces);
-    if(Symbol.isDeclared(tree.id, depth, currentDID, table)){
+    if(Symbol.isDeclared2(tree.id, depth, currentDID, hash, globalList)){
       System.out.println("Error: redec of var");
     } else {
+        globalList.add(new Symbol(depth, currentDID, tree.id,tree.type));
         table.add(new Symbol(depth, currentDID, tree.id,tree.type));
     }
   }
@@ -172,9 +174,10 @@ import java.util.*;
     showTree(tree.id, spaces);
     showTree(tree.number, spaces);
 
-    if(Symbol.isDeclared(tree.id, depth, currentDID, table)){
+    if(Symbol.isDeclared2(tree.id, depth, currentDID, hash, globalList)){
       System.out.println("Error: redec of var");
     } else {
+      globalList.add(new Symbol(depth, currentDID, tree.id,tree.type));
       table.add(new Symbol(depth, currentDID, tree.id, tree.type));
     }
 
@@ -389,7 +392,7 @@ import java.util.*;
   }
 
  private void showTree( IterStmt tree, int spaces ) {
-    depth++;//NOTE: May not be necessary as var decs aren't in here
+    depth++;
     currentDID++;
     indent( spaces );
     //System.out.println( "IterStmt:" );
@@ -440,6 +443,7 @@ import java.util.*;
     for (int i = 0; i < table.size(); i++) {
       System.out.println(table.get(i).sID);
     }
+    hash.put(currentDID,Symbol.getCopy(table));
     table.clear();
     depth++;
     currentDID++;
@@ -453,7 +457,8 @@ import java.util.*;
     showTree( tree.plist, spaces );
     showTree( tree.cstmt, spaces );
     System.out.println("Printing scope:"+ tree.id);
-    hash.put(currentDID,table);
+
+    hash.put(currentDID,Symbol.getCopy(table));
 
     for (int i = 0; i < table.size(); i++) {
       System.out.println(table.get(i).sID);

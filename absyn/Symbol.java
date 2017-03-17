@@ -167,8 +167,11 @@ public class Symbol {
     //check current scope using the hash table O(1) + n lookup,
     //where n is the length of the list in the hash table
     symbolList = symbolTable.get(dID);
-    for(i = 0; i < symbolList.size(); i++)
+
+    if(symbolList != null)
     {
+      for(i = 0; i < symbolList.size(); i++)
+      {
         s = symbolList.get(i);
         //match identifier
         if(s.sID.equals(id))
@@ -176,13 +179,18 @@ public class Symbol {
             return true;
 
         }
+      }
     }
+    
 
     //if not found in table fall back to the global list with O(n) lookup,
     //where n is the number of symbols
     symbolList = globalSymbolList;
-    for(i = 0; i < symbolList.size(); i++)
+
+    if(symbolList != null)
     {
+      for(i = 0; i < symbolList.size(); i++)
+      { 
         s = symbolList.get(i);
         //match identifier
         if(s.sID.equals(id))
@@ -202,8 +210,9 @@ public class Symbol {
                 }
             }
         }
+      }
     }
-
+    
     return false;
   }
 
