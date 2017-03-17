@@ -2,6 +2,7 @@ package absyn;
 import java.io.*;
 import java.util.*;
 
+
  public class Absyn {
   public int pos;
   public int depth = 0;

@@ -142,4 +142,19 @@ public class Symbol {
 
     return scopeTable;
   }
+
+  public static ArrayList <Symbol> getCopy(ArrayList <Symbol> symbolList)
+  {
+    int i = 0;
+    Symbol s = null;
+    ArrayList <Symbol> list = new ArrayList <Symbol>();
+
+    for(i = 0; i < symbolList.size(); i++)
+    {
+        s = symbolList.get(i);
+        list.add(s);
+    }
+
+    return list;
+  }
 }
