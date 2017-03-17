@@ -1,11 +1,17 @@
-int w;
+int a;
 
 void suck(void) {
 
-	int t;
+	int s;
     int test;
-    test = 5;
+
+    if(t < 5)
+    {
+    	int ch;
+    	ch = 5;
+    }
 }
+
 int s;
 void chrisy(void) {
     int t;

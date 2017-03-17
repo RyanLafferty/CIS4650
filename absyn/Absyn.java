@@ -159,6 +159,7 @@ import java.util.*;
     showTree(tree.type, spaces);
     showTree(tree.id, spaces);
     if(Symbol.isDeclared2(tree.id, depth, currentDID, hash, globalList)){
+      indent( spaces );
       System.out.println("Error: redec of var");
     } else {
         globalList.add(new Symbol(depth, currentDID, tree.id,tree.type));
@@ -176,6 +177,7 @@ import java.util.*;
     showTree(tree.number, spaces);
 
     if(Symbol.isDeclared2(tree.id, depth, currentDID, hash, globalList)){
+      indent( spaces );
       System.out.println("Error: redec of var");
     } else {
       globalList.add(new Symbol(depth, currentDID, tree.id,tree.type));
@@ -441,9 +443,9 @@ import java.util.*;
   }
 
  private void showTree( FunDec tree, int spaces ) {
-    for (int i = 0; i < table.size(); i++) {
+    /*for (int i = 0; i < table.size(); i++) {
       System.out.println(table.get(i).sID);
-    }
+    }*/
     hash.put(currentDID,Symbol.getCopy(table));
     table.clear();
     depth++;
@@ -457,14 +459,11 @@ import java.util.*;
     showTree( tree.id, spaces );
     showTree( tree.plist, spaces );
     showTree( tree.cstmt, spaces );
-    System.out.println("Printing scope:"+ tree.id);
-
-    for (int i = 0; i < table.size(); i++) {
+    /*for (int i = 0; i < table.size(); i++) {
       System.out.println(table.get(i).sID);
-    }
+    }*/
     hash.put(currentDID,Symbol.getCopy(table));
     table.clear();
-    System.out.println(hash.values());
     currentDID++;
     depth--;
   }
