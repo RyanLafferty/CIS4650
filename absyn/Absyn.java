@@ -458,13 +458,13 @@ import java.util.*;
     showTree( tree.cstmt, spaces );
     System.out.println("Printing scope:"+ tree.id);
 
-    hash.put(currentDID,Symbol.getCopy(table));
-
     for (int i = 0; i < table.size(); i++) {
       System.out.println(table.get(i).sID);
     }
-    //table.clear();
+    hash.put(currentDID,Symbol.getCopy(table));
+    table.clear();
     System.out.println(hash.values());
+    currentDID++;
     depth--;
   }
 

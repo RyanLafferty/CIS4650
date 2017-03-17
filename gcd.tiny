@@ -1,12 +1,12 @@
-int t;
+int w;
 
 void suck(void) {
 
-	int i;
+	int t;
     int test;
     test = 5;
 }
-
+int s;
 void chrisy(void) {
     int t;
     int i;
