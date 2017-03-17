@@ -8,6 +8,7 @@ import java.util.*;
   public int currentDID = 0;
   public PrintWriter p;
   public ArrayList<Symbol> table = new ArrayList<Symbol>();
+  public Hashtable<Integer,ArrayList<Symbol>> hash = new Hashtable<Integer,ArrayList<Symbol>>();
 
   final  int SPACES = 4;
 
@@ -387,7 +388,7 @@ import java.util.*;
   }
 
  private void showTree( IterStmt tree, int spaces ) {
-    depth++;
+    depth++;//NOTE: May not be necessary as var decs aren't in here
     currentDID++;
     indent( spaces );
     //System.out.println( "IterStmt:" );
@@ -435,6 +436,10 @@ import java.util.*;
   }
 
  private void showTree( FunDec tree, int spaces ) {
+    for (int i = 0; i < table.size(); i++) {
+      System.out.println(table.get(i).sID);
+    }
+    table.clear();
     depth++;
     currentDID++;
     indent( spaces );
@@ -446,6 +451,14 @@ import java.util.*;
     showTree( tree.id, spaces );
     showTree( tree.plist, spaces );
     showTree( tree.cstmt, spaces );
+    System.out.println("Printing scope:"+ tree.id);
+    hash.put(currentDID,table);
+
+    for (int i = 0; i < table.size(); i++) {
+      System.out.println(table.get(i).sID);
+    }
+    //table.clear();
+    System.out.println(hash.values());
     depth--;
   }
 
