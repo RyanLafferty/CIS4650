@@ -158,7 +158,7 @@ public class Symbol {
     return list;
   }
 
-  public static boolean isDeclared(String id, int depth, int dID, Hashtable <Integer, ArrayList <Symbol>> symbolTable, ArrayList <Symbol> globalSymbolList)
+  public static boolean isDeclared2(String id, int depth, int dID, Hashtable <Integer, ArrayList <Symbol>> symbolTable, ArrayList <Symbol> globalSymbolList)
   {
     int i;
     Symbol s = null;
@@ -208,5 +208,5 @@ public class Symbol {
   }
 
 
-  
+
 }
