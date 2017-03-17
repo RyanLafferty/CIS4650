@@ -48,7 +48,8 @@ import java.util.*;
     while( tree != null ) {
       showTree( tree.head, spaces );
       tree = tree.tail;
-    } 
+    }
+    Symbol.dumpTable(hash); 
   }
 
    private void showTree( Exp tree, int spaces ) {

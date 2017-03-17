@@ -113,6 +113,7 @@ public class Symbol {
     return -1;
   }
 
+
   public static ArrayList <Symbol> returnScopeTable(int depth, int dID, ArrayList <Symbol> symbolList)
   {
     int i = 0;
@@ -156,6 +157,33 @@ public class Symbol {
     }
 
     return list;
+  }
+
+  public static void dumpTable(Hashtable <Integer, ArrayList <Symbol>> symbolTable)
+  {
+    int i = 0;
+    int key = 0;
+    Symbol s = null;
+    ArrayList <Symbol> symbolList = null;
+    Enumeration <Integer> enumKey = symbolTable.keys();
+    
+    System.out.println("\n\n***********************************************");
+    System.out.println("Hashtable: ");
+
+    while(enumKey.hasMoreElements()) 
+    {
+        key = enumKey.nextElement();
+        symbolList = symbolTable.get(key);
+        
+        System.out.println("==========\n dID = " + key + "\n==========");
+        for(i = 0; i < symbolList.size(); i++)
+        {
+            s = symbolList.get(i);
+            System.out.println(s.sID);
+        }        
+    }
+
+    System.out.println("***********************************************");
   }
 
   public static boolean isDeclared2(String id, int depth, int dID, Hashtable <Integer, ArrayList <Symbol>> symbolTable, ArrayList <Symbol> globalSymbolList)
