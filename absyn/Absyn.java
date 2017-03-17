@@ -49,7 +49,7 @@ import java.util.*;
       showTree( tree.head, spaces );
       tree = tree.tail;
     }
-    Symbol.dumpTable(hash); 
+    Symbol.dumpOrganizedTable(hash); 
   }
 
    private void showTree( Exp tree, int spaces ) {

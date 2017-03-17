@@ -186,6 +186,36 @@ public class Symbol {
     System.out.println("***********************************************");
   }
 
+    public static void dumpOrganizedTable(Hashtable <Integer, ArrayList <Symbol>> symbolTable)
+  {
+    int i = 0;
+    int key = 0;
+    Symbol s = null;
+    ArrayList <Symbol> symbolList = null;
+    Enumeration <Integer> enumKey = symbolTable.keys();
+    
+    System.out.println("\n\n***********************************************");
+    System.out.println("Hashtable: ");
+
+    while(enumKey.hasMoreElements()) 
+    {
+        key = enumKey.nextElement();
+        symbolList = symbolTable.get(key);
+        
+        for(i = 0; i < symbolList.size(); i++)
+        {
+            s = symbolList.get(i);
+            if(i == 0)
+            {
+                System.out.println("==========\n depth = " + s.depth + "\n==========");
+            }
+            System.out.println(s.sID);
+        }        
+    }
+
+    System.out.println("***********************************************");
+  }
+
   public static boolean isDeclared2(String id, int depth, int dID, Hashtable <Integer, ArrayList <Symbol>> symbolTable, ArrayList <Symbol> globalSymbolList)
   {
     int i;
