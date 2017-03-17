@@ -138,7 +138,7 @@ public class Symbol {
                 scopeTable.add(s);
             }
         }
-      }
+    }
 
     return scopeTable;
   }
@@ -157,4 +157,56 @@ public class Symbol {
 
     return list;
   }
+
+  public static boolean isDeclared2(String id, int depth, int dID, Hashtable <Integer, ArrayList <Symbol>> symbolTable, ArrayList <Symbol> globalSymbolList)
+  {
+    int i;
+    Symbol s = null;
+    ArrayList <Symbol> symbolList = null;
+
+    //check current scope using the hash table O(1) + n lookup,
+    //where n is the length of the list in the hash table
+    symbolList = symbolTable.get(dID);
+    for(i = 0; i < symbolList.size(); i++)
+    {
+        s = symbolList.get(i);
+        //match identifier
+        if(s.sID.equals(id))
+        {
+            return true;
+
+        }
+    }
+
+    //if not found in table fall back to the global list with O(n) lookup,
+    //where n is the number of symbols
+    symbolList = globalSymbolList;
+    for(i = 0; i < symbolList.size(); i++)
+    {
+        s = symbolList.get(i);
+        //match identifier
+        if(s.sID.equals(id))
+        {
+            //check depth
+            if(depth > s.depth)
+            {
+                //all good
+                return true;
+            }
+            else if(depth == s.depth)
+            {
+                //compare depth id
+                if(dID == s.dID)
+                {
+                    return true;
+                }
+            }
+        }
+    }
+
+    return false;
+  }
+
+
+
 }
