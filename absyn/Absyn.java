@@ -323,6 +323,7 @@ import java.util.*;
     //check if types match
     if(typeL > -1 && typeR > -1 && typeL == typeR)
     {
+      indent( spaces );
       if(typeL == Symbol.INT)
         System.out.println("int");
       else
@@ -331,6 +332,7 @@ import java.util.*;
     else
     {
       //report error - todo
+      indent( spaces );
       System.out.println("Type mismatch error");
     }
 
@@ -398,8 +400,8 @@ import java.util.*;
     depth++;
     currentDID++;
     indent( spaces );
-    //System.out.println( "IterStmt:" );
-    System.out.println(depth +  ":IterStmt:" );
+    System.out.println( "IterStmt:" );
+    //System.out.println(depth +  ":IterStmt:" );
     p.println("IterStmt:");
     spaces += SPACES;
     showTree( tree.expression, spaces );
@@ -411,8 +413,8 @@ import java.util.*;
     depth++;
     currentDID++;
     indent( spaces );
-    //System.out.println( "SeleStmt:" );
-    System.out.println(depth + "SeleStmt:" );
+    System.out.println( "SeleStmt:" );
+    //System.out.println(depth + "SeleStmt:" );
     p.println("SeleStmt:");
     spaces += SPACES;
     if(tree.type == SeleStmt.IF)
@@ -451,8 +453,8 @@ import java.util.*;
     depth++;
     currentDID++;
     indent( spaces );
-    //System.out.println( "FunDec:" );
-    System.out.println(depth + ":FunDec:" );
+    System.out.println( "FunDec:" );
+    //System.out.println(depth + ":FunDec:" );
     p.println("FunDec:");
     spaces += SPACES;
     showTree( tree.type, spaces );
