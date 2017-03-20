@@ -1,11 +1,26 @@
-{ Sample program in Tiny language - compute factorial }
+int a;
 
-read x; { input an integer }
-if x > 0 then { don't compute if x <= 0 }
-  fact := 1;
-  repeat 
-    fact := fact * x;
-    x := x - 1
-  until x = 0;
-  write fact { output factorial of x }
-end
+int suck(int testt, int b) {
+	int s;
+    int test;
+
+    if(t < 5)
+    {  
+    	int ch;
+    	ch = 5;
+    }
+    z = 5;
+    s[1] = 2;
+    return 5;
+}
+
+int s;
+void chrisy(void) {
+    int t;
+    int i;
+    void y;
+    i = 1 + 2;
+    i = i + y;
+    i = 1 + y;
+    suck(t, i);
+}

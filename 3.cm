@@ -1,0 +1,9 @@
+/*This file will demonstrate arithmetic errors*/
+
+
+void add(int a, int b) {
+	
+	a = 4 * 9; /*Valid*/
+
+	b= 4 * * 9 / () 2 = *; /*Invalid*/
+}

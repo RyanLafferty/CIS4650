@@ -1,8 +1,0 @@
-SCANNER
-=======
-
-PARSER
-======
-
-ERRORS
-======

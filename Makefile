@@ -19,11 +19,34 @@ Lexer.java: tiny.flex
 parser.java: tiny.cup
 	$(CUP) -dump -expect 3 tiny.cup
 
-test:
-	$(CUP) < tiny.cup
+cup:
+	$(CUP) < tiny.cup > out.txt
 
 run:
-	java $(CLASSPATH) Main gcd.tiny
+	java $(CLASSPATH) Main gcd.tiny -a 
+
+play:
+	java $(CLASSPATH) Main chris.tiny
 
 clean:
 	rm -f parser.java Lexer.java sym.java *.class absyn/*.class *~
+	rm -f *.abs
+test: clean all run
+
+test1:
+	java $(CLASSPATH) Main 1.cm -a
+
+test2:
+	java $(CLASSPATH) Main 2.cm -a
+
+test3:
+	java $(CLASSPATH) Main 3.cm -a
+
+test4:
+	java $(CLASSPATH) Main 4.cm -a
+
+test5:
+	java $(CLASSPATH) Main 5.cm -a
+
+test6:
+	java $(CLASSPATH) Main gcd.cm -a	

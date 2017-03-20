@@ -1,22 +1,50 @@
-A JFlex+Cup implementation for the Tiny language.
+/*Name: Ryan Lafferty & Chris Katsaras
+ID: 0853370, 0795555
+Date: 3/6/2017
+PC 1*/
 
-  Note that you need to modify the classpath in the Makefile so that it
-will point to the directory where "java_cup" is located.  In my own setting,
-classpath is /usr/share/java/cup.jar.
+************
+Compilation
+************
+The program was compiled using a Makefile in the root directory.
+Type "make" to compile the program.
 
-  To build the parser, type "make" in the current directory, which will 
-generate an executable program called "tiny".
+***********************
+Running the program(s)
+***********************
+java -classpath java-cup-11b.jar Main <filename> -a 
+or modify the make run command / type make test1..5 to test 1..5.cm files 
 
-  To test source code like "gcd.tiny", type 
 
-    "java -classpath /usr/share/java/cup.jar:. Main gcd.tiny" 
+*************************
+Limitations & Assumptions 
+*************************
 
-and the syntax tree will be displayed on the screen.
 
-  To rebuild the parser, type "make clean" and type "make" again.
+Similar to C, unbalanced parenthesis can cause undetectable errors. For instance: 
 
-  Also note that all the abstract syntax tree structures are defined under
-the directory "absyn" and within "Absyn.java" class, the showTree function
-is implemented.  In addition, since some java files are generated automatically,
-they may contain variables that are not used, which are safe to ignore in
-the compilation process.
+int main (void) {
+	}{
+}
+
+Will cause undetectable errors due to the fact that the opening brace doesn’t know which closing brace to match with.
+For this reason, we assume that these kind of unbalanced parenthesis issues will not be introduced into any .cm files that are tested by our teaching assistant Dave Wickland. If for any reason he decides to test this scenario, our implementation will give undesirable output. 
+
+Subsequent errors will possibly lead to globbed together error statements because of the level that errors are evaluated at.
+
+e.g
+
+rick
+
+adads 
+----
+
+
+(Q)(#$)(!@#)$
+
+
+
+***********
+Sources
+***********
+

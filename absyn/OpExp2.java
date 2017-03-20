@@ -1,6 +1,6 @@
 package absyn;
 
-public class OpExp extends Exp {
+public class OpExp2 extends Dec {
   public final static int PLUS  = 0;
   public final static int MINUS = 1;
   public final static int STAR = 2;
@@ -12,10 +12,10 @@ public class OpExp extends Exp {
   public final static int GTE    = 8;
   public final static int NE    = 9;
 
-  public Exp left;
+  public Dec left;
   public int op;
-  public Exp right;
-  public OpExp( int pos, Exp left, int op, Exp right ) {
+  public Dec right;
+  public OpExp2( int pos, Dec left, int op, Dec right ) {
     this.pos = pos;
     this.left = left;
     this.op = op;

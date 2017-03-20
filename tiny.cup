@@ -10,11 +10,14 @@
 /* Import the class java_cup.runtime.*  */
 //import java_cup.runtime.*;
 import absyn.*;
+import java.io.*;
    
 /* Parser code to change the way the parser reports errors (include
    line and column number of the error). */
 parser code {:
-    
+    public static boolean abs;
+    public PrintWriter out;
+    public Absyn ab = new Absyn();
     /* Change the method report_error so it will display the line and
        column of where the error occurred in the input as well as the
        reason for the error which is passed into the method in the
@@ -54,6 +57,7 @@ parser code {:
         /* Print the contents of the StringBuffer 'm', which contains
            an error message, out on a line. */
         System.err.println(m);
+        out.println(m);
     }
    
     /* Change the method report_fatal_error so when it reports a fatal
@@ -72,260 +76,315 @@ parser code {:
 terminal ELSE, IF, INT, RETURN, VOID, WHILE;
 terminal PLUS, MINUS, STAR, SLASH, LT, LTE, GT, GTE, EQ, NE, ASSIGN, SEMI, COMMA;
 terminal OBRACE, CBRACE, OBRACK, CBRACK, OPAREN, CPAREN, OCOMMENT, CCOMMENT;
-terminal String ID, NUM;
-
-   
-terminal THEN, END, REPEAT, UNTIL, READ, WRITE;
+terminal String ID, NUM;   
 terminal ERROR;
 
-non terminal dec_list, params, param_list, stmt_list, local_decs, arg_list;
-non terminal dec, var_dec, fun_dec, type_spec, param, comp_stmt, empty, var;
-non terminal expr_stmt, sele_stmt, iter_stmt, ret_stmt, expr, sim_expr;  
-non terminal add_expr, relop, addop, mulop, call, args; 
-non terminal ExpList program;
-non terminal Exp stmt, term, factor;
+non terminal DecList program;
+//non terminal VarDec program;
+//non terminal DecList program;
+non terminal Integer relop, mulop, addop;
 
-non terminal ExpList stmt_seq;
-non terminal Exp if_stmt, repeat_stmt, assign_stmt, read_stmt, write_stmt;
-non terminal Exp exp, simple_exp;  
+non terminal DecList param_list, params;
+non terminal DecList dec_list, arg_list, local_decs, stmt_list;
+non terminal Dec dec, fun_dec, expr, expr_stmt, sele_stmt, iter_stmt;
+non terminal Dec stmt, term, factor, ret_stmt, add_expr, sim_expr, comp_stmt;
+non terminal Dec call, args;
+
+non terminal TypeSpec type_spec;
+non terminal VarDec var, var_dec, param;
+//non terminal Var var;
+
+precedence left NUM, ID ,OBRACE, CBRACE;
+precedence left ID ,OBRACK, CBRACK;
+precedence left OPAREN, CPAREN;
+precedence left IF, ELSE;
+
+
 
 /* ----------------------------Grammar Section-------------------- */
-   
-program	     ::= stmt_seq:s
-                 {: RESULT = s;
-                    System.out.println( "The abstract syntax tree is:" );
-                    Absyn.showTree( RESULT, 0 );
-                 :}
-               ;
-/*
 //1
 program      ::= dec_list:s
                  {: RESULT = s;
-                    System.out.println( "The abstract syntax tree is:" );
-                    Absyn.showTree( RESULT, 0 );
+                    
+                    if(parser.abs == true) {
+                        System.out.println("\n\n===\nAST\n===\n");
+                        parser.out.println("\n\n===\nAST\n===\n");
+                        System.out.println( "The abstract syntax tree is:" );
+                        parser.ab.showTree( RESULT, 0, parser.out );
+                    }
+
+                    
                  :}
                ;
-*/
 //2
 dec_list     ::= dec_list:s1 dec:s2
                  {: 
-
+                    DecList t = s1;
+                    while( t.tail != null )
+                      t = t.tail;
+                    t.tail = new DecList(s2, null);
+                    RESULT = s1;
                  :}
                | dec:s
                  {: 
-
+                   RESULT = new DecList(s, null); 
                  :}
                ;
 //3
 dec         ::= var_dec:s
                  {:
-
+                    RESULT = s;
                  :}
-               | fun_dec
+                | fun_dec:s
                  {: 
-
+                    RESULT = s;
+                 :}
+                 | error
+                 {: parser.report_error("Not a valid decleration", null); 
+                    RESULT = new Nil("Dec Error");
                  :}
                ;
 //4
-var_dec         ::= type_spec:s ID SEMI
+var_dec         ::= type_spec:s ID:i SEMI
                  {:
-
+                    RESULT = new RegularDec(sleft,s,i);
                  :}
-               | type_spec:s ID SEMI
+               | type_spec:s ID:i OBRACK NUM:n CBRACK SEMI
                  {: 
-
-                 :}
-               | type_spec:s ID OBRACK NUM CBRACK SEMI
-                 {: 
-
+                    RESULT = new ArrayDec(sleft,s,i, new IntExp(nleft,n));
                  :}
                ;
 //5
-type_spec        ::= INT
-                 {:
-
-                 :}
-                 | VOID
+type_spec        ::= INT:i
                  {: 
-
+                    RESULT = new TypeSpec(ileft,TypeSpec.INT);
+                 :}
+                 | VOID:i
+                 {: 
+                    RESULT = new TypeSpec(ileft,TypeSpec.VOID);
                  :}
                ;
 
 //6
-fun_dec        ::= type_spec:s1 ID OBRACE params:s2 CBRACE comp_stmt:s3
+fun_dec        ::= type_spec:s1 ID:i OBRACE params:s2 CBRACE comp_stmt:s3
                  {:
-
+                    RESULT = new FunDec(s1left, s1, i, s2, s3);
                  :}
                ;
 
 //7
 params        ::= param_list:s
                  {:
-
+                    RESULT = s;
                  :}
                  | VOID
                  {: 
-
+                    RESULT = null;
+                    //????
+                 :}
+                 | error
+                 {: parser.report_error("Not a valid parameter", null); 
+                    
+                    RESULT = new DecList(new Nil("Param Error"), null); 
                  :}
                ;
 
 //8
 param_list        ::= param_list:s1 COMMA param:s2
                  {:
-
+                    DecList t = s1;
+                    while( t.tail != null )
+                      t = t.tail;
+                    t.tail = new DecList(s2, null);
+                    RESULT = s1;
                  :}
                  | param:s
                  {: 
-
+                    RESULT = new DecList(s, null); 
                  :}
                ;
 
 //9
-param        ::= type_spec:s ID
+param        ::= type_spec:s ID:i
                  {:
-
+                    RESULT = new RegularDec(sleft,s,i);
                  :}
-                 | type_spec:s ID OBRACK CBRACK
+                 | type_spec:s ID:i OBRACK CBRACK
                  {: 
-
+                    RESULT = new RegularDec(sleft,s,i);
                  :}
                ;
 
 //10
-comp_stmt        ::= OBRACE local_decs:s1 stmt_list:s2 CBRACE
-                 {:
-
+comp_stmt        ::= OPAREN:i local_decs:s1 stmt_list:s2 CPAREN
+                 {: 
+                    RESULT = new CompStmt(ileft, s1, s2);
+                 :}
+                 | error
+                 {: 
+                    parser.report_error("Not a valid comp statements", null); 
+                    RESULT = new Nil("Comp error");
                  :}
                ;
 
 //11
 local_decs        ::= local_decs:s1 var_dec:s2
                  {:
-
+                    DecList t = s1;
+                    while( t.tail != null )
+                      t = t.tail;
+                    t.tail = new DecList(s2, null);
+                    RESULT = s1;
+                 :}
+                 |
+                 var_dec:s2
+                 {:
+                    RESULT = new DecList(s2, null);
                  :}
                  | 
                  {: 
-
+                    //???
+                    RESULT = null;
                  :}
                ;
+
 //12
 stmt_list        ::= stmt_list:s1 stmt:s2
-                 {:
-
+                 {: DecList t = s1;
+                    while( t.tail != null )
+                      t = t.tail;
+                    t.tail = new DecList(s2, null);
+                    RESULT = s1;
                  :}
-                 | 
-                 {: 
-
+                  | stmt:s
+                 {: RESULT = new DecList(s, null); 
                  :}
+                  /*| error:
+                 {: parser.report_error("invalid", null); 
+                    RESULT = new DecList(s, null); 
+                 :}*/
                ;
-//13
-/*stmt        ::= expr_stmt:s
-                 {:
 
+
+//13
+stmt        ::= expr_stmt:s
+                 {:
+                    RESULT = s;
                  :}
                  | comp_stmt:s
                  {: 
-
+                   RESULT = s;
                  :}
                  | sele_stmt:s
                  {: 
-
+                    RESULT = s;
                  :}
                  | iter_stmt:s
                  {: 
-
+                    RESULT = s;
                  :}
                  | ret_stmt:s
                  {: 
-
+                    RESULT = s;
                  :}
-               ;*/
+                 | error
+                 {: parser.report_error("Not a valid statement", null); 
+                    RESULT = new Nil("Statement Error");
+                 :}
+               ;
+
 //14
-expr_stmt        ::= expr SEMI
+expr_stmt        ::= expr:i SEMI
                  {:
-
+                    RESULT = new ExprStmt(ileft,i);
                  :}
-                 |  SEMI
+                 |  SEMI:i
                  {:
-
+                    RESULT = new ExprStmt(ileft,null);
                  :}
                ;
 //15
-expr_stmt        ::= expr SEMI
+sele_stmt        ::= IF:i OBRACE expr:s1 CBRACE stmt:s2
                  {:
-
+                    RESULT = new SeleStmt(ileft, s1, s2, SeleStmt.IF);
+                 :}
+                 | IF:i OBRACE expr:s1 CBRACE stmt:s2 ELSE stmt:s3
+                 {:
+                    RESULT = new SeleStmt(ileft, s1, s2, s3, SeleStmt.ELSE);
                  :}
                  ;
-//16
-iter_stmt        ::= WHILE OBRACE expr:s1 CBRACE stmt:s2
-                 {:
 
+//16 
+iter_stmt        ::= WHILE:i OBRACE expr:s1 CBRACE stmt:s2
+                 {:
+                    RESULT = new IterStmt(ileft, s1, s2);
                  :}
                  ;
 //17
-ret_stmt        ::= RETURN SEMI
-                 {:
-
+ret_stmt        ::= RETURN:i SEMI
+                 {: 
+                    RESULT = new ReturnStmt(ileft,null);
                  :}
-                 | RETURN expr:s SEMI
+                 | RETURN:i expr:s SEMI
                  {:
-
+                    RESULT = new ReturnStmt(ileft,s);
                  :}
                  ;
-//18
+//18 
 expr        ::= var:s1 ASSIGN expr:s2
                  {:
-
+                    RESULT = new Expr(s1left, s1, s2);
                  :}
                  | sim_expr:s
                  {:
-
+                    RESULT = new SimpleExpr(sleft, s);
                  :}
                  ;
 //19
-var        ::= ID
+var        ::= ID:i
                  {:
-
+                    RESULT = new RegularVar(ileft,i);
                  :}
-                 | ID OBRACK expr:s CBRACK
+                 | ID:i OBRACK expr:s CBRACK
                  {:
-
+                    RESULT = new ArrayVar(ileft,i,s); 
                  :}
                  ;
 //20
 sim_expr        ::= add_expr:s1 relop:s2 add_expr:s3
                  {:
-
+                    RESULT = new OpExp2(s1left,s1,s2,s3);
                  :}
-                 | add_expr:s1
+                 | add_expr:s
                  {:
-
+                    RESULT = s;
                  :}
                  ;
+
 //21
 relop        ::= LTE
                  {:
-
+                    RESULT = new Integer(7);
                  :}
                  | LT
                  {:
-
+                    RESULT = new Integer(5);
                  :}
                  | GT
                  {:
-
+                    RESULT = new Integer(6);
                  :}
                  | GTE
                  {:
-
+                    RESULT = new Integer(8);
                  :}
                  | EQ
                  {:
-
+                    RESULT = new Integer(4);
                  :}
                  | NE
                  {:
-
+                    RESULT = new Integer(9);
                  :}
                  ;
 
@@ -333,178 +392,99 @@ relop        ::= LTE
 //22
 add_expr        ::= add_expr:s1 addop:s2 term:s3
                  {:
-
+                    RESULT = new OpExp2(s1left,s1,s2,s3);
                  :}
-                 | term
+                 | term:s
                  {:
-
+                    RESULT = s;
                  :}
                  ;
 //23
-addop        ::= PLUS
+addop        ::= PLUS:i
                  {:
-
+                    RESULT = new Integer(0);
                  :}
-                 | MINUS
+                 | MINUS:i
                  {:
-
+                    RESULT = new Integer(1);
                  :}
                  ;
 
 //24
-/*
 term        ::= term:s1 mulop:s2 factor:s3
                  {:
-
+                    RESULT = new OpExp2(s1left,s1,s2,s3);
                  :}
                  | factor:s
                  {:
-
+                    RESULT = s;
                  :}
                  ;
-*/
+                 
+
 //25
-
-mulop        ::= STAR
+mulop        ::= STAR:i
                  {:
-
+                    RESULT = new Integer(2);
                  :}
-                 | SLASH
+                 | SLASH:i
                  {:
-
+                    RESULT = new Integer(3);
                  :}
                  ;
 
 //26
-/*
 factor        ::= OBRACE expr:s1 CBRACE
                  {:
-
+                    RESULT = s1;
                  :}
-                 | var
+                 | var:v
                  {:
-
+                    //RESULT = new RegularVar(vleft, v);
+                    RESULT = v;
                  :}
-                 | call
+                 | call:c
                  {:
-
+                    RESULT = c;
                  :}
-                 | NUM
+                 | NUM:n
                  {:
-
+                    RESULT = new IntExp(nleft,n);
                  :}
                  ;
-*/
+
+
 //27
-
-call        ::= ID OBRACE args:s CBRACE
+call        ::= ID:i OBRACE args:s CBRACE
                  {:
-
+                    RESULT = new Call(ileft, i, s);
                  :}
                  ;
 //28
 args        ::= arg_list:s
                  {:
-
+                    RESULT = new Args(sleft, s);
                  :}
                  | 
                  {:
-
+                    //???
+                    RESULT = null;
                  :}
                  ;
 //29
 arg_list        ::= arg_list:s1 COMMA expr:s2
                  {:
-
+                    DecList t = s1;
+                    while( t.tail != null )
+                      t = t.tail;
+                    t.tail = new DecList(s2, null);
+                    RESULT = s1;
                  :}
                  | expr:s
                  {:
-
+                    RESULT = new DecList(s, null);
                  :}
                  ;
 
+             
 
-
-
-stmt_seq     ::= stmt_seq:s1 SEMI stmt:s2 
-                 {: ExpList t = s1;
-                    while( t.tail != null )
-                      t = t.tail;
-                    t.tail = new ExpList(s2, null);
-                    RESULT = s1;
-                 :}
-               | stmt:s
-                 {: RESULT = new ExpList(s, null); :}
-               | error SEMI stmt:s
-                 {: parser.report_error("invalid", null); 
-                    RESULT = new ExpList(s, null); 
-                 :}
-               ;
-
-stmt         ::= if_stmt:i
-                 {: RESULT = i; :}
-               | repeat_stmt:r
-                 {: RESULT = r; :}
-               | assign_stmt:a
-                 {: RESULT = a; :}
-               | read_stmt:r
-                 {: RESULT = r; :}
-               | write_stmt:w
-                 {: RESULT = w; :}
-               ;
-
-if_stmt      ::= IF:i exp:e THEN stmt_seq:s END
-                 {: RESULT = new IfExp(ileft, e, s, null); :}
-               | IF:i exp:e THEN stmt_seq:s1 ELSE stmt_seq:s2 END
-                 {: RESULT = new IfExp(ileft, e, s1, s2); :}
-               ;
-
-repeat_stmt  ::= REPEAT:r stmt_seq:s UNTIL exp:e
-                 {: RESULT = new RepeatExp(rleft, s, e); :}
-               ;
-
-assign_stmt  ::= ID:i ASSIGN exp:e
-                 {: RESULT = new AssignExp(ileft, new VarExp(ileft, i), e); :} 
-               ;
-
-read_stmt    ::= READ:r ID:i
-                 {: RESULT = new ReadExp(rleft, new VarExp(rleft, i)); :}
-               ;
-
-write_stmt   ::= WRITE:w exp:e
-                 {: RESULT = new WriteExp(wleft, e); :}
-               ;
-
-exp          ::= simple_exp:s1 LT simple_exp:s2
-                 {: RESULT = new OpExp(s1left, s1, OpExp.LT, s2); :}
-               | simple_exp:s1 GT simple_exp:s2
-                 {: RESULT = new OpExp(s1left, s1, OpExp.GT, s2); :}
-               | simple_exp:s1 EQ simple_exp:s2
-                 {: RESULT = new OpExp(s1left, s1, OpExp.EQ, s2); :}
-               | simple_exp:s
-                 {: RESULT = s; :}
-               ;
-
-simple_exp   ::= simple_exp:s PLUS term:t
-                 {: RESULT = new OpExp(sleft, s, OpExp.PLUS, t); :}
-               | simple_exp:s MINUS term:t
-                 {: RESULT = new OpExp(sleft, s, OpExp.MINUS, t); :}
-               | term:t
-                 {: RESULT = t; :}
-               ;
-
-term         ::= term:t STAR factor:f
-                 {: RESULT = new OpExp(tleft, t, OpExp.STAR, f); :}
-               | term:t SLASH factor:f
-                 {: RESULT = new OpExp(tleft, t, OpExp.SLASH, f); :}
-               | factor:f
-                 {: RESULT = f; :}
-               ;
-
-factor       ::= OPAREN exp:e CPAREN
-                 {: RESULT = e; :}
-               | NUM:n
-                 {: RESULT = new IntExp(nleft, n); :}
-               | ID:i
-                 {: RESULT = new VarExp(ileft, i); :}
-               ;

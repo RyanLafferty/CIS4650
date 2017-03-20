@@ -109,33 +109,26 @@ identifier = {letter}+
 "<="               { return symbol(sym.LTE); }
 ">"                { return symbol(sym.GT); }
 ">="               { return symbol(sym.GTE); }
-"="                { return symbol(sym.EQ); }
-//"=="               { return symbol(sym.EQ); }
+//"="                { return symbol(sym.EQ); }
+"=="               { return symbol(sym.EQ); }
 "!="               { return symbol(sym.NE); }
-":="               { return symbol(sym.ASSIGN); }
-//"="                { return symbol(sym.ASSIGN); }
+//":="               { return symbol(sym.ASSIGN); }
+"="                { return symbol(sym.ASSIGN); }
 ";"                { return symbol(sym.SEMI); }
 ","                { return symbol(sym.COMMA); }
-"("                { return symbol(sym.OPAREN); }
-")"                { return symbol(sym.CPAREN); }
-//"("                { return symbol(sym.OBRACE); }
-//")"                { return symbol(sym.CBRACE); }
+"("                { return symbol(sym.OBRACE); }
+")"                { return symbol(sym.CBRACE); }
 "["                { return symbol(sym.OBRACK); }
 "]"                { return symbol(sym.CBRACK); }
 "{"                { return symbol(sym.OPAREN); }
 "}"                { return symbol(sym.CPAREN); }
 
 
-"then"             { return symbol(sym.THEN); }
-"end"              { return symbol(sym.END); }
-"repeat"           { return symbol(sym.REPEAT); }
-"until"            { return symbol(sym.UNTIL); }
-"read"             { return symbol(sym.READ); }
-"write"            { return symbol(sym.WRITE); }
 
 
 {number}           { return symbol(sym.NUM, yytext()); }
 {identifier}       { return symbol(sym.ID, yytext()); }
 {WhiteSpace}*      { /* skip whitespace */ }   
-"{"[^\}]*"}"       { /* skip comments */ }
+//"{"[^\}]*"}"       { /* skip comments */ }
+"/*"[^(*/)]*"*/"       { /* skip comments */ } //there are issues with the way that this is written
 .                  { return symbol(sym.ERROR); }

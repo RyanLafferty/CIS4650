@@ -13,17 +13,53 @@
    
 import java.io.*;
    
+
 class Main {
-  static public void main(String argv[]) {    
-    /* Start the parser */
+   public PrintWriter out = null;
+   public Boolean abs = false;
+
+   public Main()
+   {
+
+   }
+
+  public void run(String argv[])
+  {
     try {
+      if(argv.length == 2) {
+        if(argv[1].equals("-a")) {
+          abs = true;
+          String name = argv[0].substring(0, argv[0].lastIndexOf('.'));
+
+          try {
+            out = new PrintWriter(name+".abs");
+            System.out.println("======\nErrors\n=====\n");
+            out.println("======\nErrors\n======\n");
+          } catch (Exception e) {
+
+          }
+        }
+      }
       parser p = new parser(new Lexer(new FileReader(argv[0])));
-      Object result = p.parse().value;      
+      p.abs = abs;
+      p.out = out;
+      Object result = p.parse().value;
+
     } catch (Exception e) {
       /* do cleanup here -- possibly rethrow e */
       e.printStackTrace();
     }
+
+    if(out != null){
+      out.close();
+    }
   }
+
+  static public void main(String argv[]) {    
+    Main m = new Main();
+    m.run(argv);
+    
+  } 
 }
 
 

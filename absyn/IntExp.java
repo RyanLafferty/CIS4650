@@ -1,6 +1,6 @@
 package absyn;
 
-public class IntExp extends Exp {
+public class IntExp extends Dec {
   public String value;
   public IntExp( int pos, String value ) {
     this.pos = pos;
