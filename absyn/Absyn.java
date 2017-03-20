@@ -12,6 +12,7 @@ import java.util.*;
   public ArrayList<Symbol> globalList = new ArrayList<Symbol>();
   public ArrayList<Symbol> table = new ArrayList<Symbol>();
   public ArrayList<Symbol> argList = new ArrayList<Symbol>();
+  public ArrayList<Symbol> localArgs = new ArrayList<Symbol>();
   public Hashtable<Integer,ArrayList<Symbol>> hash = new Hashtable<Integer,ArrayList<Symbol>>();
 
   final  int SPACES = 4;
@@ -66,6 +67,47 @@ import java.util.*;
         arg = new Symbol(depth, currentDID, argDec.id, argDec.type, false);
         argList.add(arg);
         //System.out.println("id = " + arg.id);
+      }
+      tree = tree.tail;
+    }
+  }
+
+  public void dumpLocalArgs(DecList tree) {
+    RegularDec argDec = null;
+    RegularVar argVar = null;
+    SimpleExpr s = null;
+    Dec d = null;
+    Symbol arg = null;
+    argList.clear();
+
+    //todo, modify
+    /*
+    SimpleExpr:
+                            RegularVar:
+                                t
+                        SimpleExpr:
+                            RegularVar:
+                                i
+
+                                SimpleExpr:
+                            OpExp: +
+                                int
+                                IntExp: 1
+                                IntExp: 2
+    */
+    while( tree != null ) {
+      if(tree.head instanceof SimpleExpr)
+      {
+        s = (SimpleExpr) tree.head;
+        d = s.sime;
+        if(d instanceof RegularVar)
+        {
+          argVar = (RegularVar) d;
+          arg = new Symbol(depth, currentDID, argVar.name, false); //TODO - figure out how to get type of regularVar
+          //arg = new Symbol(depth, currentDID, argVar.name, argVar-Type, false); 
+          localArgs.add(arg);
+          //System.out.println("id = " + arg.sID);
+        }
       }
       tree = tree.tail;
     }
@@ -536,6 +578,8 @@ import java.util.*;
 
 //todo - check args
  private void showTree( Call tree, int spaces ) {
+    Symbol s = null;
+
     indent( spaces );
     System.out.println( "Call:" );
     p.println("Call:");
@@ -546,7 +590,20 @@ import java.util.*;
       System.out.println( "Args empty" );
       p.println("Args empty");
     } else {
-      showTree (tree.args, spaces ); 
+      //todo check args, show tree if args are good
+      Args a = (Args) tree.args;
+      int i = 0;
+      localArgs.clear();
+      //todo check if this is working
+      dumpLocalArgs(a.args); 
+      for(i = 0; i < localArgs.size(); i++)
+      {
+        s = localArgs.get(i);
+        System.out.println("args: " + s.sID);
+      }
+
+      //show tree
+      showTree(tree.args, spaces);
     }
     
   }
