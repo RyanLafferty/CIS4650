@@ -619,7 +619,7 @@ import java.util.*;
     int j = 0;
     Symbol s = null;
     Symbol s2 = null;
-    if(Symbol.isDeclared2(tree.id, depth, currentDID, hash, globalList) == false) {
+    if(Symbol.functionDeclared(tree.id, depth, currentDID, globalList) == false) {
       indent( spaces );
       System.out.println("Error: function not declared");
     }

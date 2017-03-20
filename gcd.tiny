@@ -25,6 +25,6 @@ int chrisy(void) {
     suck(t, i);
     return suck(2,a[1]);
     
-    suck(t, 1 + 2);
+    sucks(t, 1 + 2);
     suck(y, t);
 }
