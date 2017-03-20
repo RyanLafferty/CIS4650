@@ -31,7 +31,7 @@ public class Symbol {
     this.isFunction = isFunction;
     if(this.isFunction == true)
     {
-        this.args = args;
+        this.args = getCopy(args);
     }
   }
 
