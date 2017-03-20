@@ -13,13 +13,26 @@ public class Symbol {
   public String sID;
   public TypeSpec type;
   public boolean isFunction;
+  public ArrayList <Symbol> args = null;
 
   public Symbol(int depth, int dID, String sID, TypeSpec type, boolean isFunction) {
   	this.depth = depth;
     this.dID = dID;
   	this.sID = sID;
- 	  this.type = type;
+ 	this.type = type;
     this.isFunction = isFunction;
+  }
+
+  public Symbol(int depth, int dID, String sID, TypeSpec type, boolean isFunction, ArrayList <Symbol> args) {
+    this.depth = depth;
+    this.dID = dID;
+    this.sID = sID;
+    this.type = type;
+    this.isFunction = isFunction;
+    if(this.isFunction == true)
+    {
+        this.args = args;
+    }
   }
 
   public static boolean isDeclared(String id, int depth, int dID, ArrayList <Symbol> symbolList)
