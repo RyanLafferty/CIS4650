@@ -12,12 +12,14 @@ public class Symbol {
   public int dID;
   public String sID;
   public TypeSpec type;
+  public boolean isFunction;
 
-  public Symbol(int depth, int dID, String sID, TypeSpec type) {
+  public Symbol(int depth, int dID, String sID, TypeSpec type, boolean isFunction) {
   	this.depth = depth;
     this.dID = dID;
   	this.sID = sID;
  	  this.type = type;
+    this.isFunction = isFunction;
   }
 
   public static boolean isDeclared(String id, int depth, int dID, ArrayList <Symbol> symbolList)

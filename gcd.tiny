@@ -1,6 +1,6 @@
 int a;
 
-void suck(void) {
+int suck(void) {
 
 	int s;
     int test;

@@ -7,6 +7,7 @@ import java.util.*;
   public int pos;
   public int depth = 0;
   public int currentDID = 0;
+  public boolean returnValue = false; //Used to identify if there is a return value statement in a function
   public PrintWriter p;
   public ArrayList<Symbol> globalList = new ArrayList<Symbol>();
   public ArrayList<Symbol> table = new ArrayList<Symbol>();
@@ -162,8 +163,8 @@ import java.util.*;
       indent( spaces );
       System.out.println("Error: redec of var");
     } else {
-        globalList.add(new Symbol(depth, currentDID, tree.id,tree.type));
-        table.add(new Symbol(depth, currentDID, tree.id,tree.type));
+        globalList.add(new Symbol(depth, currentDID, tree.id,tree.type, false));
+        table.add(new Symbol(depth, currentDID, tree.id,tree.type, false));
     }
   }
 
@@ -180,8 +181,8 @@ import java.util.*;
       indent( spaces );
       System.out.println("Error: redec of var");
     } else {
-      globalList.add(new Symbol(depth, currentDID, tree.id,tree.type));
-      table.add(new Symbol(depth, currentDID, tree.id, tree.type));
+      globalList.add(new Symbol(depth, currentDID, tree.id,tree.type, false));
+      table.add(new Symbol(depth, currentDID, tree.id, tree.type, false));
     }
 
   }
@@ -371,15 +372,41 @@ import java.util.*;
   }
 
    private void showTree( ReturnStmt tree, int spaces ) {
+    Symbol s;
+    returnValue = true;
     indent( spaces );
     System.out.println( "ReturnStmt:" );
     p.println("ReturnStmt:");
     spaces += SPACES;
+
     if(tree.expression instanceof Expr && tree.expression != null){
        showTree((Expr)tree.expression, spaces);
+      for(int i = 0; i < table.size();i++) {
+        s = table.get(i);
+        if(s.isFunction == true && s.type.type == TypeSpec.VOID) {
+          indent( spaces );
+          System.out.println("Error: Void function cannot have return value");
+        }
+      }
     }
     else if(tree.expression instanceof SimpleExpr && tree.expression != null) {
-      showTree((SimpleExpr)tree.expression, spaces); 
+      showTree((SimpleExpr)tree.expression, spaces);
+      for(int i = 0; i < table.size();i++) {
+        s = table.get(i);
+        if(s.isFunction == true && s.type.type == TypeSpec.VOID) {
+          indent( spaces );
+          System.out.println("Error: Void function cannot have return value");
+        }
+      } 
+    }
+    else {
+      for(int i = 0; i < table.size();i++) {
+        s = table.get(i);
+        if(s.isFunction == true && s.type.type == TypeSpec.INT) {
+          indent( spaces );
+          System.out.println("Error: Int function expects return value");
+        }
+      }
     }
   }
 
@@ -455,21 +482,27 @@ import java.util.*;
     //System.out.println(depth + ":FunDec:" );
     p.println("FunDec:");
     spaces += SPACES;
-    
+
     if(Symbol.isDeclared2(tree.id, depth, currentDID, hash, globalList)){
       indent( spaces );
       System.out.println("Error: redec of var");
     } else {
-        globalList.add(new Symbol(depth, currentDID, tree.id,tree.type));
-        table.add(new Symbol(depth, currentDID, tree.id,tree.type));
+        globalList.add(new Symbol(depth, currentDID, tree.id,tree.type, true));
+        table.add(new Symbol(depth, currentDID, tree.id,tree.type, true));
     }
     showTree( tree.type, spaces );
     showTree( tree.id, spaces );
     showTree( tree.plist, spaces );
     showTree( tree.cstmt, spaces );
-
     hash.put(currentDID,Symbol.getCopy(table));
     table.clear();
+
+    //If the function expects an int return type and there is not return statement
+    if(tree.type.type == TypeSpec.INT && returnValue == false) {
+      indent( spaces );
+      System.out.println("Error: Int function expects return value");
+    }
+    returnValue = false; //Resets value for next function
     currentDID++;
     depth--;
   }
