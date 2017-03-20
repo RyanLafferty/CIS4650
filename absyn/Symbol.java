@@ -316,6 +316,17 @@ public Symbol(int depth, int dID, String sID, boolean isFunction) {
     return false;
   }
 
+  public static boolean functionDeclared(String id, int depth, int dID, ArrayList <Symbol> globalSymbolList) {
+      
+      Symbol s = null;
+      for(int i = 0; i < globalSymbolList.size(); i++) {
+        s = globalSymbolList.get(i);
 
+        if(s.sID.equals(id)) {
+          return true;
+        }
+      }
+      return false;
+  }
 
 }
