@@ -11,6 +11,7 @@ import java.util.*;
   public PrintWriter p;
   public ArrayList<Symbol> globalList = new ArrayList<Symbol>();
   public ArrayList<Symbol> table = new ArrayList<Symbol>();
+  public ArrayList<Symbol> argList = new ArrayList<Symbol>();
   public Hashtable<Integer,ArrayList<Symbol>> hash = new Hashtable<Integer,ArrayList<Symbol>>();
 
   final  int SPACES = 4;
@@ -51,6 +52,23 @@ import java.util.*;
       tree = tree.tail;
     }
     Symbol.dumpOrganizedTable(hash); 
+  }
+
+  public void dumpArgs(DecList tree) {
+    RegularDec argDec = null;
+    Symbol arg = null;
+    argList.clear();
+
+    while( tree != null ) {
+      if(tree.head instanceof RegularDec)
+      {
+        argDec = (RegularDec) tree.head;
+        arg = new Symbol(depth, currentDID, argDec.id, argDec.type, false);
+        argList.add(arg);
+        //System.out.println("id = " + arg.id);
+      }
+      tree = tree.tail;
+    }
   }
 
    private void showTree( Exp tree, int spaces ) {
@@ -487,6 +505,8 @@ import java.util.*;
       indent( spaces );
       System.out.println("Error: redec of var");
     } else {
+        //TODO - modify so that arg list is passed into symbol constructor
+        dumpArgs(tree.plist);
         globalList.add(new Symbol(depth, currentDID, tree.id,tree.type, true));
         table.add(new Symbol(depth, currentDID, tree.id,tree.type, true));
     }
