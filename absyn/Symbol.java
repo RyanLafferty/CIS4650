@@ -254,7 +254,6 @@ public class Symbol {
         }
       }
     }
-    
 
     //if not found in table fall back to the global list with O(n) lookup,
     //where n is the number of symbols
