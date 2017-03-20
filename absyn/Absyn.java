@@ -507,8 +507,11 @@ import java.util.*;
     } else {
         //TODO - modify so that arg list is passed into symbol constructor
         dumpArgs(tree.plist);
-        globalList.add(new Symbol(depth, currentDID, tree.id,tree.type, true));
-        table.add(new Symbol(depth, currentDID, tree.id,tree.type, true));
+        //globalList.add(new Symbol(depth, currentDID, tree.id,tree.type, true));
+        //table.add(new Symbol(depth, currentDID, tree.id,tree.type, true));
+
+        globalList.add(new Symbol(depth, currentDID, tree.id,tree.type, true, argList));
+        table.add(new Symbol(depth, currentDID, tree.id,tree.type, true, argList));
     }
     showTree( tree.type, spaces );
     showTree( tree.id, spaces );
