@@ -91,14 +91,6 @@ import java.util.*;
 
     //todo, modify
     /*
-    SimpleExpr:
-                            RegularVar:
-                                t
-                        SimpleExpr:
-                            RegularVar:
-                                i
-
-                                SimpleExpr:
                             OpExp: +
                                 int
                                 IntExp: 1
@@ -125,7 +117,9 @@ import java.util.*;
         }
         else if(d instanceof OpExp2)
         {
-
+          t = new TypeSpec(0, 0);
+          arg = new Symbol(depth, currentDID, "OpExp", t, false); 
+          localArgs.add(arg);
         }
       }
       tree = tree.tail;
@@ -644,7 +638,7 @@ import java.util.*;
       for(i = 0; i < localArgs.size(); i++)
       {
         s = localArgs.get(i);
-        System.out.println("args: " + s.sID);
+        //System.out.println("args: " + s.sID);
       }
 
       for(i = 0; i < globalList.size(); i++)
