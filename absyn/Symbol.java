@@ -236,7 +236,13 @@ public Symbol(int depth, int dID, String sID, boolean isFunction) {
             {
                 System.out.println("====================\n dID = " + key + ", depth = " + s.depth + "\n====================");
             }
-            System.out.println(s.sID);
+
+            if(s.type.type == TypeSpec.INT) {
+              System.out.println(s.sID +"  =  "+ "INT");
+            } else {
+              System.out.println(s.sID +"  =  "+ "VOID");
+            }
+            
         }        
     }
 

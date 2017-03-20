@@ -614,7 +614,7 @@ import java.util.*;
     int i = 0;
     int j = 0;
     Symbol s = null;
-
+    
     if(Symbol.isDeclared2(tree.id, depth, currentDID, hash, globalList) == false) {
       indent( spaces );
       System.out.println("Error: function not declared");
