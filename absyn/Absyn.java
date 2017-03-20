@@ -78,6 +78,7 @@ import java.util.*;
     SimpleExpr s = null;
     Dec d = null;
     Symbol arg = null;
+    Symbol typeCheck;
     argList.clear();
 
     //todo, modify
@@ -103,6 +104,12 @@ import java.util.*;
         if(d instanceof RegularVar)
         {
           argVar = (RegularVar) d;
+          for(int i = 0; i < globalList.size(); i++) {
+            typeCheck = globalList.get(i);
+            if(argVar.name.equals(typeCheck.sID)) {
+              
+            }
+          }
           arg = new Symbol(depth, currentDID, argVar.name, false); //TODO - figure out how to get type of regularVar
           //arg = new Symbol(depth, currentDID, argVar.name, argVar-Type, false); 
           localArgs.add(arg);
@@ -247,7 +254,8 @@ import java.util.*;
 
   }
    private void showTree( RegularVar tree, int spaces ) {
-    
+    Symbol s;
+    int type;
     if(Symbol.isDeclared2(tree.name, depth, currentDID, hash, globalList) == false) {
       indent( spaces );
       System.out.println("Error: variable not declared");
