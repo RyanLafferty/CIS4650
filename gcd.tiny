@@ -1,15 +1,20 @@
+/*Contains first four typechecking examples
+that were in Fei's rubric. Tests issues such
+as return values and assignments*/
+
 int a;
 
 int suck(void) {
-
 	int s;
     int test;
 
     if(t < 5)
-    {
+    {  
     	int ch;
     	ch = 5;
     }
+    z = 5;
+    return 5;
 }
 
 int s;
