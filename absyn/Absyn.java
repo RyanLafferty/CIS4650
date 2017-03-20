@@ -79,6 +79,7 @@ import java.util.*;
     Dec d = null;
     Symbol arg = null;
     Symbol typeCheck;
+    TypeSpec t = null;
     argList.clear();
 
     //todo, modify
@@ -107,11 +108,11 @@ import java.util.*;
           for(int i = 0; i < globalList.size(); i++) {
             typeCheck = globalList.get(i);
             if(argVar.name.equals(typeCheck.sID)) {
-              
+              t = typeCheck.type;
             }
           }
-          arg = new Symbol(depth, currentDID, argVar.name, false); //TODO - figure out how to get type of regularVar
-          //arg = new Symbol(depth, currentDID, argVar.name, argVar-Type, false); 
+          //arg = new Symbol(depth, currentDID, argVar.name, false); //TODO - figure out how to get type of regularVar
+          arg = new Symbol(depth, currentDID, argVar.name, t, false); 
           localArgs.add(arg);
           //System.out.println("id = " + arg.sID);
         }
@@ -614,6 +615,7 @@ import java.util.*;
     int i = 0;
     int j = 0;
     Symbol s = null;
+    Symbol s2 = null;
 
     if(Symbol.isDeclared2(tree.id, depth, currentDID, hash, globalList) == false) {
       indent( spaces );
@@ -649,10 +651,40 @@ import java.util.*;
         {
           //System.out.println(s.sID);
           funArgs = s.args;
-          for(j = 0; j < globalList.size(); j++)
+          if(funArgs.size() == localArgs.size())
           {
-            
+            for(j = 0; j < funArgs.size(); j++)
+            {
+              s = funArgs.get(j);
+              s2 = localArgs.get(j);
+              if(s != null && s2 != null && s.type != null && s2.type != null
+               && s.type.type != s2.type.type)
+              {
+                //todo type error - specify the mismatch error
+                if(s.type.type == TypeSpec.INT)
+                {
+                  System.out.println("Error: Type Mismatch>  (" + s2.sID + ") Received VOID, expected INT");
+                }
+                else if(s.type.type == TypeSpec.VOID)
+                {
+                  System.out.println("Error: Type Mismatch>  (" + s2.sID + ") Received INT, expected VOID");
+                }
+              }
+              else if(s != null && s2 != null && s.type != null && s2.type != null)
+              {
+                //System.out.println("match: " + s.sID + ", " + s2.sID + " (" + s.type.type + "," + s2.type.type + ")");
+              }
+              else
+              {
+                System.out.println(s.type + " " + s2.type);
+              }
+            }
           }
+          else
+          {
+            //todo report arg count error
+          }
+          break;
         }
       }
 
