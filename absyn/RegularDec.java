@@ -2,9 +2,9 @@ package absyn;
 
 public class RegularDec extends VarDec {
 
-  public TypeSpec type;
-  public String id;
-  public int size;
+  public TypeSpec type = null;
+  public String id = "";
+  public int size = -1;
 
   public RegularDec(int pos, TypeSpec type, String id) {
   	this.pos = pos;

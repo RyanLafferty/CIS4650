@@ -13,6 +13,7 @@ public class Symbol {
   public String sID = "";
   public TypeSpec type = null;
   public boolean isFunction = false;
+  public int arrSize = -1;
   public ArrayList <Symbol> args = null;
 
   public Symbol(int depth, int dID, String sID, TypeSpec type, boolean isFunction) {
@@ -21,6 +22,15 @@ public class Symbol {
   	this.sID = sID;
  	this.type = type;
     this.isFunction = isFunction;
+  }
+
+  public Symbol(int depth, int dID, String sID, TypeSpec type, boolean isFunction, int arrSize) {
+    this.depth = depth;
+    this.dID = dID;
+    this.sID = sID;
+    this.type = type;
+    this.isFunction = isFunction;
+    this.arrSize = arrSize;
   }
 
   public Symbol(int depth, int dID, String sID, TypeSpec type, boolean isFunction, ArrayList <Symbol> args) {
