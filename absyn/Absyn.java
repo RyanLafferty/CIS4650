@@ -403,9 +403,6 @@ import java.util.*;
     spaces += SPACES;
 
     if(tree.expression instanceof Expr && tree.expression != null){
-      Expr expr;
-      expr = (Expr)tree.expression;
-      System.out.println(expr);
       showTree((Expr)tree.expression, spaces);
       for(int i = 0; i < table.size();i++) {
         s = table.get(i);
@@ -417,11 +414,9 @@ import java.util.*;
     }
     else if(tree.expression instanceof SimpleExpr && tree.expression != null) {
       SimpleExpr sime;
+      Call call;
       showTree((SimpleExpr)tree.expression, spaces);
       sime = (SimpleExpr)tree.expression;
-      if(sime.sime instanceof IntExp) {
-        System.out.println("Returning int");
-      }
 
       for(int i = 0; i < table.size();i++) {
         s = table.get(i);
@@ -430,6 +425,18 @@ import java.util.*;
           System.out.println("Error: Void function cannot have return value");
         }
       } 
+
+      if(sime.sime instanceof Call) {
+        call = (Call)sime.sime;
+        for(int i = 0; i < globalList.size();i++) {
+          s = globalList.get(i);
+          if(s.isFunction == true && s.sID.equals(call.id)) {
+            if(s.type.type == TypeSpec.VOID) {
+              System.out.println("Error: cannot return void function");
+            }
+          }
+        }
+      }
     }
     else {
       for(int i = 0; i < table.size();i++) {
