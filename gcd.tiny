@@ -1,4 +1,4 @@
-int a;
+int a[2];
 
 int suck(int testt, int b) {
 	int s;
@@ -15,7 +15,7 @@ int suck(int testt, int b) {
 }
 
 int s;
-void chrisy(void) {
+int chrisy(void) {
     int t;
     int i;
     void y;
@@ -23,4 +23,5 @@ void chrisy(void) {
     i = i + y;
     i = 1 + y;
     suck(t, i);
+    return suck(2,a[1]);
 }

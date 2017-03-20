@@ -206,7 +206,7 @@ import java.util.*;
   }
    private void showTree( RegularVar tree, int spaces ) {
     
-    if(Symbol.isDeclared(tree.name, depth, currentDID, table) == false) {
+    if(Symbol.isDeclared2(tree.name, depth, currentDID, hash, globalList) == false) {
       indent( spaces );
       System.out.println("Error: variable not declared");
     }
@@ -220,7 +220,7 @@ import java.util.*;
   }
    private void showTree( ArrayVar tree, int spaces ) {
     
-    if(Symbol.isDeclared(tree.id, depth, currentDID, table) == false) {
+    if(Symbol.isDeclared2(tree.id, depth, currentDID, hash, globalList) == false) {
       indent( spaces );
       System.out.println("Error: variable not declared");
     }
@@ -403,7 +403,10 @@ import java.util.*;
     spaces += SPACES;
 
     if(tree.expression instanceof Expr && tree.expression != null){
-       showTree((Expr)tree.expression, spaces);
+      Expr expr;
+      expr = (Expr)tree.expression;
+      System.out.println(expr);
+      showTree((Expr)tree.expression, spaces);
       for(int i = 0; i < table.size();i++) {
         s = table.get(i);
         if(s.isFunction == true && s.type.type == TypeSpec.VOID) {
@@ -413,7 +416,13 @@ import java.util.*;
       }
     }
     else if(tree.expression instanceof SimpleExpr && tree.expression != null) {
+      SimpleExpr sime;
       showTree((SimpleExpr)tree.expression, spaces);
+      sime = (SimpleExpr)tree.expression;
+      if(sime.sime instanceof IntExp) {
+        System.out.println("Returning int");
+      }
+
       for(int i = 0; i < table.size();i++) {
         s = table.get(i);
         if(s.isFunction == true && s.type.type == TypeSpec.VOID) {
