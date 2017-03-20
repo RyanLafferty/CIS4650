@@ -21,4 +21,5 @@ void chrisy(void) {
     i = 1 + 2;
     i = i + y;
     i = 1 + y;
+    suck(t, i);
 }
