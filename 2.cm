@@ -1,14 +1,14 @@
-/*This file will demonstrate errors if statements are written 
-outside of functions as well as comp errors*/
+/*Tests test case 5 of typechecking outline*/
 
 
-int chris; /*This is valid*/
-chris = 5; /*This is invalid*/
+void main(void) {
+	int x;
+	void y;
+	if(x){
+		output(x);
+	}
 
-
-
-int main(void) {
-	
-	chris = 2 * 2;
-	int chris!
+	if(y) {
+		output(y);
+	}
 }

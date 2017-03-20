@@ -612,6 +612,10 @@ import java.util.*;
 //todo - check args
  private void showTree( Call tree, int spaces ) {
     Symbol s = null;
+    if(Symbol.isDeclared2(tree.id, depth, currentDID, hash, globalList) == false) {
+      indent( spaces );
+      System.out.println("Error: function not declared");
+    }
 
     indent( spaces );
     System.out.println( "Call:" );
