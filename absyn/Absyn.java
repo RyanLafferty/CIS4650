@@ -510,7 +510,6 @@ import java.util.*;
       indent( spaces );
       System.out.println("Error: redec of var");
     } else {
-        //TODO - modify so that arg list is passed into symbol constructor
         dumpArgs(tree.plist);
         //globalList.add(new Symbol(depth, currentDID, tree.id,tree.type, true));
         //table.add(new Symbol(depth, currentDID, tree.id,tree.type, true));
@@ -535,6 +534,7 @@ import java.util.*;
     depth--;
   }
 
+//todo - check args
  private void showTree( Call tree, int spaces ) {
     indent( spaces );
     System.out.println( "Call:" );
