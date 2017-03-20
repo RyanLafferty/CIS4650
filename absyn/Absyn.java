@@ -248,7 +248,7 @@ import java.util.*;
   }
    private void showTree( RegularVar tree, int spaces ) {
     
-    if(Symbol.isDeclared(tree.name, depth, currentDID, table) == false) {
+    if(Symbol.isDeclared2(tree.name, depth, currentDID, hash, globalList) == false) {
       indent( spaces );
       System.out.println("Error: variable not declared");
     }
@@ -262,7 +262,7 @@ import java.util.*;
   }
    private void showTree( ArrayVar tree, int spaces ) {
     
-    if(Symbol.isDeclared(tree.id, depth, currentDID, table) == false) {
+    if(Symbol.isDeclared2(tree.id, depth, currentDID, hash, globalList) == false) {
       indent( spaces );
       System.out.println("Error: variable not declared");
     }
@@ -445,7 +445,7 @@ import java.util.*;
     spaces += SPACES;
 
     if(tree.expression instanceof Expr && tree.expression != null){
-       showTree((Expr)tree.expression, spaces);
+      showTree((Expr)tree.expression, spaces);
       for(int i = 0; i < table.size();i++) {
         s = table.get(i);
         if(s.isFunction == true && s.type.type == TypeSpec.VOID) {
@@ -455,7 +455,11 @@ import java.util.*;
       }
     }
     else if(tree.expression instanceof SimpleExpr && tree.expression != null) {
+      SimpleExpr sime;
+      Call call;
       showTree((SimpleExpr)tree.expression, spaces);
+      sime = (SimpleExpr)tree.expression;
+
       for(int i = 0; i < table.size();i++) {
         s = table.get(i);
         if(s.isFunction == true && s.type.type == TypeSpec.VOID) {
@@ -463,6 +467,18 @@ import java.util.*;
           System.out.println("Error: Void function cannot have return value");
         }
       } 
+
+      if(sime.sime instanceof Call) {
+        call = (Call)sime.sime;
+        for(int i = 0; i < globalList.size();i++) {
+          s = globalList.get(i);
+          if(s.isFunction == true && s.sID.equals(call.id)) {
+            if(s.type.type == TypeSpec.VOID) {
+              System.out.println("Error: cannot return void function");
+            }
+          }
+        }
+      }
     }
     else {
       for(int i = 0; i < table.size();i++) {

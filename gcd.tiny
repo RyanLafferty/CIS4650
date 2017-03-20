@@ -1,6 +1,6 @@
-int a;
+int a[2];
 
-int suck(int testt, int b) {
+void suck(int testt, int b) {
 	int s;
     int test;
 
@@ -11,16 +11,20 @@ int suck(int testt, int b) {
     }
     z = 5;
     s[1] = 2;
-    return 5;
+
 }
 
 int s;
-void chrisy(void) {
+int chrisy(void) {
     int t;
     int i;
     void y;
     i = 1 + 2;
     i = i + y;
     i = 1 + y;
+
+    suck(t, i);
+    return suck(2,a[1]);
+    
     suck(t, 1 + 2);
 }
