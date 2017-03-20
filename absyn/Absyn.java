@@ -611,7 +611,10 @@ import java.util.*;
 
 //todo - check args
  private void showTree( Call tree, int spaces ) {
+    int i = 0;
+    int j = 0;
     Symbol s = null;
+    ArrayList <Symbol> funArgs = null;
 
     indent( spaces );
     System.out.println( "Call:" );
@@ -625,7 +628,6 @@ import java.util.*;
     } else {
       //todo check args, show tree if args are good
       Args a = (Args) tree.args;
-      int i = 0;
       localArgs.clear();
       //todo check if this is working
       dumpLocalArgs(a.args); 
@@ -633,6 +635,16 @@ import java.util.*;
       {
         s = localArgs.get(i);
         System.out.println("args: " + s.sID);
+      }
+
+      for(i = 0; i < globalList.size(); i++)
+      {
+        s = globalList.get(i);
+        if(s.isFunction == true && tree.id.equals(s.sID))
+        {
+          //System.out.println(s.sID);
+          funArgs = s.args;
+        }
       }
 
       //show tree
