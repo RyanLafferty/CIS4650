@@ -4,7 +4,7 @@ as return values and assignments*/
 
 int a;
 
-int suck(int test, int b) {
+int suck(int testt, int b) {
 	int s;
     int test;
 
