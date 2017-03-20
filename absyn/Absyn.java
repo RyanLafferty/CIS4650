@@ -64,7 +64,14 @@ import java.util.*;
       if(tree.head instanceof RegularDec)
       {
         argDec = (RegularDec) tree.head;
-        arg = new Symbol(depth, currentDID, argDec.id, argDec.type, false);
+        if(argDec.size > 0)
+        {
+                    arg = new Symbol(depth, currentDID, argDec.id, argDec.type, false, 1);
+        }
+        else
+        {
+          arg = new Symbol(depth, currentDID, argDec.id, argDec.type, false);
+        }
         argList.add(arg);
         //System.out.println("id = " + arg.id);
       }
@@ -115,10 +122,6 @@ import java.util.*;
           arg = new Symbol(depth, currentDID, argVar.name, t, false); 
           localArgs.add(arg);
           //System.out.println("id = " + arg.sID);
-        }
-        else if(d instanceof ArrayVar)
-        {
-
         }
         else if(d instanceof OpExp2)
         {
@@ -672,6 +675,14 @@ import java.util.*;
               else if(s != null && s2 != null && s.type != null && s2.type != null)
               {
                 //System.out.println("match: " + s.sID + ", " + s2.sID + " (" + s.type.type + "," + s2.type.type + ")");
+                if(s.arrSize > 0 && s2.arrSize <= 0)
+                {
+                  System.out.println("Error: Type Mismatch>  (" + s2.sID + ") Received INT, expected INT []");
+                }
+                else if(s.arrSize <= 0 && s2.arrSize > 0)
+                {
+                  System.out.println("Error: Type Mismatch>  (" + s2.sID + ") Received INT [], expected INT");
+                }
               }
               else
               {
