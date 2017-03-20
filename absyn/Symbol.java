@@ -8,11 +8,11 @@ public class Symbol {
   public final static int INT  = TypeSpec.INT;
   public final static int VOID  = TypeSpec.VOID;
 
-  public int depth;
-  public int dID;
-  public String sID;
-  public TypeSpec type;
-  public boolean isFunction;
+  public int depth = -1;
+  public int dID = -1;
+  public String sID = "";
+  public TypeSpec type = null;
+  public boolean isFunction = false;
   public ArrayList <Symbol> args = null;
 
   public Symbol(int depth, int dID, String sID, TypeSpec type, boolean isFunction) {
