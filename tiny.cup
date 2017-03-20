@@ -211,7 +211,7 @@ param        ::= type_spec:s ID:i
                  :}
                  | type_spec:s ID:i OBRACK CBRACK
                  {: 
-                    RESULT = new RegularDec(sleft,s,i);
+                    RESULT = new RegularDec(sleft,s,i,1);
                  :}
                ;
 
