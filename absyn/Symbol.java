@@ -35,6 +35,18 @@ public class Symbol {
     }
   }
 
+//temp
+public Symbol(int depth, int dID, String sID, boolean isFunction) {
+    this.depth = depth;
+    this.dID = dID;
+    this.sID = sID;
+    this.isFunction = isFunction;
+    if(this.isFunction == true)
+    {
+        this.args = getCopy(args);
+    }
+  }
+
   public static boolean isDeclared(String id, int depth, int dID, ArrayList <Symbol> symbolList)
   {
     int i;

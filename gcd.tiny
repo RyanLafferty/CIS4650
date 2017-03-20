@@ -22,7 +22,9 @@ int chrisy(void) {
     i = 1 + 2;
     i = i + y;
     i = 1 + y;
+
     suck(t, i);
     return suck(2,a[1]);
     
+    suck(t, 1 + 2);
 }
