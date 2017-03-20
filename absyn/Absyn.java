@@ -644,6 +644,10 @@ import java.util.*;
         {
           //System.out.println(s.sID);
           funArgs = s.args;
+          for(j = 0; j < globalList.size(); j++)
+          {
+            
+          }
         }
       }
 
