@@ -490,6 +490,7 @@ import java.util.*;
           s = globalList.get(i);
           if(s.isFunction == true && s.sID.equals(call.id)) {
             if(s.type.type == TypeSpec.VOID) {
+              indent( spaces );
               System.out.println("Error: cannot return void function");
             }
           }
