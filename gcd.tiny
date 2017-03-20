@@ -1,6 +1,6 @@
 int a[2];
 
-void suck(int testt, int b) {
+void suck(int testt, int b[]) {
 	int s;
     int test;
 

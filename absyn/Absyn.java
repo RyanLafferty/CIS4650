@@ -115,6 +115,14 @@ import java.util.*;
           localArgs.add(arg);
           //System.out.println("id = " + arg.sID);
         }
+        else if(d instanceof ArrayVar)
+        {
+
+        }
+        else if(d instanceof OpExp2)
+        {
+
+        }
       }
       tree = tree.tail;
     }
