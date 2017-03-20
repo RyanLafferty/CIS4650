@@ -1,7 +1,3 @@
-/*Contains first four typechecking examples
-that were in Fei's rubric. Tests issues such
-as return values and assignments*/
-
 int a;
 
 int suck(int testt, int b) {
