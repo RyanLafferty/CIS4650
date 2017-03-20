@@ -10,6 +10,7 @@ int suck(int testt, int b) {
     	ch = 5;
     }
     z = 5;
+    s[1] = 2;
     return 5;
 }
 

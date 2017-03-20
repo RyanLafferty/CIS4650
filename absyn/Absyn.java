@@ -205,12 +205,12 @@ import java.util.*;
 
   }
    private void showTree( RegularVar tree, int spaces ) {
+    
+    if(Symbol.isDeclared(tree.name, depth, currentDID, table) == false) {
+      indent( spaces );
+      System.out.println("Error: variable not declared");
+    }
     indent( spaces );
-
-    //TODO - in progress
-    Symbol.isDeclared(tree.name, depth, currentDID, table);
-
-
     System.out.println( "RegularVar:" );
     p.println("RegularVar:");
     spaces += SPACES;
@@ -219,6 +219,11 @@ import java.util.*;
     p.println(tree.name);
   }
    private void showTree( ArrayVar tree, int spaces ) {
+    
+    if(Symbol.isDeclared(tree.id, depth, currentDID, table) == false) {
+      indent( spaces );
+      System.out.println("Error: variable not declared");
+    }
     indent( spaces );
     System.out.println( "ArrayVar:" );
     p.println("ArrayVar:");
