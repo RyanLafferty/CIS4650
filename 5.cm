@@ -1,23 +1,18 @@
-/*This file will demonstrates a constraint with our compiler
-where multiple errors can get "globbed" together*/
+/*MOTHER OF ERRORS*/
 
-rick
-
-adads 
-----
-
-
-(Q)(#$)(!@#)$
-
-ryan = 1738 * = >,
-
-void FUNC(int chris, int ryan){
+int main(int a) {
 	
-	if(a ==b){
-		RAOWRIOQEWIRPQ#RIR#)RR
-	}
+	b = 0;
+	return ;
+}
 
-	while(9 >= 2) {
-		2
-	}
+void second(void) {
+	
+	return 44;
+}
+
+int lock(void) {
+	int s[5];
+
+	return rando(12312321312312,2321313);
 }
