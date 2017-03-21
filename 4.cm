@@ -1,15 +1,6 @@
-/*This file will demonstrate RELOP errors as well as conditional errors*/
-
+/*Shows the use of a variable in a function without declaring it*/
 
 void Cond(int a) {
-	int c;
-	if(a <= b) {  
-		chris = 5;
-	} /*Valid*/
-
-	if(a>====b) { /*Invalid*/
-
-	} else {
-
-	}
+	
+	z = 5;
 }
