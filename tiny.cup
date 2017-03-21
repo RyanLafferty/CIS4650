@@ -257,7 +257,8 @@ stmt_list        ::= stmt_list:s1 stmt:s2
                     RESULT = s1;
                  :}
                   | stmt:s
-                 {: RESULT = new DecList(s, null); 
+                 {: 
+                    RESULT = new DecList(s, null); 
                  :}
                   /*| error:
                  {: parser.report_error("invalid", null); 

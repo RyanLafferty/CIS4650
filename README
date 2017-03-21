@@ -1,7 +1,7 @@
 /*Name: Ryan Lafferty & Chris Katsaras
 ID: 0853370, 0795555
-Date: 3/6/2017
-PC 1*/
+Date: 20/3/2017
+PC 2*/
 
 ************
 Compilation
@@ -19,29 +19,6 @@ or modify the make run command / type make test1..5 to test 1..5.cm files
 *************************
 Limitations & Assumptions 
 *************************
-
-
-Similar to C, unbalanced parenthesis can cause undetectable errors. For instance: 
-
-int main (void) {
-	}{
-}
-
-Will cause undetectable errors due to the fact that the opening brace doesn’t know which closing brace to match with.
-For this reason, we assume that these kind of unbalanced parenthesis issues will not be introduced into any .cm files that are tested by our teaching assistant Dave Wickland. If for any reason he decides to test this scenario, our implementation will give undesirable output. 
-
-Subsequent errors will possibly lead to globbed together error statements because of the level that errors are evaluated at.
-
-e.g
-
-rick
-
-adads 
-----
-
-
-(Q)(#$)(!@#)$
-
 
 
 ***********
