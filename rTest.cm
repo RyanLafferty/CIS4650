@@ -1,0 +1,80 @@
+void a;
+int x;
+int y;
+int z[3];
+
+/*
+todo:
+variable assignment mismatch
+array mismatch
+*/
+
+int main(void)
+{
+    /*good cases*/
+    y = 1 + 1;
+    y = x + 1;
+    y = x + z[1];
+    y = 1 + 2 + x + z[1];
+    z[1] = x + 1 + y;
+    
+    if(1)
+    {
+
+    }
+    
+    if(x)
+    {
+
+    }
+
+    if(x > 1)
+    {
+
+    }
+
+    if(x > y)
+    {
+
+    }
+
+    if(x < z[1])
+    {
+
+    }
+
+    /*bad cases*/
+    y = a; /*todo catch this*/
+    y = 1 + a + x;
+    a = 1; /*todo catch this*/
+    a = x + 2 + 3; /*todo catch this*/
+    z[a] = 2; /*todo catch this*/
+    
+
+    if(void)
+    {
+
+    }
+
+    if(a)
+    {
+
+    }
+
+    if(x > a)
+    {
+
+    }
+
+    if(a > x)
+    {
+
+    }
+
+    if(a > 1)
+    {
+
+    }
+
+    return 1;
+}
