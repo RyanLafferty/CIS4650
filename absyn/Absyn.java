@@ -112,7 +112,7 @@ import java.util.*;
               t = typeCheck.type;
             }
           }
-          //arg = new Symbol(depth, currentDID, argVar.name, false); //TODO - figure out how to get type of regularVar
+          //arg = new Symbol(depth, currentDID, argVar.name, false); //TODO - figure out how to get     type of regularVar
           arg = new Symbol(depth, currentDID, argVar.name, t, false); 
           localArgs.add(arg);
           //System.out.println("id = " + arg.sID);
@@ -609,7 +609,6 @@ import java.util.*;
     depth--;
   }
 
-//todo - check args
  private void showTree( Call tree, int spaces ) {
     int i = 0;
     int j = 0;
@@ -631,10 +630,8 @@ import java.util.*;
       System.out.println( "Args empty" );
       p.println("Args empty");
     } else {
-      //todo check args, show tree if args are good
       Args a = (Args) tree.args;
       localArgs.clear();
-      //todo check if this is working
       dumpLocalArgs(a.args); 
       for(i = 0; i < localArgs.size(); i++)
       {
@@ -658,7 +655,8 @@ import java.util.*;
               if(s != null && s2 != null && s.type != null && s2.type != null
                && s.type.type != s2.type.type)
               {
-                //todo type error - specify the mismatch error
+
+                indent( spaces );
                 if(s.type.type == TypeSpec.INT)
                 {
                   System.out.println("Error: Type Mismatch>  (" + s2.sID + ") Received VOID, expected INT");
@@ -671,6 +669,7 @@ import java.util.*;
               else if(s != null && s2 != null && s.type != null && s2.type != null)
               {
                 //System.out.println("match: " + s.sID + ", " + s2.sID + " (" + s.type.type + "," + s2.type.type + ")");
+                indent( spaces );
                 if(s.arrSize > 0 && s2.arrSize <= 0)
                 {
                   System.out.println("Error: Type Mismatch>  (" + s2.sID + ") Received INT, expected INT []");
