@@ -443,6 +443,7 @@ import java.util.*;
     ArrayVar aVar = null;
     RegularVar rVar = null;
     SimpleExpr sime = null;
+    Call call = null;
     String varName = "";
     Symbol s = null;
     TypeSpec type = null;
@@ -481,7 +482,7 @@ import java.util.*;
             indent (spaces);
             System.out.println("Error: Index type mismatch");
           }
-        } 
+        }
       }
     }
     
@@ -530,6 +531,15 @@ import java.util.*;
           System.out.println("Assignment type mismatch error");
         }
       }
+      else if(sime.sime instanceof Call) {
+        call = (Call) sime.sime;
+        //t = Symbol.getType(aVar.id, depth, currentDID, globalList);
+        t = Symbol.getType(call.id,depth,currentDID,globalList);
+        if(t != type.type) {
+          indent (spaces);
+          System.out.println("Error: Assignment type mismatch");
+        }
+      } 
     }
 
 

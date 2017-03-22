@@ -30,6 +30,10 @@ void sort( int a[], int low, int high) {
     }
 }
 
+int input(){
+    return 1;
+}
+
 void main(void) 
 {
     int i;
@@ -38,7 +42,7 @@ void main(void)
 
     while (i < 10)
     { 
-        x[i] = input();
+        x = input();
         i = i + 1; 
     }
 
