@@ -47,6 +47,7 @@ int main(void)
     y = a; /*todo catch this*/
     y = 1 + a + x;
     a = 1;
+    a = a = 1;
     a = x + 2 + 3;
     y = a + a;
     z[a] = 2; /*todo catch this*/
