@@ -334,16 +334,16 @@ public Symbol(int depth, int dID, String sID, boolean isFunction) {
       return false;
   }
 
-  public static int exprType(Expr exp, ArrayList <Symbol> globalList)
+  public static int exprType(SimpleExpr exp, ArrayList <Symbol> globalList)
   {
     Symbol typeCheck = null;
-    SimpleExpr sim = null;
+    //SimpleExpr sim = null;
     RegularVar var = null;
     String name = "";
     String cname = "";
     int i = 0;
 
-    if(exp.expression instanceof SimpleExpr)
+    /*if(exp.expression instanceof SimpleExpr)
     {
         sim = (SimpleExpr) exp.expression;
         if(sim.sime instanceof RegularVar)
@@ -360,9 +360,30 @@ public Symbol(int depth, int dID, String sID, boolean isFunction) {
                 }
             }
         }
-    }
+    }*/
 
-    return -1;
+    if(exp.sime instanceof RegularVar)
+    {
+        var = (RegularVar) exp.sime;
+        name = var.name;
+
+        for(i = 0; i < globalList.size(); i++) 
+        {
+            typeCheck = globalList.get(i);
+            if(name.equals(typeCheck.sID)) 
+            {
+              return typeCheck.type.getType();
+            }
+        }
+
+        return -1;
+    }
+    /*else if(exp.sim instanceof OpExp2)
+    {
+        return INT;
+    }*/
+
+    return INT;
   }
 
 }

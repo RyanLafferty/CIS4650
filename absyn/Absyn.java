@@ -512,6 +512,8 @@ import java.util.*;
   }
 
  private void showTree( IterStmt tree, int spaces ) {
+    SimpleExpr exp = null;
+    int type = -1;
     depth++;
     currentDID++;
     indent( spaces );
@@ -519,12 +521,25 @@ import java.util.*;
     //System.out.println(depth +  ":IterStmt:" );
     p.println("IterStmt:");
     spaces += SPACES;
+    if(tree.expression instanceof SimpleExpr)
+    {
+      exp = (SimpleExpr) tree.expression;
+      type = Symbol.exprType(exp, globalList);
+      //System.out.println("Type: " + type);
+      if(type != Symbol.INT)
+      {
+        indent(spaces);
+        System.out.println("Error: Test condition must be int");
+      }
+    }
     showTree( tree.expression, spaces );
     showTree( tree.stmt, spaces );
     depth--;
   }
 
  private void showTree( SeleStmt tree, int spaces ) {
+    SimpleExpr exp = null;
+    int type = 0;
     depth++;
     currentDID++;
     indent( spaces );
@@ -534,6 +549,17 @@ import java.util.*;
     spaces += SPACES;
     if(tree.type == SeleStmt.IF)
     {
+      if(tree.expression instanceof SimpleExpr)
+      {
+        exp = (SimpleExpr) tree.expression;
+        type = Symbol.exprType(exp, globalList);
+        //System.out.println("Type: " + type);
+        if(type != Symbol.INT)
+        {
+          indent(spaces);
+          System.out.println("Error: Test condition must be int");
+        }
+      }
       showTree( tree.expression, spaces );
       showTree( tree.stmt, spaces );
     }
