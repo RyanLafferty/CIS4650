@@ -320,7 +320,8 @@ public Symbol(int depth, int dID, String sID, boolean isFunction) {
     return false;
   }
 
-  public static boolean functionDeclared(String id, int depth, int dID, ArrayList <Symbol> globalSymbolList) {
+  public static boolean functionDeclared(String id, int depth, int dID, ArrayList <Symbol> globalSymbolList)
+  {
       
       Symbol s = null;
       for(int i = 0; i < globalSymbolList.size(); i++) {
@@ -331,6 +332,37 @@ public Symbol(int depth, int dID, String sID, boolean isFunction) {
         }
       }
       return false;
+  }
+
+  public static int exprType(Expr exp, ArrayList <Symbol> globalList)
+  {
+    Symbol typeCheck = null;
+    SimpleExpr sim = null;
+    RegularVar var = null;
+    String name = "";
+    String cname = "";
+    int i = 0;
+
+    if(exp.expression instanceof SimpleExpr)
+    {
+        sim = (SimpleExpr) exp.expression;
+        if(sim.sime instanceof RegularVar)
+        {
+            var = (RegularVar) sim.sime;
+            name = var.name;
+
+            for(i = 0; i < globalList.size(); i++) 
+            {
+                typeCheck = globalList.get(i);
+                if(name.equals(typeCheck.sID)) 
+                {
+                  return typeCheck.type.getType();
+                }
+            }
+        }
+    }
+
+    return -1;
   }
 
 }

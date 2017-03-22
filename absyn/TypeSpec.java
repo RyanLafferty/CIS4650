@@ -9,4 +9,18 @@ public class TypeSpec extends Exp {
   	this.pos = pos;
     this.type = type;
   }
+
+  public int getType()
+  {
+    if(this.type == INT)
+    {
+        return INT;
+    }
+    else if(this.type == VOID)
+    {
+        return VOID;
+    }
+    
+    return -1;
+  }
 }
