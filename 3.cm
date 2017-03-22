@@ -7,7 +7,7 @@ void main(void) {
     int x;
     void y;
     a[x] = 1;
-    a[y] = 2;
+    a[y] = y;
 }
 
 void mains(void) {
@@ -20,7 +20,7 @@ int funone(int fff) {
     int x;
     int y;
     void z;
-    x = x * 2 + 1;
+    x = x * 2;
     y = x + z;
 }
 
