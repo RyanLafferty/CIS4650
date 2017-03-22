@@ -374,13 +374,13 @@ import java.util.*;
     {
       var = (RegularVar) tree.left;
       typeL = Symbol.getType(var.name, depth, currentDID, globalList);
-      System.out.println("TypeL: "+ typeL);
+      //System.out.println("TypeL: "+ typeL);
     }
     else if(tree.left instanceof ArrayVar)
     {
       av = (ArrayVar) tree.left;
       typeL = Symbol.getType(av.id, depth, currentDID, globalList);
-      System.out.println("TypeL: "+ typeL);
+      //System.out.println("TypeL: "+ typeL);
     }
     else if (tree.left instanceof OpExp2)
     {
@@ -392,7 +392,7 @@ import java.util.*;
       {
         typeL = Symbol.INT;
       }
-      System.out.println("TypeL: "+ typeL);
+      //System.out.println("TypeL: "+ typeL);
     }
     
     //showTree(tree.right, spaces);
@@ -401,13 +401,13 @@ import java.util.*;
     {
       var = (RegularVar) tree.right;
       typeR = Symbol.getType(var.name, depth, currentDID, globalList);
-      System.out.println("TypeR: "+ typeR);
+      //System.out.println("TypeR: "+ typeR);
     }
     else if(tree.right instanceof ArrayVar)
     {
       av = (ArrayVar) tree.right;
       typeR = Symbol.getType(av.id, depth, currentDID, globalList);
-      System.out.println("TypeR: "+ typeR);
+      //System.out.println("TypeR: "+ typeR);
     }
     else
     {
@@ -415,7 +415,7 @@ import java.util.*;
       {
         typeR = Symbol.INT;
       }
-      System.out.println("TypeR: "+ typeR);
+      //System.out.println("TypeR: "+ typeR);
     }
 
     //check if types match
@@ -827,13 +827,13 @@ import java.util.*;
       {
         var = (RegularVar) tree.left;
         typeL = Symbol.getType(var.name, depth, currentDID, globalList);
-        System.out.println("TypeL: "+ typeL);
+        //System.out.println("TypeL: "+ typeL);
       }
       else if(tree.left instanceof ArrayVar)
       {
         av = (ArrayVar) tree.left;
         typeL = Symbol.getType(av.id, depth, currentDID, globalList);
-        System.out.println("TypeL: "+ typeL);
+        //System.out.println("TypeL: "+ typeL);
       }
       else
       {
@@ -841,7 +841,7 @@ import java.util.*;
         {
           typeL = Symbol.INT;
         }
-        System.out.println("TypeL: "+ typeL);
+        //System.out.println("TypeL: "+ typeL);
       }
       
       //showTree(tree.right, spaces);
@@ -850,20 +850,20 @@ import java.util.*;
       {
         var = (RegularVar) tree.right;
         typeR = Symbol.getType(var.name, depth, currentDID, globalList);
-        System.out.println("TypeR: "+ typeR);
+        //System.out.println("TypeR: "+ typeR);
       }
       else if(tree.right instanceof ArrayVar)
       {
         av = (ArrayVar) tree.right;
         typeR = Symbol.getType(av.id, depth, currentDID, globalList);
-        System.out.println("TypeR: "+ typeR);
+        //System.out.println("TypeR: "+ typeR);
       }
       else
       {
         if(tree.right instanceof IntExp)
         {
           typeR = Symbol.INT;
-          System.out.println("TypeR: "+ typeR);
+          //System.out.println("TypeR: "+ typeR);
         }
       }
 
