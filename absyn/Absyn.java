@@ -443,7 +443,7 @@ import java.util.*;
     System.out.println( "Expr:" );
     p.println("Expr:");
     spaces += SPACES;
-    showTree ((VarDec)tree.var, spaces );
+    showTree ((VarDec)tree.var, spaces ); 
     showTree ((Dec)tree.expression, spaces ); 
   }
 
