@@ -386,4 +386,20 @@ public Symbol(int depth, int dID, String sID, boolean isFunction) {
     return INT;
   }
 
+  public static int getOpType(OpExp2 exp)
+  {
+    int left, right = 0;
+    if(exp.left instanceof OpExp2)
+    {
+        left = getOpType(exp.left);
+        //do check here, see op exp
+    }
+    else
+    {
+        //do check here, see op exp
+    }
+
+    return -1;
+  }
+
 }

@@ -366,12 +366,15 @@ import java.util.*;
     //type checking
     int typeL = -1;
     int typeR = -1;
+    //OpExp2 left = null;
+    //OpExp2 right = null;
     RegularVar var = null;
     ArrayVar av = null;
     if(tree.left instanceof RegularVar)
     {
       var = (RegularVar) tree.left;
       typeL = Symbol.getType(var.name, depth, currentDID, globalList);
+      System.out.println("TypeL: "+ typeL);
     }
     else if(tree.left instanceof ArrayVar)
     {
@@ -379,18 +382,26 @@ import java.util.*;
       typeL = Symbol.getType(av.id, depth, currentDID, globalList);
       System.out.println("TypeL: "+ typeL);
     }
+    else if (tree.left instanceof OpExp2)
+    {
+      System.out.println("a");
+    }
     else
     {
       if(tree.left instanceof IntExp)
       {
         typeL = Symbol.INT;
       }
+      System.out.println("TypeL: "+ typeL);
     }
     
+    //showTree(tree.right, spaces);
+    //System.out.println("asdsadasdas");
     if(tree.right instanceof RegularVar)
     {
       var = (RegularVar) tree.right;
       typeR = Symbol.getType(var.name, depth, currentDID, globalList);
+      System.out.println("TypeR: "+ typeR);
     }
     else if(tree.right instanceof ArrayVar)
     {
@@ -402,7 +413,9 @@ import java.util.*;
     {
       if(tree.right instanceof IntExp)
       {
+        System.out.println("aa");
         typeR = Symbol.INT;
+        System.out.println("TypeR: "+ typeR);
       }
     }
 
