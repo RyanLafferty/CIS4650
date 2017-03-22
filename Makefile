@@ -31,10 +31,11 @@ play:
 clean:
 	rm -f parser.java Lexer.java sym.java *.class absyn/*.class *~
 	rm -f *.abs
+	rm -f *.sym
 test: clean all run
 
 test1:
-	java $(CLASSPATH) Main 1.cm -a
+	java $(CLASSPATH) Main 1.cm -s
 
 test2:
 	java $(CLASSPATH) Main 2.cm -a

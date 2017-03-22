@@ -4,3 +4,5 @@ sym.java
 *.class
 absyn/*.class
 *.abs
+*.sym
+
