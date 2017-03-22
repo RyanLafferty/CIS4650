@@ -439,11 +439,44 @@ import java.util.*;
   }
 
    private void showTree( Expr tree, int spaces ) {
+    ArrayVar aVar;
+    RegularVar rVar;
+    SimpleExpr sime;
+    String varName = "";
+    Symbol s = null;
+    TypeSpec type = null;
+
     indent( spaces );
     System.out.println( "Expr:" );
     p.println("Expr:");
     spaces += SPACES;
-    showTree ((VarDec)tree.var, spaces ); 
+    if(tree.var instanceof RegularVar) {
+      rVar = (RegularVar) tree.var;
+      varName = rVar.name; 
+    } else if(tree.var instanceof ArrayVar) {
+      aVar = (ArrayVar) tree.var;
+      varName = aVar.id;
+    }
+
+    for (int i=0;i<globalList.size();i++) {
+      s = globalList.get(i);
+
+      if(varName.equals(s.sID)) {
+        type = s.type;
+        System.out.println("THE TYPE IS" + type.type );
+      }
+    }
+    showTree ((VarDec)tree.var, spaces );
+
+    if(tree.expression instanceof SimpleExpr) {
+      sime = (SimpleExpr)tree.expression;
+      if(sime.sime instanceof IntExp) {
+        System.out.println("THIS IS  INT");
+        if(type != null && type.type == 1 ) {
+          System.out.println("Cannot assign INT to void");
+        }
+      }
+    }
     showTree ((Dec)tree.expression, spaces ); 
   }
 
