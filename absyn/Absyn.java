@@ -367,10 +367,17 @@ import java.util.*;
     int typeL = -1;
     int typeR = -1;
     RegularVar var = null;
+    ArrayVar av = null;
     if(tree.left instanceof RegularVar)
     {
       var = (RegularVar) tree.left;
       typeL = Symbol.getType(var.name, depth, currentDID, table);
+    }
+    else if(tree.left instanceof ArrayVar)
+    {
+      av = (ArrayVar) tree.left;
+      typeL = Symbol.getType(av.id, depth, currentDID, table);
+      System.out.println("TypeL: "+ typeL);
     }
     else
     {
@@ -379,10 +386,17 @@ import java.util.*;
         typeL = Symbol.INT;
       }
     }
+    
     if(tree.right instanceof RegularVar)
     {
       var = (RegularVar) tree.right;
       typeR = Symbol.getType(var.name, depth, currentDID, table);
+    }
+    else if(tree.right instanceof ArrayVar)
+    {
+      av = (ArrayVar) tree.right;
+      typeR = Symbol.getType(av.id, depth, currentDID, table);
+      System.out.println("TypeR: "+ typeR);
     }
     else
     {
