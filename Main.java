@@ -17,6 +17,7 @@ import java.io.*;
 class Main {
    public PrintWriter out = null;
    public Boolean abs = false;
+   public Boolean sym = false;
 
    public Main()
    {
@@ -38,10 +39,22 @@ class Main {
           } catch (Exception e) {
 
           }
+        } 
+        else if(argv[1].equals("-s")) {
+          sym = true;
+          String name = argv[0].substring(0, argv[0].lastIndexOf('.'));
+          try{
+            out = new PrintWriter(name+".sym");
+            System.out.println("======\nErrors\n=====\n");
+            out.println("======\nErrors\n======\n");
+          } catch(Exception e) {
+
+          }
         }
       }
       parser p = new parser(new Lexer(new FileReader(argv[0])));
       p.abs = abs;
+      p.sym = sym;
       p.out = out;
       Object result = p.parse().value;
 

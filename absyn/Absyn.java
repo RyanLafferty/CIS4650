@@ -46,13 +46,15 @@ import java.util.*;
     } 
   }
 
- public void showTree( DecList tree, int spaces, PrintWriter p ) {//TODO
+ public void showTree( DecList tree, int spaces, PrintWriter p, int checkpoint) {//TODO
     this.p = p;
     while( tree != null ) {
       showTree( tree.head, spaces );
       tree = tree.tail;
     }
-    Symbol.dumpOrganizedTable(hash); 
+    if(checkpoint == 2){
+      Symbol.dumpOrganizedTable(hash,p); 
+    }
   }
 
   public void dumpArgs(DecList tree) {

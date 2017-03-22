@@ -1,7 +1,7 @@
 package absyn;
 
 import java.util.*;
-
+import java.io.*;
 
 public class Symbol {
 
@@ -223,7 +223,7 @@ public Symbol(int depth, int dID, String sID, boolean isFunction) {
     System.out.println("***********************************************");
   }
 
-    public static void dumpOrganizedTable(Hashtable <Integer, ArrayList <Symbol>> symbolTable)
+    public static void dumpOrganizedTable(Hashtable <Integer, ArrayList <Symbol>> symbolTable, PrintWriter p)
   {
     int i = 0;
     int key = 0;
@@ -232,8 +232,9 @@ public Symbol(int depth, int dID, String sID, boolean isFunction) {
     Enumeration <Integer> enumKey = symbolTable.keys();
     
     System.out.println("\n\n***********************************************");
+    p.println("\n\n***********************************************");
     System.out.println("Hashtable: ");
-
+    p.println("Hashtable: ");
     while(enumKey.hasMoreElements()) 
     {
         key = enumKey.nextElement();
@@ -245,12 +246,15 @@ public Symbol(int depth, int dID, String sID, boolean isFunction) {
             if(i == 0)
             {
                 System.out.println("====================\n dID = " + key + ", depth = " + s.depth + "\n====================");
+                p.println("====================\n dID = " + key + ", depth = " + s.depth + "\n====================");
             }
 
             if(s.type.type == TypeSpec.INT) {
               System.out.println(s.sID +"  =  "+ "INT");
+              p.println(s.sID +"  =  "+ "INT");
             } else {
               System.out.println(s.sID +"  =  "+ "VOID");
+              p.println(s.sID +"  =  "+ "VOID");
             }
             
         }        
