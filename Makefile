@@ -54,3 +54,6 @@ test5:
 
 test6:
 	java $(CLASSPATH) Main gcd.cm -s	
+
+test11:
+	java $(CLASSPATH) Main 11.cm -s	
