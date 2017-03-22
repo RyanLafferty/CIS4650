@@ -10,4 +10,10 @@ public class CompStmt extends Dec {
     this.decs = decs;
     this.stmt = stmt;
   }
+
+  public CompStmt(int pos, DecList decs) {
+  	this.pos = pos;
+  	this.decs = decs;
+  	this.stmt = null;
+  }
 }

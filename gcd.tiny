@@ -7,7 +7,6 @@ void suck(int testt, int b[]) {
     if(t < 5)
     {  
     	int ch;
-    	ch = 5;
     }
     z = 5;
     s[1] = 2;

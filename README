@@ -19,7 +19,7 @@ or modify the make run command / type make test1..5 to test 1..5.cm files
 *************************
 Limitations & Assumptions 
 *************************
-
+-Invalid grammar symbols will NOT be added to the symbol table
 
 ***********
 Sources

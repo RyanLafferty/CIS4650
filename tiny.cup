@@ -223,6 +223,10 @@ comp_stmt        ::= OPAREN:i local_decs:s1 stmt_list:s2 CPAREN
                  {: 
                     RESULT = new CompStmt(ileft, s1, s2);
                  :}
+                 | OPAREN:i local_decs:s1 CPAREN
+                 {:
+                    RESULT = new CompStmt(ileft,s1);
+                 :}
                  | error
                  {: 
                     parser.report_error("Not a valid comp statements", null); 
