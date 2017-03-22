@@ -38,16 +38,16 @@ test1:
 	java $(CLASSPATH) Main 1.cm -s
 
 test2:
-	java $(CLASSPATH) Main 2.cm -a
+	java $(CLASSPATH) Main 2.cm -s
 
 test3:
-	java $(CLASSPATH) Main 3.cm -a
+	java $(CLASSPATH) Main 3.cm -s
 
 test4:
-	java $(CLASSPATH) Main 4.cm -a
+	java $(CLASSPATH) Main 4.cm -s
 
 test5:
-	java $(CLASSPATH) Main 5.cm -a
+	java $(CLASSPATH) Main 5.cm -s
 
 test6:
-	java $(CLASSPATH) Main gcd.cm -a	
+	java $(CLASSPATH) Main gcd.cm -s	
