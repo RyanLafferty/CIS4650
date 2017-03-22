@@ -389,14 +389,16 @@ public Symbol(int depth, int dID, String sID, boolean isFunction) {
   public static int getOpType(OpExp2 exp)
   {
     int left, right = 0;
+    OpExp2 opExp;
     if(exp.left instanceof OpExp2)
-    {
-        left = getOpType(exp.left);
-        //do check here, see op exp
+    {   
+        opExp = (OpExp2)exp.left;
+        //left = getOpType(opExp);
+        return getOpType(opExp);
     }
     else
     {
-        //do check here, see op exp
+      
     }
 
     return -1;
