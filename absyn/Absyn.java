@@ -384,7 +384,7 @@ import java.util.*;
     }
     else if (tree.left instanceof OpExp2)
     {
-      System.out.println("a");
+      typeL = getOpType((OpExp2) tree.left);
     }
     else
     {
@@ -413,10 +413,9 @@ import java.util.*;
     {
       if(tree.right instanceof IntExp)
       {
-        System.out.println("aa");
         typeR = Symbol.INT;
-        System.out.println("TypeR: "+ typeR);
       }
+      System.out.println("TypeR: "+ typeR);
     }
 
     //check if types match
@@ -801,4 +800,85 @@ import java.util.*;
     p.println("WriteExp:");
     showTree( tree.output, spaces + SPACES ); 
   }
+
+
+
+
+  public int getOpType(OpExp2 tree)
+  {
+    int left, right = 0;
+    OpExp2 opExp;
+    if(tree.left instanceof OpExp2)
+    {   
+        opExp = (OpExp2)tree.left;
+        //left = getOpType(opExp);
+        return getOpType(opExp);
+    }
+    else
+    {
+      //type checking
+      int typeL = -1;
+      int typeR = -1;
+
+      RegularVar var = null;
+      ArrayVar av = null;
+
+      if(tree.left instanceof RegularVar)
+      {
+        var = (RegularVar) tree.left;
+        typeL = Symbol.getType(var.name, depth, currentDID, globalList);
+        System.out.println("TypeL: "+ typeL);
+      }
+      else if(tree.left instanceof ArrayVar)
+      {
+        av = (ArrayVar) tree.left;
+        typeL = Symbol.getType(av.id, depth, currentDID, globalList);
+        System.out.println("TypeL: "+ typeL);
+      }
+      else
+      {
+        if(tree.left instanceof IntExp)
+        {
+          typeL = Symbol.INT;
+        }
+        System.out.println("TypeL: "+ typeL);
+      }
+      
+      //showTree(tree.right, spaces);
+      //System.out.println("asdsadasdas");
+      if(tree.right instanceof RegularVar)
+      {
+        var = (RegularVar) tree.right;
+        typeR = Symbol.getType(var.name, depth, currentDID, globalList);
+        System.out.println("TypeR: "+ typeR);
+      }
+      else if(tree.right instanceof ArrayVar)
+      {
+        av = (ArrayVar) tree.right;
+        typeR = Symbol.getType(av.id, depth, currentDID, globalList);
+        System.out.println("TypeR: "+ typeR);
+      }
+      else
+      {
+        if(tree.right instanceof IntExp)
+        {
+          typeR = Symbol.INT;
+          System.out.println("TypeR: "+ typeR);
+        }
+      }
+
+      //check if types match
+      if(typeL > -1 && typeR > -1 && typeL == typeR)
+      {
+        if(typeL == Symbol.INT)
+          return Symbol.INT;
+        else
+          return Symbol.VOID;
+
+      }
+
+      return -1;
+    }
+  }
+
 }
