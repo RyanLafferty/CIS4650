@@ -34,6 +34,9 @@ clean:
 	rm -f *.sym
 test: clean all run
 
+testr:
+	java $(CLASSPATH) Main rTest.cm -a
+
 test1:
 	java $(CLASSPATH) Main 1.cm -s
 
