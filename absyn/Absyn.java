@@ -458,7 +458,7 @@ import java.util.*;
       varName = aVar.id;
     }
 
-    for (int i=0;i<globalList.size();i++) {
+    for (int i = 0; i < globalList.size(); i++) {
       s = globalList.get(i);
 
       if(varName.equals(s.sID)) {
@@ -468,13 +468,25 @@ import java.util.*;
     }
     showTree ((VarDec)tree.var, spaces );
 
+
+    //checks intexp assigned to void
     if(tree.expression instanceof SimpleExpr) {
       sime = (SimpleExpr)tree.expression;
       if(sime.sime instanceof IntExp) {
         System.out.println("THIS IS  INT");
-        if(type != null && type.type == 1 ) {
-          System.out.println("Cannot assign INT to void");
+        if(type != null && type.type == Symbol.VOID ) {
+          System.out.println("Cannot assign INT to VOID");
         }
+      }
+      //check singular assignment
+      else if(sime.sime instanceof RegularVar)
+      {
+        //todo
+      }
+      //check arrayvar
+      else if(sime.sime instanceof ArrayVar)
+      {
+        //todo
       }
     }
     showTree ((Dec)tree.expression, spaces ); 
