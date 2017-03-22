@@ -371,12 +371,12 @@ import java.util.*;
     if(tree.left instanceof RegularVar)
     {
       var = (RegularVar) tree.left;
-      typeL = Symbol.getType(var.name, depth, currentDID, table);
+      typeL = Symbol.getType(var.name, depth, currentDID, globalList);
     }
     else if(tree.left instanceof ArrayVar)
     {
       av = (ArrayVar) tree.left;
-      typeL = Symbol.getType(av.id, depth, currentDID, table);
+      typeL = Symbol.getType(av.id, depth, currentDID, globalList);
       System.out.println("TypeL: "+ typeL);
     }
     else
@@ -390,12 +390,12 @@ import java.util.*;
     if(tree.right instanceof RegularVar)
     {
       var = (RegularVar) tree.right;
-      typeR = Symbol.getType(var.name, depth, currentDID, table);
+      typeR = Symbol.getType(var.name, depth, currentDID, globalList);
     }
     else if(tree.right instanceof ArrayVar)
     {
       av = (ArrayVar) tree.right;
-      typeR = Symbol.getType(av.id, depth, currentDID, table);
+      typeR = Symbol.getType(av.id, depth, currentDID, globalList);
       System.out.println("TypeR: "+ typeR);
     }
     else
