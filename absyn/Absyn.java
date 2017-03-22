@@ -458,14 +458,13 @@ import java.util.*;
     } else if(tree.var instanceof ArrayVar) {
       aVar = (ArrayVar) tree.var;
       varName = aVar.id;
-    }
+    } 
 
     for (int i = 0; i < globalList.size(); i++) {
       s = globalList.get(i);
 
       if(varName.equals(s.sID)) {
         type = s.type;
-        System.out.println("THE TYPE IS" + type.type );
       }
     }
     showTree ((VarDec)tree.var, spaces );
@@ -475,15 +474,21 @@ import java.util.*;
     if(tree.expression instanceof SimpleExpr) {
       sime = (SimpleExpr)tree.expression;
       if(sime.sime instanceof IntExp) {
-        System.out.println("THIS IS  INT");
         if(type != null && type.type == Symbol.VOID ) {
+          indent(spaces);
           System.out.println("Cannot assign INT to VOID");
         }
       }
       //check singular assignment
       else if(sime.sime instanceof RegularVar)
       {
-        //todo
+        rVar = (RegularVar) sime.sime;
+        t = Symbol.getType(rVar.name, depth,currentDID, globalList);
+        if(t != type.type) {
+          indent(spaces);
+          System.out.println("Assignment type mismatch error");
+        }
+
       }
       //check arrayvar
       else if(sime.sime instanceof ArrayVar)
@@ -495,7 +500,8 @@ import java.util.*;
         op = (OpExp2) sime.sime;
         t = getOpTypeNR(op);
         if(t != type.type)
-        {
+        { 
+          indent(spaces);
           System.out.println("Assignment type mismatch error");
         }
       }
