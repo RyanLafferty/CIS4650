@@ -2,6 +2,7 @@ void a;
 int x;
 int y;
 int z[3];
+void s[3];
 
 /*
 todo:
@@ -50,8 +51,8 @@ int main(void)
     a = a = 1;
     a = x + 2 + 3;
     y = a + a;
-    z[a] = 2; /*todo catch this*/
-    
+    z[a] = 2;
+    s[2] = 2;
 
     if(void)
     {

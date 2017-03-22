@@ -439,14 +439,15 @@ import java.util.*;
   }
 
    private void showTree( Expr tree, int spaces ) {
-    OpExp2 op;
-    ArrayVar aVar;
-    RegularVar rVar;
-    SimpleExpr sime;
+    OpExp2 op = null;
+    ArrayVar aVar = null;
+    RegularVar rVar = null;
+    SimpleExpr sime = null;
     String varName = "";
     Symbol s = null;
     TypeSpec type = null;
     int t = -1;
+    int indexT = -1;
 
     indent( spaces );
     System.out.println( "Expr:" );
@@ -467,7 +468,23 @@ import java.util.*;
         type = s.type;
       }
     }
+
     showTree ((VarDec)tree.var, spaces );
+    if(tree.var instanceof ArrayVar) {
+      if(aVar.number instanceof SimpleExpr) {
+        sime = (SimpleExpr)aVar.number;
+        if(sime.sime instanceof RegularVar) {
+          rVar = (RegularVar) sime.sime;
+          t = Symbol.getType(aVar.id, depth, currentDID, globalList);
+          indexT = Symbol.getType(rVar.name,depth,currentDID,globalList);
+          if(t != indexT) {
+            indent (spaces);
+            System.out.println("Error: Index type mismatch");
+          }
+        } 
+      }
+    }
+    
 
 
     //checks intexp assigned to void
@@ -476,14 +493,14 @@ import java.util.*;
       if(sime.sime instanceof IntExp) {
         if(type != null && type.type == Symbol.VOID ) {
           indent(spaces);
-          System.out.println("Cannot assign INT to VOID");
+          System.out.println("Assignment type mismatch error");
         }
       }
       //check singular assignment
       else if(sime.sime instanceof RegularVar)
       {
         rVar = (RegularVar) sime.sime;
-        t = Symbol.getType(rVar.name, depth,currentDID, globalList);
+        t = Symbol.getType(rVar.name, depth, currentDID, globalList);
         if(t != type.type) {
           indent(spaces);
           System.out.println("Assignment type mismatch error");
@@ -493,7 +510,15 @@ import java.util.*;
       //check arrayvar
       else if(sime.sime instanceof ArrayVar)
       {
-        //todo
+        aVar = (ArrayVar) sime.sime;
+
+        t = Symbol.getType(aVar.id, depth, currentDID, globalList);
+        if(t != type.type) {
+          indent(spaces);
+          System.out.println("Assignment type mismatch error");
+        }
+
+
       }
       else if(sime.sime instanceof OpExp2)
       {
