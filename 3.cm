@@ -1,4 +1,31 @@
-int x;
-void y; 
-int bbb[10];
+/*Contains first four typechecking examples
+that were in Fei's rubric. Tests issues such
+as return values and assignments*/
 
+void main(void) {
+    int a[2];
+    int x;
+    void y;
+    a[x] = 1;
+    a[y] = 2;
+}
+
+void mains(void) {
+    int x;
+    void y;
+   
+}
+
+int funone(int fff) {
+    int x;
+    int y;
+    void z;
+    x = x * 2 + 1;
+    y = x + z;
+}
+
+void funtwo(void) {
+    int x;
+    x = 2;
+    return x;
+}
