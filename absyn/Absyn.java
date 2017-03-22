@@ -68,14 +68,13 @@ import java.util.*;
         argDec = (RegularDec) tree.head;
         if(argDec.size > 0)
         {
-                    arg = new Symbol(depth, currentDID, argDec.id, argDec.type, false, 1);
+          arg = new Symbol(depth, currentDID, argDec.id, argDec.type, false, 1);
         }
         else
         {
           arg = new Symbol(depth, currentDID, argDec.id, argDec.type, false);
         }
         argList.add(arg);
-        //System.out.println("id = " + arg.id);
       }
       tree = tree.tail;
     }
@@ -89,15 +88,8 @@ import java.util.*;
     Symbol arg = null;
     Symbol typeCheck;
     TypeSpec t = null;
+    
     argList.clear();
-
-    //todo, modify
-    /*
-                            OpExp: +
-                                int
-                                IntExp: 1
-                                IntExp: 2
-    */
     while( tree != null ) {
       if(tree.head instanceof SimpleExpr)
       {
@@ -112,10 +104,8 @@ import java.util.*;
               t = typeCheck.type;
             }
           }
-          //arg = new Symbol(depth, currentDID, argVar.name, false); //TODO - figure out how to get     type of regularVar
           arg = new Symbol(depth, currentDID, argVar.name, t, false); 
           localArgs.add(arg);
-          //System.out.println("id = " + arg.sID);
         }
         else if(d instanceof OpExp2)
         {
