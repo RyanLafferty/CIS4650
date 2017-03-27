@@ -216,9 +216,11 @@ public class Assembler
         line = this.currentLine + ":" + "    LDA  7,-35(7)   jump to main loc";
         this.out.println(line);
         this.currentLine++;
-        line = this.currentLine + ":" + "* End of execution.";
+        line = this.currentLine + ":" + "     LD  5,0(5)     pop frame";
         this.out.println(line);
         this.currentLine++;
+        line = "* End of execution.";
+        this.out.println(line);
         line = this.currentLine + ":" + "   HALT  0,0,0";
         this.out.println(line);
         this.currentLine++;
