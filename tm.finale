@@ -1,0 +1,7 @@
+ 81:     ST  5,-1(5)    push ofp
+ 82:    LDA  5,-1(5)    push frame
+ 83:    LDA  0,1(7)     load ac with ret ptr
+ 84:    LDA  7,-35(7)   jump to main loc
+ 85:     LD  5,0(5)     pop frame
+* End of execution.
+ 86:   HALT  0,0,0  
