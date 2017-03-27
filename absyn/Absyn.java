@@ -64,7 +64,7 @@ import java.util.*;
     if(checkpoint == 3)
     {
       Assembler a = new Assembler(fileName);
-      //a.run();
+      a.run();
     }
   }
 
