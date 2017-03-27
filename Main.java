@@ -22,9 +22,9 @@ class Main {
   {
     try {
       if(argv.length == 2) {
+        name = argv[0].substring(0, argv[0].lastIndexOf('.'));
         if(argv[1].equals("-a")) {
           abs = true;
-          name = argv[0].substring(0, argv[0].lastIndexOf('.'));
 
           try {
             out = new PrintWriter(name+".abs");
@@ -36,7 +36,7 @@ class Main {
         } 
         else if(argv[1].equals("-s")) {
           sym = true;
-          String name = argv[0].substring(0, argv[0].lastIndexOf('.'));
+          //name = argv[0].substring(0, argv[0].lastIndexOf('.'));
           try{
             out = new PrintWriter(name+".sym");
             System.out.println("======\nErrors\n=====\n");
@@ -47,7 +47,14 @@ class Main {
         }
         else if(argv[1].equals("-c")) {
           asm = true;
-          String name = argv[0].substring(0, argv[0].lastIndexOf('.'));    
+          //name = argv[0].substring(0, argv[0].lastIndexOf('.')); 
+          try {
+            out = new PrintWriter(name+".ast");
+            System.out.println("======\nErrors\n=====\n");
+            out.println("======\nErrors\n======\n");
+          } catch (Exception e) {
+
+          } 
         }
       }
       parser p = new parser(new Lexer(new FileReader(argv[0])));
@@ -55,7 +62,17 @@ class Main {
       p.sym = sym;
       p.asm = asm;
       p.out = out;
-      p.fileName = name;
+
+      if(name == null)
+      {
+        System.out.println("Error: Name is null");
+      }
+      else
+      {
+        //System.out.println(name);
+        p.fileName = name;
+      }
+
       Object result = p.parse().value;
 
     } catch (Exception e) {

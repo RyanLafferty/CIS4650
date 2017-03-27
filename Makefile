@@ -36,7 +36,8 @@ clean:
 	rm -f *.abs
 	rm -f *.sym
 	rm -f *.tm
-	
+	rm -f *.ast
+
 test: clean all run2
 
 testr:

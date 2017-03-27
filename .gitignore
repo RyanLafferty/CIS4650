@@ -6,3 +6,4 @@ absyn/*.class
 *.abs
 *.sym
 *.tm
+*.ast

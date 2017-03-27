@@ -109,8 +109,17 @@ precedence left IF, ELSE;
 program      ::= dec_list:s
                  {: RESULT = s;
 
-                    System.out.println("\n\n===\nAST\n===\n");
-                    parser.out.println("\n\n===\nAST\n===\n");
+                    if(parser.out != null)
+                    {
+                        System.out.println("\n\n===\nAST\n===\n");
+                        parser.out.println("\n\n===\nAST\n===\n");
+                    }
+                    if(parser.fileName == null)
+                    {
+                        System.out.println("File name is null");
+                    }
+
+                    System.out.println("file name = " + parser.fileName);
                     System.out.println( "The abstract syntax tree is:" );
                     if(parser.abs == true) {
                         parser.ab.showTree( RESULT, 0, parser.out, parser.fileName, 1);
