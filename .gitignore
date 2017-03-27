@@ -5,4 +5,4 @@ sym.java
 absyn/*.class
 *.abs
 *.sym
-
+*.tm

@@ -10,6 +10,8 @@ class Main {
    public PrintWriter out = null;
    public Boolean abs = false;
    public Boolean sym = false;
+   public Boolean asm = false;
+   public String name = "";
 
    public Main()
    {
@@ -22,7 +24,7 @@ class Main {
       if(argv.length == 2) {
         if(argv[1].equals("-a")) {
           abs = true;
-          String name = argv[0].substring(0, argv[0].lastIndexOf('.'));
+          name = argv[0].substring(0, argv[0].lastIndexOf('.'));
 
           try {
             out = new PrintWriter(name+".abs");
@@ -43,11 +45,17 @@ class Main {
 
           }
         }
+        else if(argv[1].equals("-c")) {
+          asm = true;
+          String name = argv[0].substring(0, argv[0].lastIndexOf('.'));    
+        }
       }
       parser p = new parser(new Lexer(new FileReader(argv[0])));
       p.abs = abs;
       p.sym = sym;
+      p.asm = asm;
       p.out = out;
+      p.fileName = name;
       Object result = p.parse().value;
 
     } catch (Exception e) {

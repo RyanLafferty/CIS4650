@@ -23,7 +23,10 @@ cup:
 	$(CUP) < tiny.cup > out.txt
 
 run:
-	java $(CLASSPATH) Main gcd.tiny -s 
+	java $(CLASSPATH) Main gcd.tiny -s
+
+run2:
+	java $(CLASSPATH) Main gcd.tiny -c 
 
 play:
 	java $(CLASSPATH) Main chris.tiny
@@ -32,7 +35,9 @@ clean:
 	rm -f parser.java Lexer.java sym.java *.class absyn/*.class *~
 	rm -f *.abs
 	rm -f *.sym
-test: clean all run
+	rm -f *.tm
+	
+test: clean all run2
 
 testr:
 	java $(CLASSPATH) Main rTest.cm -a
