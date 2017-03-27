@@ -7,7 +7,7 @@ int bbb[2];
 
 int main(int p) {
     x = bbb[1] = 1;
-    x = z;
+    x = bbb[1];
     if(bbb[1] > 2) {
 
         x = 2;

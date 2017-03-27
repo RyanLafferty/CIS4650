@@ -384,14 +384,14 @@ import java.util.*;
     if(tree.left instanceof RegularVar)
     {
       var = (RegularVar) tree.left;
-      typeL = Symbol.getType(var.name, depth, currentDID, globalList);
+      typeL = Symbol.getGlobalType(var.name, depth, currentDID, globalList);
       System.out.println("TypeL: "+ typeL);
     }
     else if(tree.left instanceof ArrayVar)
     {
       av = (ArrayVar) tree.left;
-      typeL = Symbol.getType(av.id, depth, currentDID, globalList);
-      //System.out.println("TypeL: "+ typeL);
+      typeL = Symbol.getGlobalType(av.id, depth, currentDID, globalList);
+      System.out.println("TypeL: "+ typeL);
     }
     else if (tree.left instanceof OpExp2)
     {
@@ -411,14 +411,14 @@ import java.util.*;
     if(tree.right instanceof RegularVar)
     {
       var = (RegularVar) tree.right;
-      typeR = Symbol.getType(var.name, depth, currentDID, globalList);
-      //System.out.println("TypeR: "+ typeR);
+      typeR = Symbol.getGlobalType(var.name, depth, currentDID, globalList);
+      System.out.println("TypeR: "+ typeR);
     }
     else if(tree.right instanceof ArrayVar)
     {
       av = (ArrayVar) tree.right;
-      typeR = Symbol.getType(av.id, depth, currentDID, globalList);
-      //System.out.println("TypeR: "+ typeR);
+      typeR = Symbol.getGlobalType(av.id, depth, currentDID, globalList);
+      System.out.println("TypeR: "+ typeR);
     }
     else
     {
@@ -487,8 +487,8 @@ import java.util.*;
         sime = (SimpleExpr)aVar.number;
         if(sime.sime instanceof RegularVar) {
           rVar = (RegularVar) sime.sime;
-          t = Symbol.getType(aVar.id, depth, currentDID, globalList);
-          indexT = Symbol.getType(rVar.name,depth,currentDID,globalList);
+          t = Symbol.getGlobalType(aVar.id, depth, currentDID, globalList);
+          indexT = Symbol.getGlobalType(rVar.name,depth,currentDID,globalList);
           if(t != indexT) {
             indent (spaces);
             System.out.println("Error: Index type mismatch");
@@ -512,7 +512,7 @@ import java.util.*;
       else if(sime.sime instanceof RegularVar)
       {
         rVar = (RegularVar) sime.sime;
-        t = Symbol.getType(rVar.name, depth, currentDID, globalList);
+        t = Symbol.getGlobalType(rVar.name, depth, currentDID, globalList);
         if(t != type.type) {
           indent(spaces);
           System.out.println("Assignment type mismatch error");
@@ -524,7 +524,7 @@ import java.util.*;
       {
         aVar = (ArrayVar) sime.sime;
 
-        t = Symbol.getType(aVar.id, depth, currentDID, globalList);
+        t = Symbol.getGlobalType(aVar.id, depth, currentDID, globalList);
         if(t != type.type) {
           indent(spaces);
           System.out.println("Assignment type mismatch error");
@@ -545,7 +545,7 @@ import java.util.*;
       else if(sime.sime instanceof Call) {
         call = (Call) sime.sime;
         //t = Symbol.getType(aVar.id, depth, currentDID, globalList);
-        t = Symbol.getType(call.id,depth,currentDID,globalList);
+        t = Symbol.getGlobalType(call.id,depth,currentDID,globalList);
         if(t != type.type) {
           indent (spaces);
           System.out.println("Error: Assignment type mismatch");
@@ -936,13 +936,13 @@ import java.util.*;
       if(tree.left instanceof RegularVar)
       {
         var = (RegularVar) tree.left;
-        typeL = Symbol.getType(var.name, depth, currentDID, globalList);
+        typeL = Symbol.getGlobalType(var.name, depth, currentDID, globalList);
         //System.out.println("TypeL: "+ typeL);
       }
       else if(tree.left instanceof ArrayVar)
       {
         av = (ArrayVar) tree.left;
-        typeL = Symbol.getType(av.id, depth, currentDID, globalList);
+        typeL = Symbol.getGlobalType(av.id, depth, currentDID, globalList);
         //System.out.println("TypeL: "+ typeL);
       }
       else
@@ -959,13 +959,13 @@ import java.util.*;
       if(tree.right instanceof RegularVar)
       {
         var = (RegularVar) tree.right;
-        typeR = Symbol.getType(var.name, depth, currentDID, globalList);
+        typeR = Symbol.getGlobalType(var.name, depth, currentDID, globalList);
         //System.out.println("TypeR: "+ typeR);
       }
       else if(tree.right instanceof ArrayVar)
       {
         av = (ArrayVar) tree.right;
-        typeR = Symbol.getType(av.id, depth, currentDID, globalList);
+        typeR = Symbol.getGlobalType(av.id, depth, currentDID, globalList);
         //System.out.println("TypeR: "+ typeR);
       }
       else
@@ -1002,13 +1002,13 @@ import java.util.*;
       if(tree.left instanceof RegularVar)
       {
         var = (RegularVar) tree.left;
-        typeL = Symbol.getType(var.name, depth, currentDID, globalList);
+        typeL = Symbol.getGlobalType(var.name, depth, currentDID, globalList);
         //System.out.println("TypeL: "+ typeL);
       }
       else if(tree.left instanceof ArrayVar)
       {
         av = (ArrayVar) tree.left;
-        typeL = Symbol.getType(av.id, depth, currentDID, globalList);
+        typeL = Symbol.getGlobalType(av.id, depth, currentDID, globalList);
         //System.out.println("TypeL: "+ typeL);
       }
       else if (tree.left instanceof OpExp2)
@@ -1029,13 +1029,13 @@ import java.util.*;
       if(tree.right instanceof RegularVar)
       {
         var = (RegularVar) tree.right;
-        typeR = Symbol.getType(var.name, depth, currentDID, globalList);
+        typeR = Symbol.getGlobalType(var.name, depth, currentDID, globalList);
         //System.out.println("TypeR: "+ typeR);
       }
       else if(tree.right instanceof ArrayVar)
       {
         av = (ArrayVar) tree.right;
-        typeR = Symbol.getType(av.id, depth, currentDID, globalList);
+        typeR = Symbol.getGlobalType(av.id, depth, currentDID, globalList);
         //System.out.println("TypeR: "+ typeR);
       }
       else
