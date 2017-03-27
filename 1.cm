@@ -1,15 +1,17 @@
 /*Valid case*/
 
 int x;
+int z;
 void y; 
-int bbb[10];
+int bbb[2];
 
 int main(int p) {
-    
+    x = bbb[1] = 1;
+    x = z;
     if(bbb[1] > 2) {
 
         x = 2;
     }    
-    
+
     return 5;
 }

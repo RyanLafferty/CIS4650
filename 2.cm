@@ -1,5 +1,8 @@
 /*Tests test case 5 of typechecking outline*/
 
+int asb(int y){
+	return y;
+}
 
 void main(void) {
 	int x;
@@ -11,4 +14,5 @@ void main(void) {
 	while(y) {
 		output(y);
 	}
+	asb(x);
 }

@@ -14,7 +14,7 @@ void mains(void) {
     int x;
     void y;
     void z;
-    x = y + y;
+    x = main();
    
 }
 
