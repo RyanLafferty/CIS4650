@@ -11,6 +11,9 @@ public class Assembler
     private PrintWriter out = null;
     private FileReader preludeFile = null;
     private BufferedReader preludeReader = null;
+    private FileReader finaleFile = null;
+    private BufferedReader finaleReader = null;
+    private int currentLine = 12;
 
 
     /*
@@ -33,11 +36,11 @@ public class Assembler
     {
         boolean succ = false;
 
-        //open file where prelude is stored
+        //open files where prelude/finale is stored
         succ = openPrelude();
         if(succ == false)
         {
-            System.out.println("Error: Could not open prelude file");
+            System.out.println("Error: Could not open prelude and finale files");
         }
 
         //create file to output assembly code
@@ -53,6 +56,16 @@ public class Assembler
         if(succ == false)
         {
             System.out.println("Error: Did not successfully write prelude");
+            return false;
+        }
+
+        //TODO - Code generation stuff goes here
+
+        //output the finale to the file
+        outputFinale();
+        if(succ == false)
+        {
+            System.out.println("Error: Did not successfully write finale");
             return false;
         }
 
@@ -96,7 +109,7 @@ public class Assembler
 
 
     /*
-    Desc: Creates the prelude reader to read the prelude from
+    Desc: Creates the prelude/finale reader to read the prelude/finale from
     Args: none
     Ret: On success, returns true; on failure, returns false (boolean)
     */
@@ -110,11 +123,23 @@ public class Assembler
                 return false;
             }
 
+            /*this.finaleFile = new FileReader("tm.finale");
+            if(this.finaleFile == null)
+            {
+                return false;
+            }*/
+
             this.preludeReader = new BufferedReader(this.preludeFile);
             if(this.preludeReader == null)
             {
                 return false;
             }
+
+            /*this.finaleReader = new BufferedReader(this.finaleFile);
+            if(this.finaleReader == null)
+            {
+                return false;
+            }*/
 
             return true;
         }
@@ -166,6 +191,37 @@ public class Assembler
         {
             return false;
         }
+
+        return true;
+    }
+
+    /*
+    Desc: TODO
+    Args: 
+    Ret: 
+    */
+    private boolean outputFinale() 
+    {
+        String line = "";
+
+        line = this.currentLine + ":" + "     ST  5,-1(5)    push ofp";
+        this.out.println(line);
+        this.currentLine++;
+        line = this.currentLine + ":" + "    LDA  5,-1(5)    push frame";
+        this.out.println(line);
+        this.currentLine++;
+        line = this.currentLine + ":" + "    LDA  0,1(7)     load ac with ret ptr";
+        this.out.println(line);
+        this.currentLine++;
+        line = this.currentLine + ":" + "    LDA  7,-35(7)   jump to main loc";
+        this.out.println(line);
+        this.currentLine++;
+        line = this.currentLine + ":" + "* End of execution.";
+        this.out.println(line);
+        this.currentLine++;
+        line = this.currentLine + ":" + "   HALT  0,0,0";
+        this.out.println(line);
+        this.currentLine++;
 
         return true;
     }
