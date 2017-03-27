@@ -457,6 +457,7 @@ import java.util.*;
     RegularVar rVar = null;
     SimpleExpr sime = null;
     IntExp intExp = null;
+    IntExp arrayIndex = null;
     Call call = null;
     String varName = "";
     Symbol s = null;
@@ -537,10 +538,12 @@ import java.util.*;
         } else if(tree.var instanceof ArrayVar) {
           aVar = (ArrayVar) tree.var;
           varName = aVar.id;
-          //System.out.println(aVar.number);
-          if(aVar.number instanceof IntExp) {
+          sime = (SimpleExpr)aVar.number;
+          if(sime.sime instanceof IntExp){
             System.out.println("INSERT");
-            //insertValue(aVar.name, intExp.value, )
+            System.out.println(intExp.value);
+            arrayIndex = (IntExp)sime.sime;
+            insertValue(aVar.id, intExp.value, Integer.parseInt(arrayIndex.value));
           }
           
         }
@@ -1105,7 +1108,12 @@ import java.util.*;
           System.out.println("Inserting value "+value+" into regularVar "+id);
           globalList.get(i).value = Integer.parseInt(value);
         } else {
-          globalList.get(i).valueArray[index-1] = Integer.parseInt(value);
+          System.out.println("Inserting value "+value+" into arrayVar "+id);
+          if(index < 0 || index >= globalList.get(i).arrSize) {
+            System.out.println("Array out of bounds error!");
+          } else {
+            globalList.get(i).valueArray[index-1] = Integer.parseInt(value);
+          }
         }
       }
     }

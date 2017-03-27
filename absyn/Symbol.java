@@ -33,6 +33,7 @@ public class Symbol {
     this.type = type;
     this.isFunction = isFunction;
     this.arrSize = arrSize;
+    this.valueArray = new int[arrSize];
   }
 
   public Symbol(int depth, int dID, String sID, TypeSpec type, boolean isFunction, ArrayList <Symbol> args) {
