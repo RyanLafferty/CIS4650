@@ -15,6 +15,8 @@ public class Symbol {
   public boolean isFunction = false;
   public int arrSize = -1;
   public ArrayList <Symbol> args = null;
+  public int value = 0; //Assumption that default value is 0. Used for uninitialized cases
+  public int valueArray[];
 
   public Symbol(int depth, int dID, String sID, TypeSpec type, boolean isFunction) {
   	this.depth = depth;

@@ -245,6 +245,7 @@ import java.util.*;
   }
 
    private void showTree( ArrayDec tree, int spaces ) {
+    IntExp intExp = null;
     indent( spaces );
     System.out.println( "ArrayDec:" );
     p.println("ArrayDec:");
@@ -257,8 +258,9 @@ import java.util.*;
       indent( spaces );
       System.out.println("Error: redec of var");
     } else {
-      globalList.add(new Symbol(depth, currentDID, tree.id,tree.type, false));
-      table.add(new Symbol(depth, currentDID, tree.id, tree.type, false));
+      intExp = tree.number;
+      globalList.add(new Symbol(depth, currentDID, tree.id,tree.type, false, Integer.parseInt(intExp.value)));
+      table.add(new Symbol(depth, currentDID, tree.id, tree.type, false, Integer.parseInt(intExp.value)));
     }
 
   }
@@ -454,6 +456,7 @@ import java.util.*;
     ArrayVar aVar = null;
     RegularVar rVar = null;
     SimpleExpr sime = null;
+    IntExp intExp = null;
     Call call = null;
     String varName = "";
     Symbol s = null;
@@ -467,10 +470,32 @@ import java.util.*;
     spaces += SPACES;
     if(tree.var instanceof RegularVar) {
       rVar = (RegularVar) tree.var;
-      varName = rVar.name; 
+      varName = rVar.name;
+      for (int i = 0; i < globalList.size(); i++) {
+        s = globalList.get(i);
+        if(varName.equals(s.sID)) {
+          //If var is an array, then we cannot reference it a regular var
+          //TODO: TEST
+          if(s.arrSize != -1) {
+            indent (spaces);
+            System.out.println("Error: Not a regular varaible");
+          }
+        }
+      } 
     } else if(tree.var instanceof ArrayVar) {
       aVar = (ArrayVar) tree.var;
       varName = aVar.id;
+      for (int i = 0; i < globalList.size(); i++) {
+        s = globalList.get(i);
+        if(varName.equals(s.sID)) {
+          //If var is not an array, then we cannot reference it as one
+          //TODO: TEST
+          if(s.arrSize == -1) {
+            indent (spaces);
+            System.out.println("Error: Not an array varaible");
+          }
+        }
+      }
     } 
 
     for (int i = 0; i < globalList.size(); i++) {
@@ -497,15 +522,27 @@ import java.util.*;
       }
     }
     
-
-
     //checks intexp assigned to void
     if(tree.expression instanceof SimpleExpr) {
       sime = (SimpleExpr)tree.expression;
       if(sime.sime instanceof IntExp) {
+        intExp = (IntExp)sime.sime;
         if(type != null && type.type == Symbol.VOID ) {
           indent(spaces);
           System.out.println("Assignment type mismatch error");
+        } else if(tree.var instanceof RegularVar && type != null) {
+          rVar = (RegularVar) tree.var;
+          varName = rVar.name;
+          insertValue(rVar.name, intExp.value, -1); 
+        } else if(tree.var instanceof ArrayVar) {
+          aVar = (ArrayVar) tree.var;
+          varName = aVar.id;
+          //System.out.println(aVar.number);
+          if(aVar.number instanceof IntExp) {
+            System.out.println("INSERT");
+            //insertValue(aVar.name, intExp.value, )
+          }
+          
         }
       }
       //check singular assignment
@@ -552,7 +589,6 @@ import java.util.*;
         }
       } 
     }
-
 
     showTree ((Dec)tree.expression, spaces ); 
   }
@@ -1057,6 +1093,26 @@ import java.util.*;
       }
 
       return -1;
+  }
+
+  public void insertValue(String id, String value, int index) {
+    Symbol s;
+    int i;
+    for(i=0;i<globalList.size();i++) {
+      s = globalList.get(i);
+      if(s.sID.equals(id)) {
+        if(index == -1){
+          System.out.println("Inserting value "+value+" into regularVar "+id);
+          globalList.get(i).value = Integer.parseInt(value);
+        } else {
+          globalList.get(i).valueArray[index-1] = Integer.parseInt(value);
+        }
+      }
+    }
+    for(i=0;i<globalList.size();i++) {
+      s = globalList.get(i);
+      System.out.println("ID: "+s.sID+" VAL: "+s.value + " "+s.arrSize);
+    }
   }
 
 }
