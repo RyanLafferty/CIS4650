@@ -385,4 +385,22 @@ public Symbol(int depth, int dID, String sID, boolean isFunction) {
 
     return INT;
   }
+
+  public static int getGlobalType(String id, int depth, int dID, ArrayList <Symbol> globalList) {
+    int i = 0;
+    Symbol s;
+
+    for(i=0;i<globalList.size();i++) {
+      s = globalList.get(i);
+      if(s.sID.equals(id)) {
+        if(s.type.type == TypeSpec.INT) {
+          return INT;
+        } else if(s.type.type == TypeSpec.VOID) {
+          return VOID;
+        }
+      }
+    }
+    //If the symbol is not found
+    return -1;
+  }
 }

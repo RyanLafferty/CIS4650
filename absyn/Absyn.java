@@ -374,7 +374,7 @@ import java.util.*;
     {
       var = (RegularVar) tree.left;
       typeL = Symbol.getType(var.name, depth, currentDID, globalList);
-      //System.out.println("TypeL: "+ typeL);
+      System.out.println("TypeL: "+ typeL);
     }
     else if(tree.left instanceof ArrayVar)
     {
