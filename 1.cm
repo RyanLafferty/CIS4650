@@ -10,7 +10,7 @@ int main(int p) {
     x = bbb[1];
     if(bbb[1] > 2) {
 
-        bbb[1 <= 2 + 2] = 2;
+        bbb[99>2] = 2;
   
         x = 2;
     }    

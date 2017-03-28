@@ -566,25 +566,26 @@ import java.util.*;
           opResult = 0;
         }
       } else if(tree.op == OpExp2.LT) {
-        if(opResult < leftInt) {
+        if(leftInt < opResult) {
           opResult = 1;
         } else {
           opResult = 0;
         }
       } else if(tree.op == OpExp2.GT) {
-        if(opResult > leftInt) {
+        if(leftInt > opResult) {
           opResult = 1;
         } else {
           opResult = 0;
         }
       } else if(tree.op == OpExp2.GTE) {
-        if(opResult >= leftInt) {
+        System.out.println("TEST");
+        if(leftInt >= opResult) {
           opResult = 1;
         } else {
           opResult = 0;
         }
       } else if(tree.op == OpExp2.LTE) {
-        if(opResult <= leftInt) {
+        if(leftInt <= opResult) {
           opResult = 1;
         } else {
           opResult = 0;
