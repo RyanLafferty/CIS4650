@@ -458,8 +458,8 @@ import java.util.*;
 
     showTree( tree.left, spaces );
     showTree( tree.right, spaces ); 
-    System.out.println(tree.left);
-    System.out.println(tree.right);
+    //System.out.println(tree.left);
+    //System.out.println(tree.right);
     if(tree.left instanceof IntExp && tree.right instanceof IntExp) {
       intExp = (IntExp)tree.right;
       rightInt = Integer.parseInt(intExp.value);
@@ -474,6 +474,36 @@ import java.util.*;
         opResult += (leftInt * rightInt);
       } else if(tree.op == OpExp2.SLASH) {
         opResult += (leftInt / rightInt);
+      } else if(tree.op == OpExp2.EQ) {
+        if(leftInt == rightInt) {
+          opResult = 1;
+        } else {
+          opResult = 0;
+        }
+      } else if(tree.op == OpExp2.LT) {
+        if(leftInt < rightInt) {
+          opResult = 1;
+        } else {
+          opResult = 0;
+        }
+      } else if(tree.op == OpExp2.GT) {
+        if(leftInt > rightInt) {
+          opResult = 1;
+        } else {
+          opResult = 0;
+        }
+      } else if(tree.op == OpExp2.GTE) {
+        if(leftInt >= rightInt) {
+          opResult = 1;
+        } else {
+          opResult = 0;
+        }
+      } else if(tree.op == OpExp2.LTE) {
+        if(leftInt <= rightInt) {
+          opResult = 1;
+        } else {
+          opResult = 0;
+        }
       }
     } else if(tree.right instanceof IntExp) {
       intExp = (IntExp)tree.right;
@@ -486,7 +516,38 @@ import java.util.*;
         opResult *= rightInt;
       } else if(tree.op == OpExp2.SLASH) {
         opResult /= rightInt;
+      } else if(tree.op == OpExp2.EQ) {
+        if(opResult == rightInt) {
+          opResult = 1;
+        } else {
+          opResult = 0;
+        }
+      } else if(tree.op == OpExp2.LT) {
+        if(opResult < rightInt) {
+          opResult = 1;
+        } else {
+          opResult = 0;
+        }
+      } else if(tree.op == OpExp2.GT) {
+        if(opResult > rightInt) {
+          opResult = 1;
+        } else {
+          opResult = 0;
+        }
+      } else if(tree.op == OpExp2.GTE) {
+        if(opResult >= rightInt) {
+          opResult = 1;
+        } else {
+          opResult = 0;
+        }
+      } else if(tree.op == OpExp2.LTE) {
+        if(opResult <= rightInt) {
+          opResult = 1;
+        } else {
+          opResult = 0;
+        }
       }
+
     } else if(tree.left instanceof IntExp) {
       intExp = (IntExp)tree.left;
       leftInt = Integer.parseInt(intExp.value);
@@ -498,6 +559,36 @@ import java.util.*;
         opResult *= leftInt;
       } else if(tree.op == OpExp2.SLASH) {
         opResult /= leftInt;
+      } else if(tree.op == OpExp2.EQ) {
+        if(opResult == leftInt) {
+          opResult = 1;
+        } else {
+          opResult = 0;
+        }
+      } else if(tree.op == OpExp2.LT) {
+        if(opResult < leftInt) {
+          opResult = 1;
+        } else {
+          opResult = 0;
+        }
+      } else if(tree.op == OpExp2.GT) {
+        if(opResult > leftInt) {
+          opResult = 1;
+        } else {
+          opResult = 0;
+        }
+      } else if(tree.op == OpExp2.GTE) {
+        if(opResult >= leftInt) {
+          opResult = 1;
+        } else {
+          opResult = 0;
+        }
+      } else if(tree.op == OpExp2.LTE) {
+        if(opResult <= leftInt) {
+          opResult = 1;
+        } else {
+          opResult = 0;
+        }
       }
     }
 
