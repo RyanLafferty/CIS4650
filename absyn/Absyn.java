@@ -14,7 +14,7 @@ import java.util.*;
   public ArrayList<Symbol> argList = new ArrayList<Symbol>();
   public ArrayList<Symbol> localArgs = new ArrayList<Symbol>();
   public Hashtable<Integer,ArrayList<Symbol>> hash = new Hashtable<Integer,ArrayList<Symbol>>();
-
+  public int opResult = 0;
   final  int SPACES = 4;
 
    private void indent( int spaces ) {
@@ -330,6 +330,9 @@ import java.util.*;
 
    private void showTree( OpExp2 tree, int spaces ) {
     indent( spaces );
+    IntExp intExp;
+    int leftInt;
+    int rightInt;
     System.out.print( "OpExp:" );
     p.print("OpExp: ");
     switch( tree.op ) {
@@ -434,11 +437,14 @@ import java.util.*;
     //check if types match
     if(typeL > -1 && typeR > -1 && typeL == typeR)
     {
+      System.out.println("Type L: "+typeL+" Type R: "+typeR);
       indent( spaces );
-      if(typeL == Symbol.INT)
+      if(typeL == Symbol.INT) {
         System.out.println("int");
-      else
+      }
+      else {
         System.out.println("void");
+      }
     }
     else
     {
@@ -449,6 +455,36 @@ import java.util.*;
 
     showTree( tree.left, spaces );
     showTree( tree.right, spaces ); 
+    //System.out.println(tree.left);
+    //System.out.println(tree.right);
+    if(tree.left instanceof IntExp && tree.right instanceof IntExp) {
+      intExp = (IntExp)tree.right;
+      rightInt = Integer.parseInt(intExp.value);
+      intExp = (IntExp)tree.left;
+      leftInt = Integer.parseInt(intExp.value);
+      if(tree.op == OpExp2.PLUS) {
+        opResult = rightInt + leftInt;
+
+      } else if(tree.op == OpExp2.MINUS) {
+        opResult += (leftInt - rightInt);
+      } else if(tree.op == OpExp2.STAR) {
+        opResult += (leftInt * rightInt);
+      } else if(tree.op == OpExp2.SLASH) {
+        opResult += (leftInt / rightInt);
+      }
+    } else if(tree.right instanceof IntExp) {
+      intExp = (IntExp)tree.right;
+      rightInt = Integer.parseInt(intExp.value);
+      if(tree.op == OpExp2.PLUS) {
+        opResult += rightInt;
+      } else if(tree.op == OpExp2.MINUS) {
+        opResult -= rightInt;
+      } else if(tree.op == OpExp2.STAR) {
+        opResult *= rightInt;
+      } else if(tree.op == OpExp2.SLASH) {
+        opResult /= rightInt;
+      }
+     }
   }
 
    private void showTree( Expr tree, int spaces ) {
@@ -464,7 +500,7 @@ import java.util.*;
     TypeSpec type = null;
     int t = -1;
     int indexT = -1;
-
+    int arraySize = -1;
     indent( spaces );
     System.out.println( "Expr:" );
     p.println("Expr:");
@@ -489,6 +525,7 @@ import java.util.*;
       for (int i = 0; i < globalList.size(); i++) {
         s = globalList.get(i);
         if(varName.equals(s.sID)) {
+          arraySize = s.arrSize;
           //If var is not an array, then we cannot reference it as one
           //TODO: TEST
           if(s.arrSize == -1) {
@@ -501,7 +538,6 @@ import java.util.*;
 
     for (int i = 0; i < globalList.size(); i++) {
       s = globalList.get(i);
-
       if(varName.equals(s.sID)) {
         type = s.type;
       }
@@ -511,6 +547,7 @@ import java.util.*;
     if(tree.var instanceof ArrayVar) {
       if(aVar.number instanceof SimpleExpr) {
         sime = (SimpleExpr)aVar.number;
+        //System.out.println(sime.sime);
         if(sime.sime instanceof RegularVar) {
           rVar = (RegularVar) sime.sime;
           t = Symbol.getGlobalType(aVar.id, depth, currentDID, globalList);
@@ -518,6 +555,13 @@ import java.util.*;
           if(t != indexT) {
             indent (spaces);
             System.out.println("Error: Index type mismatch");
+          }
+        } else if(sime.sime instanceof OpExp2) {
+          System.out.println("Final OP answer: "+opResult);
+          System.out.println(arraySize);
+          if(opResult >= arraySize || opResult < 0) {
+            indent (spaces);
+            System.out.println("Error: Invalid index");
           }
         }
       }
@@ -546,8 +590,9 @@ import java.util.*;
             insertValue(aVar.id, intExp.value, Integer.parseInt(arrayIndex.value));
           }
           
-        }
+        } 
       }
+
       //check singular assignment
       else if(sime.sime instanceof RegularVar)
       {
@@ -573,7 +618,7 @@ import java.util.*;
 
       }
       else if(sime.sime instanceof OpExp2)
-      {
+      { 
         op = (OpExp2) sime.sime;
         t = getOpTypeNR(op);
         if(t != type.type)
@@ -1117,10 +1162,10 @@ import java.util.*;
         }
       }
     }
-    for(i=0;i<globalList.size();i++) {
+    /*for(i=0;i<globalList.size();i++) {
       s = globalList.get(i);
       System.out.println("ID: "+s.sID+" VAL: "+s.value + " "+s.arrSize);
-    }
+    }*/
   }
 
 }
