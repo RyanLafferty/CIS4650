@@ -424,6 +424,8 @@ import java.util.*;
       av = (ArrayVar) tree.right;
       typeR = Symbol.getGlobalType(av.id, depth, currentDID, globalList);
       System.out.println("TypeR: "+ typeR);
+    } else if (tree.right instanceof OpExp2) {
+      typeR = getOpType((OpExp2) tree.right);
     }
     else
     {
@@ -435,9 +437,10 @@ import java.util.*;
     }
 
     //check if types match
+    System.out.println("Type L: "+typeL+" Type R: "+typeR);
+    System.out.println(tree.left+" "+tree.right);
     if(typeL > -1 && typeR > -1 && typeL == typeR)
     {
-      System.out.println("Type L: "+typeL+" Type R: "+typeR);
       indent( spaces );
       if(typeL == Symbol.INT) {
         System.out.println("int");
@@ -455,8 +458,8 @@ import java.util.*;
 
     showTree( tree.left, spaces );
     showTree( tree.right, spaces ); 
-    //System.out.println(tree.left);
-    //System.out.println(tree.right);
+    System.out.println(tree.left);
+    System.out.println(tree.right);
     if(tree.left instanceof IntExp && tree.right instanceof IntExp) {
       intExp = (IntExp)tree.right;
       rightInt = Integer.parseInt(intExp.value);
@@ -484,7 +487,20 @@ import java.util.*;
       } else if(tree.op == OpExp2.SLASH) {
         opResult /= rightInt;
       }
-     }
+    } else if(tree.left instanceof IntExp) {
+      intExp = (IntExp)tree.left;
+      leftInt = Integer.parseInt(intExp.value);
+      if(tree.op == OpExp2.PLUS) {
+        opResult += leftInt;
+      } else if(tree.op == OpExp2.MINUS) {
+        opResult -= leftInt;
+      } else if(tree.op == OpExp2.STAR) {
+        opResult *= leftInt;
+      } else if(tree.op == OpExp2.SLASH) {
+        opResult /= leftInt;
+      }
+    }
+
   }
 
    private void showTree( Expr tree, int spaces ) {
