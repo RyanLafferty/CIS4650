@@ -7,10 +7,11 @@ int bbb[3];
 
 int main(int p) {
     x = bbb[1] = 1;
-    x = bbb[1];
+    x = 55;
+    z = 22;
     if(bbb[1] > 2) {
 
-        bbb[99>2] = 2;
+        bbb[x*z] = 2;
   
         x = 2;
     }    

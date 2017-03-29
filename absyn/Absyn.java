@@ -331,8 +331,13 @@ import java.util.*;
    private void showTree( OpExp2 tree, int spaces ) {
     indent( spaces );
     IntExp intExp;
-    int leftInt;
-    int rightInt;
+    RegularVar rVar;
+    ArrayVar aVar;
+    Symbol s;
+    int leftInt = 0;
+    int rightInt = 0;
+
+
     System.out.print( "OpExp:" );
     p.print("OpExp: ");
     switch( tree.op ) {
@@ -458,13 +463,39 @@ import java.util.*;
 
     showTree( tree.left, spaces );
     showTree( tree.right, spaces ); 
-    //System.out.println(tree.left);
-    //System.out.println(tree.right);
-    if(tree.left instanceof IntExp && tree.right instanceof IntExp) {
-      intExp = (IntExp)tree.right;
-      rightInt = Integer.parseInt(intExp.value);
-      intExp = (IntExp)tree.left;
-      leftInt = Integer.parseInt(intExp.value);
+    System.out.println(tree.left);
+    System.out.println(tree.right);
+    if((tree.left instanceof IntExp || tree.left instanceof RegularVar) && (tree.right instanceof IntExp || tree.right instanceof RegularVar)) {
+      
+      if(tree.right instanceof IntExp) {
+        intExp = (IntExp)tree.right;
+        rightInt = Integer.parseInt(intExp.value);
+      } else if(tree.right instanceof RegularVar) {
+        rVar = (RegularVar) tree.right;
+
+        for(int i=0;i<globalList.size();i++) {
+          s = globalList.get(i);
+          if(s.sID.equals(rVar.name)) {
+            rightInt = s.value;
+            System.out.println("THE RIGHT" + rightInt);
+          }
+        }
+      }
+      if(tree.left instanceof IntExp) {
+        intExp = (IntExp)tree.left;
+        leftInt = Integer.parseInt(intExp.value);
+      } else if(tree.left instanceof RegularVar) {
+        rVar = (RegularVar) tree.left;
+
+        for(int i=0;i<globalList.size();i++) {
+          s = globalList.get(i);
+          if(s.sID.equals(rVar.name)) {
+            leftInt = s.value;
+            System.out.println("THE LEFT" + leftInt);
+          }
+        }
+      }
+      
       if(tree.op == OpExp2.PLUS) {
         opResult = rightInt + leftInt;
 
@@ -505,9 +536,22 @@ import java.util.*;
           opResult = 0;
         }
       }
-    } else if(tree.right instanceof IntExp) {
-      intExp = (IntExp)tree.right;
-      rightInt = Integer.parseInt(intExp.value);
+    } else if(tree.right instanceof IntExp || tree.right instanceof RegularVar) {
+      if(tree.right instanceof IntExp) {
+        intExp = (IntExp)tree.right;
+        rightInt = Integer.parseInt(intExp.value);
+      } else if(tree.right instanceof RegularVar) {
+        rVar = (RegularVar) tree.right;
+
+        for(int i=0;i<globalList.size();i++) {
+          s = globalList.get(i);
+          if(s.sID.equals(rVar.name)) {
+            rightInt = s.value;
+            System.out.println("THE RIGHT" + rightInt);
+          }
+        }
+      }
+      
       if(tree.op == OpExp2.PLUS) {
         opResult += rightInt;
       } else if(tree.op == OpExp2.MINUS) {
@@ -548,9 +592,22 @@ import java.util.*;
         }
       }
 
-    } else if(tree.left instanceof IntExp) {
-      intExp = (IntExp)tree.left;
-      leftInt = Integer.parseInt(intExp.value);
+    } else if(tree.left instanceof IntExp || tree.left instanceof RegularVar) {
+      if(tree.left instanceof IntExp) {
+        intExp = (IntExp)tree.left;
+        leftInt = Integer.parseInt(intExp.value);
+      } else if(tree.left instanceof RegularVar) {
+        rVar = (RegularVar) tree.left;
+
+        for(int i=0;i<globalList.size();i++) {
+          s = globalList.get(i);
+          if(s.sID.equals(rVar.name)) {
+            leftInt = s.value;
+            System.out.println("THE LEFT" + leftInt);
+          }
+        }
+      }
+
       if(tree.op == OpExp2.PLUS) {
         opResult += leftInt;
       } else if(tree.op == OpExp2.MINUS) {
@@ -1270,10 +1327,10 @@ import java.util.*;
         }
       }
     }
-    /*for(i=0;i<globalList.size();i++) {
+    for(i=0;i<globalList.size();i++) {
       s = globalList.get(i);
       System.out.println("ID: "+s.sID+" VAL: "+s.value + " "+s.arrSize);
-    }*/
+    }
   }
 
 }
