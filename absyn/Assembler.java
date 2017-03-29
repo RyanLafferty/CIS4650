@@ -433,12 +433,42 @@ public class Assembler
             out.println(line);
             this.currentLine++;
         }
+        else if (constants == 1)
+        {
+            if(conPos == 0)
+            {
+                //TODO - y is constant
+            }
+            else if(conPos == 1)
+            {
+                //TODO - z is constant
+            }
+        }
+        else if (constants == 2)
+        {
+            //TODO
+        }
+
+        //TODO support constants
 
         //output operation code
         if(operation == OpExp2.PLUS)
         {
             line  = this.currentLine + ": ADD 0, 1, 2";
         }
+        else if(operation == OpExp2.MINUS)
+        {
+            line  = this.currentLine + ": SUB 0, 1, 2";
+        }
+        else if(operation == OpExp2.STAR)
+        {
+            line  = this.currentLine + ": MUL 0, 1, 2";
+        }
+        else if(operation == OpExp2.SLASH)
+        {
+            line  = this.currentLine + ": DIV 0, 1, 2";
+        }
+        //may generate div zero
         out.println(line);
         this.currentLine++;
         
