@@ -437,19 +437,38 @@ public class Assembler
         {
             if(conPos == 0)
             {
-                //TODO - y is constant
+                //y is constant
+                line  = this.currentLine + ": LDC 1, " + offsetY + "(0)";
+                out.println(line);
+                this.currentLine++;
+
+                line  = this.currentLine + ": LD 2, " + offsetZ + "(6)";
+                out.println(line);
+                this.currentLine++;
             }
             else if(conPos == 1)
             {
-                //TODO - z is constant
+                //z is constant
+                line  = this.currentLine + ": LD 1, " + offsetY + "(6)";
+                out.println(line);
+                this.currentLine++;
+
+                line  = this.currentLine + ": LDC 2, " + offsetZ + "(0)";
+                out.println(line);
+                this.currentLine++;
             }
         }
         else if (constants == 2)
         {
-            //TODO
-        }
+            //both are constants
+            line  = this.currentLine + ": LDC 1, " + offsetY + "(0)";
+            out.println(line);
+            this.currentLine++;
 
-        //TODO support constants
+            line  = this.currentLine + ": LDC 2, " + offsetZ + "(0)";
+            out.println(line);
+            this.currentLine++;
+        }
 
         //output operation code
         if(operation == OpExp2.PLUS)
