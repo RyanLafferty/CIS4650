@@ -17,6 +17,7 @@ public class Symbol {
   public ArrayList <Symbol> args = null;
   public int value = 0; //Assumption that default value is 0. Used for uninitialized cases
   public int valueArray[];
+  public int offset;
 
   public Symbol(int depth, int dID, String sID, TypeSpec type, boolean isFunction) {
   	this.depth = depth;

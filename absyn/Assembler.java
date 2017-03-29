@@ -14,6 +14,8 @@ public class Assembler
     private FileReader finaleFile = null;
     private BufferedReader finaleReader = null;
     private int currentLine = 12;
+    private ArrayList <Symbol> symbolTable = null;
+    private int currentDataOffset = 0;
 
 
     /*
@@ -21,9 +23,10 @@ public class Assembler
     Args: 
     Ret: 
     */
-    public Assembler(String fileName)
+    public Assembler(String fileName, ArrayList <Symbol> symbolTable)
     {
         this.fileName = fileName;
+        this.symbolTable = symbolTable;
     }
 
 
@@ -52,7 +55,7 @@ public class Assembler
         }
 
         //output the prelude to the file
-        outputPrelude();
+        succ = outputPrelude();
         if(succ == false)
         {
             System.out.println("Error: Did not successfully write prelude");
@@ -61,8 +64,16 @@ public class Assembler
 
         //TODO - Code generation stuff goes here
 
+        //output the prelude to the file
+        succ = loadDataOffsets();
+        if(succ == false)
+        {
+            System.out.println("Error: Did not successfully update data offsets");
+            return false;
+        }
+
         //output the finale to the file
-        outputFinale();
+        succ = outputFinale();
         if(succ == false)
         {
             System.out.println("Error: Did not successfully write finale");
@@ -224,6 +235,56 @@ public class Assembler
         line = this.currentLine + ":" + "   HALT  0,0,0";
         this.out.println(line);
         this.currentLine++;
+
+        return true;
+    }
+
+    /*
+    Desc: TODO
+    Args: 
+    Ret: 
+    */
+    private boolean loadDataOffsets()
+    {
+        int i = 0;
+        Symbol s = null;
+
+        if(symbolTable == null)
+        {
+            return false;
+        }
+
+
+        System.out.println("Variables");
+        System.out.println("=========");
+        for(i = 0; i < symbolTable.size(); i++)
+        {
+            s = symbolTable.get(i);
+            if(s.isFunction == false)
+            {
+                System.out.println(s.sID + ": " + currentDataOffset);
+                if(s.arrSize > 0)
+                {
+                    currentDataOffset -= s.arrSize;
+                }
+                else
+                {
+                    currentDataOffset--;
+                }
+
+            }
+        }
+
+        System.out.println("\nFunctions");
+        System.out.println("=========");
+        for(i = 0; i < symbolTable.size(); i++)
+        {
+            s = symbolTable.get(i);
+            if(s.isFunction == true)
+            {
+                System.out.println(s.sID);
+            }
+        }
 
         return true;
     }
