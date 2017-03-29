@@ -442,8 +442,8 @@ import java.util.*;
     }
 
     //check if types match
-    System.out.println("Type L: "+typeL+" Type R: "+typeR);
-    System.out.println(tree.left+" "+tree.right);
+    //System.out.println("Type L: "+typeL+" Type R: "+typeR);
+    //System.out.println(tree.left+" "+tree.right);
     if(typeL > -1 && typeR > -1 && typeL == typeR)
     {
       indent( spaces );
@@ -463,8 +463,8 @@ import java.util.*;
 
     showTree( tree.left, spaces );
     showTree( tree.right, spaces ); 
-    System.out.println(tree.left);
-    System.out.println(tree.right);
+    //System.out.println(tree.left);
+    //System.out.println(tree.right);
     if((tree.left instanceof IntExp || tree.left instanceof RegularVar) && (tree.right instanceof IntExp || tree.right instanceof RegularVar)) {
       
       if(tree.right instanceof IntExp) {
@@ -477,10 +477,10 @@ import java.util.*;
           s = globalList.get(i);
           if(s.sID.equals(rVar.name)) {
             rightInt = s.value;
-            System.out.println("THE RIGHT" + rightInt);
+            //System.out.println("THE RIGHT" + rightInt);
           }
         }
-      }
+      } 
       if(tree.left instanceof IntExp) {
         intExp = (IntExp)tree.left;
         leftInt = Integer.parseInt(intExp.value);
@@ -491,20 +491,20 @@ import java.util.*;
           s = globalList.get(i);
           if(s.sID.equals(rVar.name)) {
             leftInt = s.value;
-            System.out.println("THE LEFT" + leftInt);
+            //System.out.println("THE LEFT" + leftInt);
           }
         }
       }
-      
+
       if(tree.op == OpExp2.PLUS) {
         opResult = rightInt + leftInt;
 
       } else if(tree.op == OpExp2.MINUS) {
-        opResult += (leftInt - rightInt);
+        opResult = (leftInt - rightInt);
       } else if(tree.op == OpExp2.STAR) {
-        opResult += (leftInt * rightInt);
+        opResult = (leftInt * rightInt);
       } else if(tree.op == OpExp2.SLASH) {
-        opResult += (leftInt / rightInt);
+        opResult = (leftInt / rightInt);
       } else if(tree.op == OpExp2.EQ) {
         if(leftInt == rightInt) {
           opResult = 1;
@@ -547,7 +547,7 @@ import java.util.*;
           s = globalList.get(i);
           if(s.sID.equals(rVar.name)) {
             rightInt = s.value;
-            System.out.println("THE RIGHT" + rightInt);
+            //System.out.println("THE RIGHT" + rightInt);
           }
         }
       }
@@ -592,7 +592,7 @@ import java.util.*;
         }
       }
 
-    } else if(tree.left instanceof IntExp || tree.left instanceof RegularVar) {
+    } else if(tree.left instanceof IntExp || tree.left instanceof RegularVar || tree.left instanceof ArrayVar) {
       if(tree.left instanceof IntExp) {
         intExp = (IntExp)tree.left;
         leftInt = Integer.parseInt(intExp.value);
@@ -603,7 +603,7 @@ import java.util.*;
           s = globalList.get(i);
           if(s.sID.equals(rVar.name)) {
             leftInt = s.value;
-            System.out.println("THE LEFT" + leftInt);
+            //System.out.println("THE LEFT" + leftInt);
           }
         }
       }
@@ -635,7 +635,6 @@ import java.util.*;
           opResult = 0;
         }
       } else if(tree.op == OpExp2.GTE) {
-        System.out.println("TEST");
         if(leftInt >= opResult) {
           opResult = 1;
         } else {
@@ -723,7 +722,7 @@ import java.util.*;
           }
         } else if(sime.sime instanceof OpExp2) {
           System.out.println("Final OP answer: "+opResult);
-          System.out.println(arraySize);
+          //System.out.println(arraySize);
           if(opResult >= arraySize || opResult < 0) {
             indent (spaces);
             System.out.println("Error: Invalid index");
@@ -743,29 +742,48 @@ import java.util.*;
         } else if(tree.var instanceof RegularVar && type != null) {
           rVar = (RegularVar) tree.var;
           varName = rVar.name;
-          insertValue(rVar.name, intExp.value, -1); 
+          insertValue(rVar.name, Integer.parseInt(intExp.value), -1,spaces); 
         } else if(tree.var instanceof ArrayVar) {
           aVar = (ArrayVar) tree.var;
           varName = aVar.id;
           sime = (SimpleExpr)aVar.number;
           if(sime.sime instanceof IntExp){
-            System.out.println("INSERT");
-            System.out.println(intExp.value);
             arrayIndex = (IntExp)sime.sime;
-            insertValue(aVar.id, intExp.value, Integer.parseInt(arrayIndex.value));
+            insertValue(aVar.id, Integer.parseInt(intExp.value), Integer.parseInt(arrayIndex.value),spaces);
+          } else if(sime.sime instanceof OpExp2) {
+            insertValue(aVar.id, Integer.parseInt(intExp.value), opResult,spaces);
+          } else if(sime.sime instanceof RegularVar) {
+            rVar = (RegularVar) sime.sime;
+            varName = rVar.name;
+            insertValue(aVar.id, Integer.parseInt(intExp.value), getValue(varName), spaces);
           }
-          
-        } 
+        }
       }
-
       //check singular assignment
       else if(sime.sime instanceof RegularVar)
       {
+        RegularVar temp;
         rVar = (RegularVar) sime.sime;
         t = Symbol.getGlobalType(rVar.name, depth, currentDID, globalList);
-        if(t != type.type) {
+        if(type != null &&t != type.type) {
           indent(spaces);
           System.out.println("Assignment type mismatch error");
+        } else if(tree.var instanceof RegularVar) {
+          temp = (RegularVar) tree.var;
+          insertValue(temp.name, getValue(rVar.name),-1,spaces);
+        } else if(tree.var instanceof ArrayVar) {
+          aVar = (ArrayVar) tree.var;
+          sime = (SimpleExpr)aVar.number;
+          if(sime.sime instanceof IntExp){
+            intExp = (IntExp)sime.sime;
+            arrayIndex = (IntExp)sime.sime;
+            insertValue(aVar.id, getValue(rVar.name), Integer.parseInt(arrayIndex.value),spaces);
+          } else if(sime.sime instanceof OpExp2) {
+            insertValue(aVar.id, getValue(rVar.name), opResult,spaces);
+          } else if(sime.sime instanceof RegularVar) {
+            temp = (RegularVar) sime.sime;
+            insertValue(aVar.id, getValue(rVar.name), getValue(temp.name), spaces);
+          }
         }
 
       }
@@ -1308,7 +1326,7 @@ import java.util.*;
       return -1;
   }
 
-  public void insertValue(String id, String value, int index) {
+  public void insertValue(String id, int value, int index, int spaces) {
     Symbol s;
     int i;
     for(i=0;i<globalList.size();i++) {
@@ -1316,13 +1334,14 @@ import java.util.*;
       if(s.sID.equals(id)) {
         if(index == -1){
           System.out.println("Inserting value "+value+" into regularVar "+id);
-          globalList.get(i).value = Integer.parseInt(value);
+          globalList.get(i).value = value;
         } else {
-          System.out.println("Inserting value "+value+" into arrayVar "+id);
+          System.out.println("Inserting value "+value+" into arrayVar "+id+" at index" + index);
           if(index < 0 || index >= globalList.get(i).arrSize) {
+            indent(spaces);
             System.out.println("Array out of bounds error!");
           } else {
-            globalList.get(i).valueArray[index-1] = Integer.parseInt(value);
+            globalList.get(i).valueArray[index] = value;
           }
         }
       }
@@ -1333,4 +1352,14 @@ import java.util.*;
     }
   }
 
+  public int getValue(String id) {
+    Symbol s;
+    for(int i=0;i<globalList.size();i++) {
+      s = globalList.get(i);
+      if(s.sID.equals(id)) {
+        return s.value;
+      }
+    }
+    return -1;
+  }
 }
