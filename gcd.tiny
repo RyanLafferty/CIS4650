@@ -1,29 +1,19 @@
-int a[2];
+/*Valid case*/
 
-void suck(int testt, int b[]) {
-	int s;
-    int test;
+int x;
+int z;
+void y; 
+int bbb[3];
 
-    if(t < 5)
-    {  
-    	int ch;
-    }
-    z = 5;
-    s[1] = 2;
-}
+int main(int p) {
+    x = bbb[1] = 1;
+    x = bbb[1];
+    if(bbb[1] > 2) {
 
-int s;
-int chrisy(void) {
-    int t;
-    int i;
-    void y;
-    i = 1 + 2;
-    i = i + y;
-    i = 1 + y;
+        bbb[99>2] = 2;
+  
+        x = 2;
+    }    
 
-    suck(t, i);
-    return suck(2,a[1]);
-    
-    sucks(t, 1 + 2);
-    suck(y, t);
+    return 5;
 }
