@@ -83,6 +83,12 @@ public class Assembler
         assignConstant(22, getArrayDataOffset("bbb", 1));
         assignVariable(getDataOffset("x"), getDataOffset("y"));
         assignVariable(getArrayDataOffset("bbb", 0), getDataOffset("y"));
+        outputArithmeticExpr(getDataOffset("x"), 
+                             getArrayDataOffset("bbb", 0), 
+                             getArrayDataOffset("bbb", 1),
+                             OpExp2.PLUS,
+                             0,
+                             0);
 
 
         //output the finale to the file
@@ -405,4 +411,44 @@ public class Assembler
 
         return true;
     }
+
+    /*
+    Desc: TODO
+    Args: 
+    Ret: 
+    */
+    //x = y *+-/ z
+    private boolean outputArithmeticExpr(int offsetX, int offsetY, int offsetZ, int operation, int constants, int conPos)
+    {
+        String line = "";
+
+        //get operands
+        if(constants == 0)
+        {
+            line  = this.currentLine + ": LD 1, " + offsetY + "(6)";
+            out.println(line);
+            this.currentLine++;
+
+            line  = this.currentLine + ": LD 2, " + offsetZ + "(6)";
+            out.println(line);
+            this.currentLine++;
+        }
+
+        //output operation code
+        if(operation == OpExp2.PLUS)
+        {
+            line  = this.currentLine + ": ADD 0, 1, 2";
+        }
+        out.println(line);
+        this.currentLine++;
+        
+        //store result
+        line  = this.currentLine + ": ST 0, " + offsetX + "(6)";
+        out.println(line);
+        this.currentLine++;
+
+        return true;
+    }
+
+
 }
