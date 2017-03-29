@@ -4,18 +4,23 @@ import java.util.*;
 
 public class Assembler
 {   
+    /*Constants*/
+    private final static int DSIZE = 1024;
+    private final static int ISIZE = 1024;
+
     /*Object References*/
 
     /*Object Variables*/
-    String fileName = "";
+    protected String fileName = "";
     private PrintWriter out = null;
     private FileReader preludeFile = null;
     private BufferedReader preludeReader = null;
     private FileReader finaleFile = null;
     private BufferedReader finaleReader = null;
-    private int currentLine = 12;
+    private int currentLine = 12; //ioffset
     private ArrayList <Symbol> symbolTable = null;
-    private int currentDataOffset = 0;
+    private int currentDataOffset = 0; //global offset
+    private int currentFrameOffset = 0; //frame offset
 
 
     /*
@@ -64,13 +69,19 @@ public class Assembler
 
         //TODO - Code generation stuff goes here
 
-        //output the prelude to the file
+        //update data offsets
         succ = loadDataOffsets();
         if(succ == false)
         {
             System.out.println("Error: Did not successfully update data offsets");
             return false;
         }
+
+        //TESTING
+        assignConstant(5, getDataOffset("x"));
+        assignConstant(1, getDataOffset("y"));
+        assignVariable(getDataOffset("x"), getDataOffset("y"));
+
 
         //output the finale to the file
         succ = outputFinale();
@@ -215,25 +226,16 @@ public class Assembler
     {
         String line = "";
 
-        line = this.currentLine + ":" + "     ST  5,-1(5)    push ofp";
-        this.out.println(line);
-        this.currentLine++;
-        line = this.currentLine + ":" + "    LDA  5,-1(5)    push frame";
-        this.out.println(line);
-        this.currentLine++;
-        line = this.currentLine + ":" + "    LDA  0,1(7)     load ac with ret ptr";
-        this.out.println(line);
-        this.currentLine++;
-        line = this.currentLine + ":" + "    LDA  7,-35(7)   jump to main loc";
-        this.out.println(line);
-        this.currentLine++;
-        line = this.currentLine + ":" + "     LD  5,0(5)     pop frame";
-        this.out.println(line);
-        this.currentLine++;
-        line = "* End of execution.";
-        this.out.println(line);
-        line = this.currentLine + ":" + "   HALT  0,0,0";
-        this.out.println(line);
+        /*emitRM( “ST”, fp, globalOffset+ofpFO, fp, “push ofp” ); 
+        emitRM( “LDA”, fp, globalOffset, fp, “push frame” ); 
+        emitRM( “LDA”, ac, 1, pc, “load ac with ret ptr” ); 
+        emitRM_Abs( “LDA”, pc, entry, “jump to main loc” ); 
+        emitRM( “LD”, fp, ofpFO, fp, “pop frame” );
+        emitRM( “HALT”, 0, 0, 0, “” );*/
+
+        //line = this.currentLine + ": " + "ST " + 
+        line = this.currentLine + ": HALT 0, 0, 0";
+        out.println(line);
         this.currentLine++;
 
         return true;
@@ -266,7 +268,7 @@ public class Assembler
                 s.offset = currentDataOffset;
                 if(s.arrSize > 0)
                 {
-                    currentDataOffset -= s.arrSize;
+                    currentDataOffset -= s.arrSize + 1; // we will store the size of the array at the end of the array
                 }
                 else
                 {
@@ -280,13 +282,91 @@ public class Assembler
         for(i = 0; i < symbolTable.size(); i++)
         {
             s = symbolTable.get(i);
-            s.offset = currentDataOffset;
             if(s.isFunction == true)
             {
                 System.out.println(s.sID + ": " + currentDataOffset);
+                s.offset = currentDataOffset;
                 currentDataOffset--;
             }
         }
+
+        /*for(i = 0; i < symbolTable.size(); i++)
+        {
+            s = symbolTable.get(i);
+            s.offset = currentDataOffset;
+            if(s.isFunction == false)
+            {
+                System.out.println(s.sID + ": " + s.offset);
+                //currentDataOffset--;
+            }   
+        }*/
+
+        return true;
+    }
+
+    /*
+    Desc: TODO
+    Args: 
+    Ret: 
+    */
+    private int getDataOffset(String id)
+    {
+        int i = 0;
+        Symbol s = null;
+
+        if(symbolTable == null)
+        {
+            return DSIZE;
+        }
+
+        for(i = 0; i < symbolTable.size(); i++)
+        {
+            s = symbolTable.get(i);
+            if(s.sID.equals(id))
+            {
+                return s.offset;
+            }
+        }
+
+        return DSIZE;
+    }
+
+    /*
+    Desc: TODO
+    Args: 
+    Ret: 
+    */
+    private boolean assignConstant(int constant, int offset)
+    {
+        String line = "";
+
+        line  = this.currentLine + ": LDC 0, " + constant + "(0)";
+        out.println(line);
+        this.currentLine++;
+
+        line  = this.currentLine + ": ST 0, " + offset + "(6)";
+        out.println(line);
+        this.currentLine++;
+
+        return true;
+    }
+
+    /*
+    Desc: TODO
+    Args: 
+    Ret: 
+    */
+    private boolean assignVariable(int offsetX, int offsetY)
+    {
+        String line = "";
+
+        line  = this.currentLine + ": LD 0, " + offsetY + "(6)";
+        out.println(line);
+        this.currentLine++;
+
+        line  = this.currentLine + ": ST 0, " + offsetX + "(6)";
+        out.println(line);
+        this.currentLine++;
 
         return true;
     }
