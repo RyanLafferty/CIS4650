@@ -80,7 +80,9 @@ public class Assembler
         //TESTING
         assignConstant(5, getDataOffset("x"));
         assignConstant(1, getDataOffset("y"));
+        assignConstant(22, getArrayDataOffset("bbb", 1));
         assignVariable(getDataOffset("x"), getDataOffset("y"));
+        assignVariable(getArrayDataOffset("bbb", 0), getDataOffset("y"));
 
 
         //output the finale to the file
@@ -325,6 +327,39 @@ public class Assembler
             if(s.sID.equals(id))
             {
                 return s.offset;
+            }
+        }
+
+        return DSIZE;
+    }
+
+    /*
+    Desc: TODO
+    Args: 
+    Ret: 
+    */
+    private int getArrayDataOffset(String id, int index)
+    {
+        int i = 0;
+        Symbol s = null;
+
+        if(symbolTable == null)
+        {
+            return DSIZE;
+        }
+
+        for(i = 0; i < symbolTable.size(); i++)
+        {
+            s = symbolTable.get(i);
+            if(s.sID.equals(id))
+            {
+                if(index >= s.arrSize)
+                {
+                    System.out.println("id:" + id + ", size:" + s.arrSize);
+                    return DSIZE;
+                }
+
+                return s.offset - index;
             }
         }
 
