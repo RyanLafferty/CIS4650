@@ -263,6 +263,7 @@ public class Assembler
             if(s.isFunction == false)
             {
                 System.out.println(s.sID + ": " + currentDataOffset);
+                s.offset = currentDataOffset;
                 if(s.arrSize > 0)
                 {
                     currentDataOffset -= s.arrSize;
@@ -271,7 +272,6 @@ public class Assembler
                 {
                     currentDataOffset--;
                 }
-
             }
         }
 
@@ -280,9 +280,11 @@ public class Assembler
         for(i = 0; i < symbolTable.size(); i++)
         {
             s = symbolTable.get(i);
+            s.offset = currentDataOffset;
             if(s.isFunction == true)
             {
-                System.out.println(s.sID);
+                System.out.println(s.sID + ": " + currentDataOffset);
+                currentDataOffset--;
             }
         }
 
