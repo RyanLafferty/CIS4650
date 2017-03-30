@@ -2,6 +2,7 @@
 
 int x;
 int z;
+int b;
 void y; 
 int bbb[3];
 int test[4];
@@ -11,6 +12,7 @@ int main(int p) {
 	/*WORKS*/
 	x = 2;
 	z = 1;
+	b = 3;
 	bbb[0+1] = 2;
 	bbb[x-1] = 2;
 	bbb[z] = 1;
@@ -22,8 +24,12 @@ int main(int p) {
 	bbb[z] = x;
 	bbb[0] = x;
 
-	x = bbb[2];
-
+	x = bbb[1];
+	x = bbb[2>1];
+	x = bbb[z];
+	test[3-1] = bbb[2];
+	test[3-x] = bbb[1];
+	test[b] = bbb[1];
 
 	/*NEEDS WORK*/
 

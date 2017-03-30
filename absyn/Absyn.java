@@ -790,21 +790,58 @@ import java.util.*;
       //check arrayvar
       else if(sime.sime instanceof ArrayVar)
       {
+        RegularVar temp;
+        ArrayVar tempA;
+        SimpleExpr tempSime;
         aVar = (ArrayVar) sime.sime;
-
+        sime = (SimpleExpr)aVar.number;
         t = Symbol.getGlobalType(aVar.id, depth, currentDID, globalList);
         if(t != type.type) {
           indent(spaces);
           System.out.println("Assignment type mismatch error");
-        }
+        } else if(tree.var instanceof RegularVar) {
+          temp = (RegularVar) tree.var;
+          if(sime.sime instanceof IntExp) {
+            intExp = (IntExp)sime.sime;
+            arrayIndex = (IntExp)sime.sime;
+            insertValue(temp.name, getArrayValue(aVar.id,Integer.parseInt(arrayIndex.value)), -1,spaces);
+          } else if(sime.sime instanceof OpExp2) {
+            insertValue(temp.name, getArrayValue(aVar.id,opResult), -1, spaces);
+          } else if(sime.sime instanceof RegularVar) {
+            rVar = (RegularVar) sime.sime;
+            insertValue(temp.name, getArrayValue(aVar.id,getValue(rVar.name)), -1, spaces);            
+          }
+        } else if(tree.var instanceof ArrayVar) {
+          tempA = (ArrayVar) tree.var;
+          int storeIndex = 0;
+          tempSime = (SimpleExpr) tempA.number;
 
+          if(tempSime.sime instanceof IntExp) {
+            arrayIndex = (IntExp)tempSime.sime;
+            storeIndex = Integer.parseInt(arrayIndex.value);
+          } else if(tempSime.sime instanceof OpExp2) {
+            storeIndex = opResult;
+          } else if(tempSime.sime instanceof RegularVar) {
+            rVar = (RegularVar)tempSime.sime;
+            storeIndex = getValue(rVar.name);
+          }
+          if(sime.sime instanceof IntExp) {
+            intExp = (IntExp)sime.sime;
+            arrayIndex = (IntExp)sime.sime;
+            insertValue(tempA.id, getArrayValue(aVar.id,Integer.parseInt(arrayIndex.value)),storeIndex,spaces);
+          } else if(sime.sime instanceof OpExp2) {
+            //TODO
+          } else if(sime.sime instanceof RegularVar) {
+            //TODO
+          }
+        }
 
       }
       else if(sime.sime instanceof OpExp2)
       { 
         op = (OpExp2) sime.sime;
         t = getOpTypeNR(op);
-        if(t != type.type)
+        if(type != null &&t != type.type)
         { 
           indent(spaces);
           System.out.println("Assignment type mismatch error");
@@ -1358,6 +1395,22 @@ import java.util.*;
       s = globalList.get(i);
       if(s.sID.equals(id)) {
         return s.value;
+      }
+    }
+    return -1;
+  }
+
+  public int getArrayValue(String id, int index) {
+    Symbol s;
+    for(int i=0;i<globalList.size();i++) {
+      s = globalList.get(i);
+      if(s.sID.equals(id)) {
+        if(index < s.arrSize) {
+          return s.valueArray[index];
+        } else {
+          System.out.println("Error: Out of array bounds");
+        }
+        
       }
     }
     return -1;
