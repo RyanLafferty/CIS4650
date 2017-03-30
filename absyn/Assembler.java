@@ -20,6 +20,8 @@ public class Assembler
     private int currentLine = 12; //ioffset
     private ArrayList <Symbol> symbolTable = null;
     private int currentDataOffset = 0; //global offset
+    private int globalPointer = 0;
+    private int globalOffset = 0;
     private int currentFrameOffset = 0; //frame offset
 
 
@@ -315,6 +317,9 @@ public class Assembler
             }   
         }*/
 
+        globalPointer = currentDataOffset;
+        globalOffset = globalPointer;
+
         return true;
     }
 
@@ -601,6 +606,36 @@ public class Assembler
 
         return true;
     }
+
+
+    private void emitRO(String opCode, int r, int s, int t, String comment)
+    {
+        String line = "";
+
+        line = currentLine + ": " + opCode + " " + r + ", " + s + ", " + t + "    " + comment;
+        out.println(line);
+        this.currentLine++;
+    }
+
+    private void emitRM(String opCode, int r, int d, int s, String comment)
+    {
+        String line = "";
+
+        line = currentLine + ": " + opCode + " " + r + ", " + d + "(" + s+ ")    " + comment;
+        out.println(line);
+        this.currentLine++;
+    }
+
+    private void emitComment(String comment)
+    {
+        String line = "";
+
+        line = "* " + comment;
+        out.println(line);
+        this.currentLine++;
+    }
+
+
 
 
 }
