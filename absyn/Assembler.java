@@ -80,6 +80,12 @@ public class Assembler
         //TESTING
         assignConstant(5, getDataOffset("x"));
         assignConstant(1, getDataOffset("y"));
+        /*outputLogicalExpr(7, 
+                             getArrayDataOffset("bbb", 0), 
+                             getDataOffset("y"),
+                             OpExp2.EQ,
+                             0,
+                             0);*/
         assignConstant(22, getArrayDataOffset("bbb", 1));
         assignVariable(getDataOffset("x"), getDataOffset("y"));
         assignVariable(getArrayDataOffset("bbb", 0), getDataOffset("y"));
@@ -495,6 +501,87 @@ public class Assembler
         line  = this.currentLine + ": ST 0, " + offsetX + "(6)";
         out.println(line);
         this.currentLine++;
+
+        return true;
+    }
+
+    /*
+    Desc: TODO
+    Args: 
+    Ret: 
+    */
+    //y OP z  -> jump x where x is the number of instuctions to skip
+    private boolean outputLogicalExpr(int offsetX, int offsetY, int offsetZ, int operation, int constants, int conPos)
+    {
+        String line = "";
+
+        //get operands
+        if(constants == 0)
+        {
+            line  = this.currentLine + ": LD 1, " + offsetY + "(6)";
+            out.println(line);
+            this.currentLine++;
+
+            line  = this.currentLine + ": LD 2, " + offsetZ + "(6)";
+            out.println(line);
+            this.currentLine++;
+        }
+        else if (constants == 1)
+        {
+            if(conPos == 0)
+            {
+                //y is constant
+                line  = this.currentLine + ": LDC 1, " + offsetY + "(0)";
+                out.println(line);
+                this.currentLine++;
+
+                line  = this.currentLine + ": LD 2, " + offsetZ + "(6)";
+                out.println(line);
+                this.currentLine++;
+            }
+            else if(conPos == 1)
+            {
+                //z is constant
+                line  = this.currentLine + ": LD 1, " + offsetY + "(6)";
+                out.println(line);
+                this.currentLine++;
+
+                line  = this.currentLine + ": LDC 2, " + offsetZ + "(0)";
+                out.println(line);
+                this.currentLine++;
+            }
+        }
+        else if (constants == 2)
+        {
+            //both are constants
+            line  = this.currentLine + ": LDC 1, " + offsetY + "(0)";
+            out.println(line);
+            this.currentLine++;
+
+            line  = this.currentLine + ": LDC 2, " + offsetZ + "(0)";
+            out.println(line);
+            this.currentLine++;
+        }
+
+        //update register 0
+        line  = this.currentLine + ": SUB 0, 1, 2";
+        out.println(line);
+        this.currentLine++;
+
+        //output logical jump code
+        if(operation == OpExp2.EQ)
+        {
+            line  = this.currentLine + ": JNE 0, " + (offsetX - 1) + "(7)";
+        }
+        else if(operation == OpExp2.LT)
+        {
+            line  = this.currentLine + ": JGE 0, " + (offsetX - 1) + "(7)";
+        }
+
+        //may generate div zero
+        out.println(line);
+        this.currentLine++;
+        
 
         return true;
     }
