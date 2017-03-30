@@ -577,6 +577,22 @@ public class Assembler
         {
             line  = this.currentLine + ": JGE 0, " + (offsetX - 1) + "(7)";
         }
+        else if(operation == OpExp2.GT)
+        {
+            line  = this.currentLine + ": JLE 0, " + (offsetX - 1) + "(7)";
+        }
+        else if(operation == OpExp2.LTE)
+        {
+            line  = this.currentLine + ": JGT 0, " + (offsetX - 1) + "(7)";
+        }
+        else if(operation == OpExp2.GTE)
+        {
+            line  = this.currentLine + ": JLT 0, " + (offsetX - 1) + "(7)";
+        }
+        else if(operation == OpExp2.NE)
+        {
+            line  = this.currentLine + ": JEQ 0, " + (offsetX - 1) + "(7)";
+        }
 
         //may generate div zero
         out.println(line);
