@@ -830,9 +830,9 @@ import java.util.*;
             arrayIndex = (IntExp)sime.sime;
             insertValue(tempA.id, getArrayValue(aVar.id,Integer.parseInt(arrayIndex.value)),storeIndex,spaces);
           } else if(sime.sime instanceof OpExp2) {
-            //TODO
+            insertValue(tempA.id,getArrayValue(aVar.id,opResult),storeIndex,spaces);
           } else if(sime.sime instanceof RegularVar) {
-            //TODO
+            insertValue(tempA.id,getArrayValue(aVar.id,getValue(rVar.name)),storeIndex,spaces);
           }
         }
 
