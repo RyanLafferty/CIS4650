@@ -34,6 +34,7 @@ public class Assembler
     private int globalOffset = 0;
     private int currentFrameOffset = 0; //frame offset
     private int entry = 13;
+    private int instructionCnt = 0;
 
 
     /*
@@ -91,10 +92,15 @@ public class Assembler
         }
 
         //TESTING
+        this.instructionCnt = 2 + 2 + 2; //calculate size of main
+        jumpAround(instructionCnt); //jump around main
         this.entry = this.currentLine;
-        assignConstant(5, getDataOffset("x"));
-        assignConstant(1, getDataOffset("y"));
-        returnSequence();
+        emitRM("ST", AC, retFO, FP, "* store return address"); // b
+        
+        assignConstant(5, getDataOffset("x")); // + 2
+        assignConstant(1, getDataOffset("y")); // + 2
+        emitRM("LD", PC, retFO, FP, "* return to caller"); // c
+        //returnSequence(); // +2
         /*outputLogicalExpr(7, 
                              getArrayDataOffset("bbb", 0), 
                              getDataOffset("y"),
@@ -700,10 +706,14 @@ public class Assembler
 
 
 
-    private void returnSequence()
+/*    private void returnSequence()
     {
-        emitRM("ST", AC, retFO, FP, "* store return address");
-        emitRM("LD", PC, retFO, FP, "* return to caller");
+        
+    }
+*/
+    private void jumpAround(int instructionCnt)
+    {
+        emitRM("LDA", PC, instructionCnt, PC, "* jump around main");
     }
 
 
