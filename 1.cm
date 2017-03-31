@@ -3,6 +3,7 @@
 int x;
 int z;
 int b;
+int c;
 void y; 
 int bbb[3];
 int test[4];
@@ -31,9 +32,17 @@ int main(int p) {
 	test[3-x] = bbb[1];
 	test[b] = bbb[1];
 	bbb[0] = 4;
-	test[1+1] = bbb[0];
+	c = 1;
+	test[1+1+c] = bbb[0];
+	bbb[2] = 88;
+	c = bbb[1+1];
+	c = 1 + 2;
+	c = c + 1;
+
 
 	/*NEEDS WORK*/
+	c = bbb[2] + 1;
+
 
     return 5;
 }

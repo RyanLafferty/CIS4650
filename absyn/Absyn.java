@@ -497,6 +497,7 @@ import java.util.*;
       }
 
       if(tree.op == OpExp2.PLUS) {
+        System.out.println("SDASD:" + rightInt+""+leftInt);
         opResult = rightInt + leftInt;
 
       } else if(tree.op == OpExp2.MINUS) {
@@ -692,10 +693,10 @@ import java.util.*;
           arraySize = s.arrSize;
           //If var is not an array, then we cannot reference it as one
           //TODO: TEST
-          if(s.arrSize == -1) {
+          /*if(s.arrSize == -1) {
             indent (spaces);
             System.out.println("Error: Not an array varaible");
-          }
+          }*/
         }
       }
     } 
@@ -731,6 +732,7 @@ import java.util.*;
       }
     }
     
+    showTree ((Dec)tree.expression, spaces ); 
     //checks intexp assigned to void
     if(tree.expression instanceof SimpleExpr) {
       sime = (SimpleExpr)tree.expression;
@@ -793,6 +795,7 @@ import java.util.*;
         RegularVar temp;
         ArrayVar tempA;
         SimpleExpr tempSime;
+        OpExp2 exp;
         aVar = (ArrayVar) sime.sime;
         sime = (SimpleExpr)aVar.number;
         t = Symbol.getGlobalType(aVar.id, depth, currentDID, globalList);
@@ -845,6 +848,10 @@ import java.util.*;
         { 
           indent(spaces);
           System.out.println("Assignment type mismatch error");
+        } else if(tree.var instanceof RegularVar) {
+          rVar = (RegularVar) tree.var;
+          System.out.println("TEST" + opResult);
+          insertValue(rVar.name,opResult,-1,spaces);
         }
       }
       else if(sime.sime instanceof Call) {
@@ -858,7 +865,7 @@ import java.util.*;
       } 
     }
 
-    showTree ((Dec)tree.expression, spaces ); 
+   
   }
 
    private void showTree( SimpleExpr tree, int spaces ) {
