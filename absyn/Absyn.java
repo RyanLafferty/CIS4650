@@ -378,7 +378,11 @@ import java.util.*;
       case OpExp2.LTE:
         System.out.println( " <= " );
         p.println("<=");
-        break;    
+        break; 
+      case OpExp2.NE:
+        System.out.println( " != " );
+        p.println("!=");    
+        break; 
       default:
         System.out.println( "Unrecognized operator at line " + tree.pos);
         p.println("Unrecognized operator at line " + tree.pos);
@@ -397,13 +401,13 @@ import java.util.*;
     {
       var = (RegularVar) tree.left;
       typeL = Symbol.getGlobalType(var.name, depth, currentDID, globalList);
-      System.out.println("TypeL: "+ typeL);
+      //System.out.println("TypeL: "+ typeL);
     }
     else if(tree.left instanceof ArrayVar)
     {
       av = (ArrayVar) tree.left;
       typeL = Symbol.getGlobalType(av.id, depth, currentDID, globalList);
-      System.out.println("TypeL: "+ typeL);
+      //System.out.println("TypeL: "+ typeL);
     }
     else if (tree.left instanceof OpExp2)
     {
@@ -462,8 +466,8 @@ import java.util.*;
 
     showTree( tree.left, spaces );
     showTree( tree.right, spaces ); 
-    System.out.println(tree.left);
-    System.out.println(tree.right);
+    //System.out.println(tree.left);
+    //System.out.println(tree.right);
     if((tree.left instanceof IntExp || tree.left instanceof RegularVar || tree.left instanceof ArrayVar) && (tree.right instanceof IntExp || tree.right instanceof RegularVar || tree.right instanceof ArrayVar)) {
       if(tree.right instanceof IntExp) {
         intExp = (IntExp)tree.right;
@@ -496,10 +500,11 @@ import java.util.*;
                 arrayIndex = opResult;
               }
             } 
-            rightInt = getArrayValue(aVar.id, arrayIndex);
+            rightInt = getArrayValue(aVar.id, arrayIndex,spaces);
           }
         }
       } 
+
 
       if(tree.left instanceof IntExp) {
         intExp = (IntExp)tree.left;
@@ -532,7 +537,7 @@ import java.util.*;
                 arrayIndex = opResult;
               }
             } 
-            leftInt = getArrayValue(aVar.id, arrayIndex);
+            leftInt = getArrayValue(aVar.id, arrayIndex,spaces);
           }
         }
       }
@@ -575,6 +580,12 @@ import java.util.*;
         } else {
           opResult = 0;
         }
+      } else if(tree.op == OpExp2.NE) {
+        if(leftInt != rightInt) {
+          opResult = 1;
+        } else {
+          opResult = 0;
+        }
       }
     } else if(tree.right instanceof IntExp || tree.right instanceof RegularVar || tree.right instanceof ArrayVar) {
       if(tree.right instanceof IntExp) {
@@ -608,7 +619,7 @@ import java.util.*;
                 arrayIndex = opResult;
               }
             } 
-            rightInt = getArrayValue(aVar.id, arrayIndex);
+            rightInt = getArrayValue(aVar.id, arrayIndex,spaces);
           }
         }
       }
@@ -651,6 +662,12 @@ import java.util.*;
         } else {
           opResult = 0;
         }
+      } else if(tree.op == OpExp2.NE) {
+        if(opResult != rightInt) {
+          opResult = 1;
+        } else {
+          opResult = 0;
+        }
       }
 
     } else if(tree.left instanceof IntExp || tree.left instanceof RegularVar || tree.left instanceof ArrayVar) {
@@ -685,7 +702,7 @@ import java.util.*;
                 arrayIndex = opResult;
               }
             } 
-            leftInt = getArrayValue(aVar.id, arrayIndex);
+            leftInt = getArrayValue(aVar.id, arrayIndex,spaces);
           }
         }
       }
@@ -724,6 +741,12 @@ import java.util.*;
         }
       } else if(tree.op == OpExp2.LTE) {
         if(leftInt <= opResult) {
+          opResult = 1;
+        } else {
+          opResult = 0;
+        }
+      } else if(tree.op == OpExp.NE) {
+        if(leftInt != opResult) {
           opResult = 1;
         } else {
           opResult = 0;
@@ -890,12 +913,12 @@ import java.util.*;
           if(sime.sime instanceof IntExp) {
             intExp = (IntExp)sime.sime;
             arrayIndex = (IntExp)sime.sime;
-            insertValue(temp.name, getArrayValue(aVar.id,Integer.parseInt(arrayIndex.value)), -1,spaces);
+            insertValue(temp.name, getArrayValue(aVar.id,Integer.parseInt(arrayIndex.value),spaces), -1,spaces);
           } else if(sime.sime instanceof OpExp2) {
-            insertValue(temp.name, getArrayValue(aVar.id,opResult), -1, spaces);
+            insertValue(temp.name, getArrayValue(aVar.id,opResult,spaces), -1, spaces);
           } else if(sime.sime instanceof RegularVar) {
             rVar = (RegularVar) sime.sime;
-            insertValue(temp.name, getArrayValue(aVar.id,getValue(rVar.name)), -1, spaces);            
+            insertValue(temp.name, getArrayValue(aVar.id,getValue(rVar.name),spaces), -1, spaces);            
           }
         } else if(tree.var instanceof ArrayVar) {
           tempA = (ArrayVar) tree.var;
@@ -914,11 +937,11 @@ import java.util.*;
           if(sime.sime instanceof IntExp) {
             intExp = (IntExp)sime.sime;
             arrayIndex = (IntExp)sime.sime;
-            insertValue(tempA.id, getArrayValue(aVar.id,Integer.parseInt(arrayIndex.value)),storeIndex,spaces);
+            insertValue(tempA.id, getArrayValue(aVar.id,Integer.parseInt(arrayIndex.value),spaces),storeIndex,spaces);
           } else if(sime.sime instanceof OpExp2) {
-            insertValue(tempA.id,getArrayValue(aVar.id,opResult),storeIndex,spaces);
+            insertValue(tempA.id,getArrayValue(aVar.id,opResult,spaces),storeIndex,spaces);
           } else if(sime.sime instanceof RegularVar) {
-            insertValue(tempA.id,getArrayValue(aVar.id,getValue(rVar.name)),storeIndex,spaces);
+            insertValue(tempA.id,getArrayValue(aVar.id,getValue(rVar.name),spaces),storeIndex,spaces);
           }
         }
 
@@ -1492,10 +1515,10 @@ import java.util.*;
         }
       }
     }
-    for(i=0;i<globalList.size();i++) {
+    /*for(i=0;i<globalList.size();i++) {
       s = globalList.get(i);
       System.out.println("ID: "+s.sID+" VAL: "+s.value + " "+s.arrSize);
-    }
+    }*/
   }
 
   public int getValue(String id) {
@@ -1509,7 +1532,7 @@ import java.util.*;
     return -1;
   }
 
-  public int getArrayValue(String id, int index) {
+  public int getArrayValue(String id, int index, int spaces) {
     Symbol s;
     for(int i=0;i<globalList.size();i++) {
       s = globalList.get(i);
@@ -1517,6 +1540,7 @@ import java.util.*;
         if(index < s.arrSize && index >= 0) {
           return s.valueArray[index];
         } else {
+          indent(spaces);
           System.out.println("Error: Out of array bounds");
         }
         
