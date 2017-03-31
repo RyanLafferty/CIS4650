@@ -852,6 +852,8 @@ import java.util.*;
           rVar = (RegularVar) tree.var;
           System.out.println("TEST" + opResult);
           insertValue(rVar.name,opResult,-1,spaces);
+        } else if(tree.var instanceof ArrayVar) {
+          //TODO
         }
       }
       else if(sime.sime instanceof Call) {
