@@ -795,6 +795,7 @@ import java.util.*;
     int indexT = -1;
     int arraySize = -1;
     int leftIndex = -1;
+    int instructionIndex = -1;
     indent( spaces );
     System.out.println( "Expr:" );
     p.println("Expr:");
@@ -879,17 +880,22 @@ import java.util.*;
         } else if(tree.var instanceof ArrayVar) {
           aVar = (ArrayVar) tree.var;
           varName = aVar.id;
+
           sime = (SimpleExpr)aVar.number;
           if(sime.sime instanceof IntExp){
             arrayIndex = (IntExp)sime.sime;
             insertValue(aVar.id, Integer.parseInt(intExp.value), Integer.parseInt(arrayIndex.value),spaces);
+            instructionIndex = Integer.parseInt(arrayIndex.value);
           } else if(sime.sime instanceof OpExp2) {
             insertValue(aVar.id, Integer.parseInt(intExp.value), opResult,spaces);
+            instructionIndex = opResult;
           } else if(sime.sime instanceof RegularVar) {
             rVar = (RegularVar) sime.sime;
             varName = rVar.name;
             insertValue(aVar.id, Integer.parseInt(intExp.value), getValue(varName), spaces);
+            instructionIndex = getValue(varName);
           }
+          instructionList.add(new Instruction(Instruction.ASSIGNCONST,aVar.id,null,null,Integer.parseInt(intExp.value),0,1,false,instructionIndex));
         }
       }
       //check singular assignment

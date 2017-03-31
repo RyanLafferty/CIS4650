@@ -9,5 +9,6 @@ void main(void) {
 	int x;
 	int bbb[3];
 	x = 2;
+	bbb[0] = 44;
 	x = 2 * 2; 
 }
