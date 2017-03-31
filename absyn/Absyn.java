@@ -7,6 +7,7 @@ import java.util.*;
   public int pos;
   public int depth = 0;
   public int currentDID = 0;
+  public String currentFun;
   public boolean returnValue = false; //Used to identify if there is a return value statement in a function
   public PrintWriter p;
   public ArrayList<Symbol> globalList = new ArrayList<Symbol>();
@@ -17,6 +18,7 @@ import java.util.*;
   public Hashtable<Integer,ArrayList<Symbol>> hash = new Hashtable<Integer,ArrayList<Symbol>>();
   public int opResult = 0;
   final  int SPACES = 4;
+
 
    private void indent( int spaces ) {
     for( int i = 0; i < spaces; i++ ) {
@@ -67,7 +69,11 @@ import java.util.*;
       Assembler a = new Assembler(fileName, this.globalList);
       a.run();
     }
-    System.out.println(functionList);
+    for(int i=0;i<functionList.size();i++) {
+      System.out.println(functionList.get(i).symbolList);
+      System.out.println("____");
+    }
+   
   }
 
   public void dumpArgs(DecList tree) {
@@ -243,6 +249,9 @@ import java.util.*;
     } else {
         globalList.add(new Symbol(depth, currentDID, tree.id,tree.type, false));
         table.add(new Symbol(depth, currentDID, tree.id,tree.type, false));
+        if(depth != 0) {
+          functionList.get(Function.functionIndex(currentFun,functionList)).symbolList.add(new variable(tree.id,-1));
+        }
     }
   }
 
@@ -263,6 +272,9 @@ import java.util.*;
       intExp = tree.number;
       globalList.add(new Symbol(depth, currentDID, tree.id,tree.type, false, Integer.parseInt(intExp.value)));
       table.add(new Symbol(depth, currentDID, tree.id, tree.type, false, Integer.parseInt(intExp.value)));
+      if(depth != 0) {
+        functionList.get(Function.functionIndex(currentFun,functionList)).symbolList.add(new variable(tree.id,-1));
+      }
     }
 
   }
@@ -1158,9 +1170,11 @@ import java.util.*;
   }
 
  private void showTree( FunDec tree, int spaces ) {
-    Function f;
+    Function f = null;
+    int i;
     if(!Function.alreadyDeclared(tree.id,functionList)) {
       functionList.add(new Function(tree.id));
+      currentFun = tree.id;
     }
     hash.put(currentDID,Symbol.getCopy(table));
     table.clear();
@@ -1182,6 +1196,14 @@ import java.util.*;
 
         globalList.add(new Symbol(depth, currentDID, tree.id,tree.type, true, argList));
         table.add(new Symbol(depth, currentDID, tree.id,tree.type, true, argList));
+
+        /*for(i=0;i<functionList.size();i++) {
+          f = functionList.get(i);
+          if(f.name.equals(tree.id)) {
+            functionList.get(i).symbolList.add(new variable("Test",0));
+            //System.out.println(functionList.get(i).symbolLists);
+          }
+        } */
 
     }
     showTree( tree.type, spaces );
