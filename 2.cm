@@ -1,15 +1,22 @@
 /*Tests test case 5 of typechecking outline*/
 
 int asb(int y){
+	
 	return y;
 }
 
 void main(void) {
 	int x;
 	void y;
+	x = 2;
+	if(x > 2) {
+		int s;
+	}
 }
 
 int test(void) {
 	int q;
+	int bbb[2];
+	bbb[0] = 2;
 	return 5;
 }

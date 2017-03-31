@@ -43,6 +43,32 @@ public class Function {
 		return -1;
 	}
 
+	public static void updateValue(String funName, ArrayList<Function> funList, String varName, int value, int index) {
+ 
+		int i;
+		int j;
+		Function f;
+
+		for(i=0;i<funList.size();i++) {
+			f = funList.get(i);
+			System.out.println("TEST");
+			if(f.name.equals(funName)) {
+				for(j=0;j<f.symbolList.size();j++) {
+					
+					if(f.symbolList.get(j).name.equals(varName)) {
+						if(index == -1) {
+							System.out.println("Updating regularVar value");
+							f.symbolList.get(j).value = value;
+						} else {
+							System.out.println("Updating arrayVar "+varName+" at index "+index+" with value "+value);
+							f.symbolList.get(j).valueArray[index] = value;
+						}
+						
+					}
+				}
+			}
+		}
+	}
 
 	private int updateInstructionCnt()
 	{

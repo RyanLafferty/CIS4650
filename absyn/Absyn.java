@@ -71,6 +71,10 @@ import java.util.*;
     }
     for(int i=0;i<functionList.size();i++) {
       System.out.println(functionList.get(i).symbolList);
+      for(int j=0;j<functionList.get(i).symbolList.size();j++) {
+        System.out.println(functionList.get(i).symbolList.get(j).name);
+        System.out.println(functionList.get(i).symbolList.get(j).value);
+      }
       System.out.println("____");
     }
    
@@ -250,7 +254,7 @@ import java.util.*;
         globalList.add(new Symbol(depth, currentDID, tree.id,tree.type, false));
         table.add(new Symbol(depth, currentDID, tree.id,tree.type, false));
         if(depth != 0) {
-          functionList.get(Function.functionIndex(currentFun,functionList)).symbolList.add(new variable(tree.id,-1));
+          functionList.get(Function.functionIndex(currentFun,functionList)).symbolList.add(new variable(tree.id));
         }
     }
   }
@@ -273,7 +277,7 @@ import java.util.*;
       globalList.add(new Symbol(depth, currentDID, tree.id,tree.type, false, Integer.parseInt(intExp.value)));
       table.add(new Symbol(depth, currentDID, tree.id, tree.type, false, Integer.parseInt(intExp.value)));
       if(depth != 0) {
-        functionList.get(Function.functionIndex(currentFun,functionList)).symbolList.add(new variable(tree.id,-1));
+        functionList.get(Function.functionIndex(currentFun,functionList)).symbolList.add(new variable(tree.id,Integer.parseInt(intExp.value)));
       }
     }
 
@@ -1531,6 +1535,7 @@ import java.util.*;
           indent(spaces);
           System.out.println("Inserting value "+value+" into regularVar "+id);
           globalList.get(i).value = value;
+          Function.updateValue(currentFun,functionList,id,value,-1);
         } else {
           indent(spaces);
           System.out.println("Inserting value "+value+" into arrayVar "+id+" at index" + index);
@@ -1539,6 +1544,7 @@ import java.util.*;
             System.out.println("Array out of bounds error!");
           } else {
             globalList.get(i).valueArray[index] = value;
+            Function.updateValue(currentFun,functionList,id,value,index);
           }
         }
       }
