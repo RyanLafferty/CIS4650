@@ -7,6 +7,16 @@ public class Assembler
     /*Constants*/
     private final static int DSIZE = 1024;
     private final static int ISIZE = 1024;
+    private final static int PC = 7;
+    private final static int GP = 6;
+    private final static int FP = 5;
+    private final static int AC = 0;
+    private final static int AC1 = 1;
+
+    private final static int ofpFO = 0;
+    private final static int retFO = -1;
+
+    //private final static int 
 
     /*Object References*/
 
@@ -23,6 +33,7 @@ public class Assembler
     private int globalPointer = 0;
     private int globalOffset = 0;
     private int currentFrameOffset = 0; //frame offset
+    private int entry = 13;
 
 
     /*
@@ -72,7 +83,7 @@ public class Assembler
         //TODO - Code generation stuff goes here
 
         //update data offsets
-        succ = loadDataOffsets();
+        succ = loadGlobalDataOffsets();
         if(succ == false)
         {
             System.out.println("Error: Did not successfully update data offsets");
@@ -80,15 +91,17 @@ public class Assembler
         }
 
         //TESTING
+        this.entry = this.currentLine;
         assignConstant(5, getDataOffset("x"));
         assignConstant(1, getDataOffset("y"));
+        returnSequence();
         /*outputLogicalExpr(7, 
                              getArrayDataOffset("bbb", 0), 
                              getDataOffset("y"),
                              OpExp2.EQ,
                              0,
                              0);*/
-        assignConstant(22, getArrayDataOffset("bbb", 1));
+        /*assignConstant(22, getArrayDataOffset("bbb", 1));
         assignVariable(getDataOffset("x"), getDataOffset("y"));
         assignVariable(getArrayDataOffset("bbb", 0), getDataOffset("y"));
         outputArithmeticExpr(getDataOffset("x"), 
@@ -96,7 +109,7 @@ public class Assembler
                              getArrayDataOffset("bbb", 1),
                              OpExp2.PLUS,
                              0,
-                             0);
+                             0);*/
 
 
         //output the finale to the file
@@ -242,17 +255,25 @@ public class Assembler
     {
         String line = "";
 
-        /*emitRM( “ST”, fp, globalOffset+ofpFO, fp, “push ofp” ); 
-        emitRM( “LDA”, fp, globalOffset, fp, “push frame” ); 
-        emitRM( “LDA”, ac, 1, pc, “load ac with ret ptr” ); 
-        emitRM_Abs( “LDA”, pc, entry, “jump to main loc” ); 
-        emitRM( “LD”, fp, ofpFO, fp, “pop frame” );
-        emitRM( “HALT”, 0, 0, 0, “” );*/
+        /*emitRM( "ST", fp, globalOffset+ofpFO, fp, "push ofp" ); 
+        emitRM( "LDA", fp, globalOffset, fp, "push frame" ); 
+        emitRM( "LDA", ac, 1, pc, "load ac with ret ptr" ); 
+        emitRM_Abs( "LDA", pc, entry, "jump to main loc" ); 
+        emitRM( "LD", fp, ofpFO, fp, "pop frame" );
+        emitRM( "HALT", 0, 0, 0, "" );*/
 
         //line = this.currentLine + ": " + "ST " + 
-        line = this.currentLine + ": HALT 0, 0, 0";
-        out.println(line);
-        this.currentLine++;
+        //line = this.currentLine + ": HALT 0, 0, 0";
+        //out.println(line);
+        //this.currentLine++;
+
+        //emitRM( "ST", fp, globalOffset+ofpFO, fp, "push ofp" );
+        emitRM( "ST", FP, globalOffset + ofpFO, FP, "push ofp" );
+        emitRM( "LDA", FP, globalOffset, FP, "push frame" ); 
+        emitRM( "LDA", AC, 1, PC, "load ac with ret ptr" ); 
+        emitRM_Abs( "LDA", PC, entry, "jump to main loc" ); 
+        emitRM( "LD", FP, ofpFO, FP, "pop frame" );
+        emitRO( "HALT", 0, 0, 0, "" );
 
         return true;
     }
@@ -305,6 +326,76 @@ public class Assembler
                 currentDataOffset--;
             }
         }
+
+
+
+        /*for(i = 0; i < symbolTable.size(); i++)
+        {
+            s = symbolTable.get(i);
+            s.offset = currentDataOffset;
+            if(s.isFunction == false)
+            {
+                System.out.println(s.sID + ": " + s.offset);
+                //currentDataOffset--;
+            }   
+        }*/
+
+        globalPointer = currentDataOffset;
+        globalOffset = globalPointer;
+
+        return true;
+    }
+
+    /*
+    Desc: TODO
+    Args: 
+    Ret: 
+    */
+    private boolean loadGlobalDataOffsets()
+    {
+        int i = 0;
+        Symbol s = null;
+
+        if(symbolTable == null)
+        {
+            return false;
+        }
+
+
+        System.out.println("Variables");
+        System.out.println("=========");
+        for(i = 0; i < symbolTable.size(); i++)
+        {
+            s = symbolTable.get(i);
+            if(s.isFunction == false && s.depth == 0)
+            {
+                System.out.println(s.sID + ": " + currentDataOffset);
+                s.offset = currentDataOffset;
+                if(s.arrSize > 0)
+                {
+                    currentDataOffset -= s.arrSize + 1; // we will store the size of the array at the end of the array
+                }
+                else
+                {
+                    currentDataOffset--;
+                }
+            }
+        }
+
+        System.out.println("\nFunctions");
+        System.out.println("=========");
+        for(i = 0; i < symbolTable.size(); i++)
+        {
+            s = symbolTable.get(i);
+            if(s.isFunction == true)
+            {
+                System.out.println(s.sID + ": " + currentDataOffset);
+                s.offset = currentDataOffset;
+                currentDataOffset--;
+            }
+        }
+
+        
 
         /*for(i = 0; i < symbolTable.size(); i++)
         {
@@ -608,6 +699,14 @@ public class Assembler
     }
 
 
+
+    private void returnSequence()
+    {
+        emitRM("ST", AC, retFO, FP, "* store return address");
+        emitRM("LD", PC, retFO, FP, "* return to caller");
+    }
+
+
     private void emitRO(String opCode, int r, int s, int t, String comment)
     {
         String line = "";
@@ -622,6 +721,15 @@ public class Assembler
         String line = "";
 
         line = currentLine + ": " + opCode + " " + r + ", " + d + "(" + s+ ")    " + comment;
+        out.println(line);
+        this.currentLine++;
+    }
+
+    private void emitRM_Abs(String opCode, int r, int a, String comment)
+    {
+        String line = "";
+
+        line = currentLine + ": " + opCode + " " + r + ", " + (a - (this.currentLine + 1)) + "(" + "7" + ")    " + comment;
         out.println(line);
         this.currentLine++;
     }
