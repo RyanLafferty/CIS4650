@@ -54,7 +54,7 @@ public class Assembler
     public void createTempMain()
     {
         testFunction = new Function("main");
-        testFunction.iCnt = 13;
+        testFunction.iCnt = 17;
         testFunction.symbolList.add(new variable("a"));
         testFunction.symbolList.add(new variable("aa"));
         testFunction.symbolList.add(new variable("aaa"));
@@ -790,6 +790,11 @@ public class Assembler
             //this is where args would be calculated
             callSequence(testFunction2);
             assignConstant2(11, fun.getOffset("aa"), "assign");
+            outputArithmeticExpr2(fun.getOffset("aaa"), 
+                                  9, 
+                                  fun.getOffset("aa"), OpExp2.PLUS, 1, 0, 
+                                  "arith1", 
+                                  false, false, false);
             assignVariable2(fun.getOffset("a"), fun.getOffset("aa"), "", false);
         }
 
@@ -885,6 +890,95 @@ public class Assembler
 
         emitRM("LD", AC, offsetY, reg, "assign");
         emitRM("ST", AC, offsetX, reg, "assign");
+    }
+
+    /*
+    Desc: TODO
+    Args: 
+    Ret: 
+    */
+    //x = y *+-/ z
+    private void outputArithmeticExpr2(int offsetX, int offsetY, int offsetZ, int operation, int constants, int conPos, String comment, boolean xglob, boolean yglob, boolean zglob)
+    {
+        String op = "";
+        int reg1 = FP;
+        int reg2 = FP;
+        int reg3 = FP;
+        if(yglob)
+        {
+            reg1 = GP;
+        }
+        if(zglob)
+        {
+            reg2 = GP;
+        }
+        if(xglob)
+        {
+            reg3 = GP;
+        }
+
+        String line = "";
+
+        //get operands
+        if(constants == 0)
+        {
+            //fetch y
+            emitRM("LD", AC, offsetY, reg1, comment + " load y");
+
+            //fetch z
+            emitRM("LD", AC1, offsetZ, reg2, comment + " load z");
+        }
+        else if (constants == 1)
+        {
+            if(conPos == 0)
+            {
+                //fetch y
+                emitRM("LDC", AC, offsetY, AC, comment + " load const y");
+
+                //fetch z
+                emitRM("LD", AC1, offsetZ, reg2, comment + " load z");
+            }
+            else if(conPos == 1)
+            {
+                //fetch y
+                emitRM("LD", AC, offsetY, reg1, comment + " load y");
+
+                //fetch z
+                emitRM("LDC", AC1, offsetZ, AC, comment + " load const z");
+            }
+        }
+        else if (constants == 2)
+        {
+            //fetch y
+            emitRM("LDC", AC, offsetY, AC, comment + " load const y");
+
+            //fetch z
+            emitRM("LDC", AC1, offsetZ, AC, comment + " load const z");
+        }
+
+        //output operation code
+        if(operation == OpExp2.PLUS)
+        {
+            op = "ADD";
+        }
+        else if(operation == OpExp2.MINUS)
+        {
+            op = "SUB";
+        }
+        else if(operation == OpExp2.STAR)
+        {
+            op = "MUL";
+        }
+        else if(operation == OpExp2.SLASH)
+        {
+            op = "DIV";
+        }
+
+        //perform operation
+        emitRO(op, AC, AC, AC1, comment + " " + op + " x = y + z");
+        
+        //store result
+        emitRM("ST", AC, offsetX, reg3, comment + " store x");
     }
 
 
