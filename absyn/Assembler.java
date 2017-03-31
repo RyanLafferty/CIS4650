@@ -711,6 +711,27 @@ public class Assembler
         
     }
 */
+
+    private boolean outputFunction(Function fun)
+    {
+        if(fun == null)
+        {
+            return false;
+        }
+
+        this.instructionCnt = 2 + 2 + 2; //calculate size of function
+        //this.instructionCnt =
+        jumpAround(instructionCnt); //jump around main
+        this.entry = this.currentLine;
+        emitRM("ST", AC, retFO, FP, "* store return address"); // b
+        
+        assignConstant(5, getDataOffset("x")); // + 2
+        assignConstant(1, getDataOffset("y")); // + 2
+        emitRM("LD", PC, retFO, FP, "* return to caller"); // c
+
+        return true;
+    }
+
     private void jumpAround(int instructionCnt)
     {
         emitRM("LDA", PC, instructionCnt, PC, "* jump around main");

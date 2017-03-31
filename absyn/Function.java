@@ -6,6 +6,7 @@ public class Function {
 
 	public ArrayList<variable> symbolList = new ArrayList<variable>();
 	public String name;
+	public int iCnt = 0;
 
 	public Function(String funName) {
 		this.name = funName;
@@ -24,6 +25,11 @@ public class Function {
 			}
 		}
 		return false;
+	}
+
+	private int updateInstructionCnt()
+	{
+		//TODO
 	}
 
 
