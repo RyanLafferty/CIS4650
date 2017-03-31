@@ -54,7 +54,7 @@ public class Assembler
     public void createTempMain()
     {
         testFunction = new Function("main");
-        testFunction.iCnt = 11;
+        testFunction.iCnt = 13;
         testFunction.symbolList.add(new variable("a"));
         testFunction.symbolList.add(new variable("aa"));
         testFunction.symbolList.add(new variable("aaa"));
@@ -789,8 +789,13 @@ public class Assembler
             assignConstant2(9, fun.getOffset("a"), "assign");
             //this is where args would be calculated
             callSequence(testFunction2);
-            assignConstant2(9, fun.getOffset("aa"), "assign");
+            assignConstant2(11, fun.getOffset("aa"), "assign");
+            assignVariable2(fun.getOffset("a"), fun.getOffset("aa"), "", false);
         }
+
+        //this is where the instruction loop would go
+        //also you need to precalculate the number of instructions
+        //given the instruction type
         
         emitRM("LD", PC, retFO, FP, "* return to caller"); // c
 
@@ -802,16 +807,6 @@ public class Assembler
         emitRM("LDA", PC, instructionCnt, PC, "* jump around " + name);
     }
 
-    /*
-    Desc: TODO
-    Args: 
-    Ret: 
-    */
-    private void assignConstant2(int constant, int offset, String comment)
-    {
-        emitRM("LDC", AC, constant, AC, comment);
-        emitRM("ST", AC, offset, FP, comment);
-    }
 
     private void callSequence(Function fun)
     {
@@ -863,6 +858,34 @@ public class Assembler
     }
 
 
+    /*
+    Desc: TODO
+    Args: 
+    Ret: 
+    */
+    private void assignConstant2(int constant, int offset, String comment)
+    {
+        emitRM("LDC", AC, constant, AC, comment);
+        emitRM("ST", AC, offset, FP, comment);
+    }
+
+
+    /*
+    Desc: TODO
+    Args: 
+    Ret: 
+    */
+    private void assignVariable2(int offsetX, int offsetY, String comment, boolean global)
+    {
+        int reg = FP;
+        if(global)
+        {
+            reg = GP;
+        }
+
+        emitRM("LD", AC, offsetY, reg, "assign");
+        emitRM("ST", AC, offsetX, reg, "assign");
+    }
 
 
 }
