@@ -333,9 +333,11 @@ import java.util.*;
     IntExp intExp;
     RegularVar rVar;
     ArrayVar aVar;
+    SimpleExpr sime;
     Symbol s;
     int leftInt = 0;
     int rightInt = 0;
+    int arrayIndex = -1;
 
 
     System.out.print( "OpExp:" );
@@ -460,10 +462,9 @@ import java.util.*;
 
     showTree( tree.left, spaces );
     showTree( tree.right, spaces ); 
-    //System.out.println(tree.left);
-    //System.out.println(tree.right);
-    if((tree.left instanceof IntExp || tree.left instanceof RegularVar) && (tree.right instanceof IntExp || tree.right instanceof RegularVar)) {
-      
+    System.out.println(tree.left);
+    System.out.println(tree.right);
+    if((tree.left instanceof IntExp || tree.left instanceof RegularVar || tree.left instanceof ArrayVar) && (tree.right instanceof IntExp || tree.right instanceof RegularVar || tree.right instanceof ArrayVar)) {
       if(tree.right instanceof IntExp) {
         intExp = (IntExp)tree.right;
         rightInt = Integer.parseInt(intExp.value);
@@ -477,7 +478,29 @@ import java.util.*;
             //System.out.println("THE RIGHT" + rightInt);
           }
         }
+      } else if(tree.right instanceof ArrayVar) {
+        aVar = (ArrayVar) tree.right;
+        IntExp exp;
+        for(int i=0;i<globalList.size();i++) {
+          s = globalList.get(i);
+          if(s.sID.equals(aVar.id)) {
+            if(aVar.number instanceof SimpleExpr) {
+              sime = (SimpleExpr) aVar.number;
+              if(sime.sime instanceof IntExp) {
+                exp = (IntExp) sime.sime;
+                arrayIndex = Integer.parseInt(exp.value);
+              } else if(sime.sime instanceof RegularVar) {
+                rVar = (RegularVar)sime.sime;
+                arrayIndex = getValue(rVar.name);
+              } else if(sime.sime instanceof OpExp2) {
+                arrayIndex = opResult;
+              }
+            } 
+            rightInt = getArrayValue(aVar.id, arrayIndex);
+          }
+        }
       } 
+
       if(tree.left instanceof IntExp) {
         intExp = (IntExp)tree.left;
         leftInt = Integer.parseInt(intExp.value);
@@ -489,6 +512,27 @@ import java.util.*;
           if(s.sID.equals(rVar.name)) {
             leftInt = s.value;
             //System.out.println("THE LEFT" + leftInt);
+          }
+        }
+      } else if(tree.left instanceof ArrayVar) {
+        aVar = (ArrayVar) tree.left;
+        IntExp exp;
+        for(int i=0;i<globalList.size();i++) {
+          s = globalList.get(i);
+          if(s.sID.equals(aVar.id)) {
+            if(aVar.number instanceof SimpleExpr) {
+              sime = (SimpleExpr) aVar.number;
+              if(sime.sime instanceof IntExp) {
+                exp = (IntExp) sime.sime;
+                arrayIndex = Integer.parseInt(exp.value);
+              } else if(sime.sime instanceof RegularVar) {
+                rVar = (RegularVar)sime.sime;
+                arrayIndex = getValue(rVar.name);
+              } else if(sime.sime instanceof OpExp2) {
+                arrayIndex = opResult;
+              }
+            } 
+            leftInt = getArrayValue(aVar.id, arrayIndex);
           }
         }
       }
@@ -532,7 +576,7 @@ import java.util.*;
           opResult = 0;
         }
       }
-    } else if(tree.right instanceof IntExp || tree.right instanceof RegularVar) {
+    } else if(tree.right instanceof IntExp || tree.right instanceof RegularVar || tree.right instanceof ArrayVar) {
       if(tree.right instanceof IntExp) {
         intExp = (IntExp)tree.right;
         rightInt = Integer.parseInt(intExp.value);
@@ -544,6 +588,27 @@ import java.util.*;
           if(s.sID.equals(rVar.name)) {
             rightInt = s.value;
             //System.out.println("THE RIGHT" + rightInt);
+          }
+        }
+      } else if(tree.right instanceof ArrayVar) {
+        aVar = (ArrayVar) tree.right;
+        IntExp exp;
+        for(int i=0;i<globalList.size();i++) {
+          s = globalList.get(i);
+          if(s.sID.equals(aVar.id)) {
+            if(aVar.number instanceof SimpleExpr) {
+              sime = (SimpleExpr) aVar.number;
+              if(sime.sime instanceof IntExp) {
+                exp = (IntExp) sime.sime;
+                arrayIndex = Integer.parseInt(exp.value);
+              } else if(sime.sime instanceof RegularVar) {
+                rVar = (RegularVar)sime.sime;
+                arrayIndex = getValue(rVar.name);
+              } else if(sime.sime instanceof OpExp2) {
+                arrayIndex = opResult;
+              }
+            } 
+            rightInt = getArrayValue(aVar.id, arrayIndex);
           }
         }
       }
@@ -600,6 +665,27 @@ import java.util.*;
           if(s.sID.equals(rVar.name)) {
             leftInt = s.value;
             //System.out.println("THE LEFT" + leftInt);
+          }
+        }
+      } else if(tree.left instanceof ArrayVar) {
+        aVar = (ArrayVar) tree.left;
+        IntExp exp;
+        for(int i=0;i<globalList.size();i++) {
+          s = globalList.get(i);
+          if(s.sID.equals(aVar.id)) {
+            if(aVar.number instanceof SimpleExpr) {
+              sime = (SimpleExpr) aVar.number;
+              if(sime.sime instanceof IntExp) {
+                exp = (IntExp) sime.sime;
+                arrayIndex = Integer.parseInt(exp.value);
+              } else if(sime.sime instanceof RegularVar) {
+                rVar = (RegularVar)sime.sime;
+                arrayIndex = getValue(rVar.name);
+              } else if(sime.sime instanceof OpExp2) {
+                arrayIndex = opResult;
+              }
+            } 
+            leftInt = getArrayValue(aVar.id, arrayIndex);
           }
         }
       }
@@ -1428,7 +1514,7 @@ import java.util.*;
     for(int i=0;i<globalList.size();i++) {
       s = globalList.get(i);
       if(s.sID.equals(id)) {
-        if(index < s.arrSize) {
+        if(index < s.arrSize && index >= 0) {
           return s.valueArray[index];
         } else {
           System.out.println("Error: Out of array bounds");

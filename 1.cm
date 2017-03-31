@@ -40,10 +40,18 @@ int main(int p) {
 	c = c + 1;
 	c = bbb[2] + 22;
 	bbb[0] = 1 + c;
-	bbb[c] = 1 + c;
-	
-	/*NEEDS WORK*/
+	c = 1;
+	test[0] = 22;
+	test[1] = 88;
+	test[2] = 1;
 	bbb[1+1] = 1 + bbb[2];
+	bbb[c] = test[0] + test[1];
+	bbb[c] = 1 + bbb[1+1];
+	bbb[c] = test[1] - test[0] + test[2];
+
+
+	/*NEEDS WORK*/
+	
 
 
     return 5;
