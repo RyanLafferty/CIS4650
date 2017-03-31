@@ -417,18 +417,15 @@ import java.util.*;
     }
     
     //showTree(tree.right, spaces);
-    //System.out.println("asdsadasdas");
     if(tree.right instanceof RegularVar)
     {
       var = (RegularVar) tree.right;
       typeR = Symbol.getGlobalType(var.name, depth, currentDID, globalList);
-      System.out.println("TypeR: "+ typeR);
     }
     else if(tree.right instanceof ArrayVar)
     {
       av = (ArrayVar) tree.right;
       typeR = Symbol.getGlobalType(av.id, depth, currentDID, globalList);
-      System.out.println("TypeR: "+ typeR);
     } else if (tree.right instanceof OpExp2) {
       typeR = getOpType((OpExp2) tree.right);
     }
@@ -497,9 +494,7 @@ import java.util.*;
       }
 
       if(tree.op == OpExp2.PLUS) {
-        System.out.println("SDASD:" + rightInt+""+leftInt);
         opResult = rightInt + leftInt;
-
       } else if(tree.op == OpExp2.MINUS) {
         opResult = (leftInt - rightInt);
       } else if(tree.op == OpExp2.STAR) {
@@ -666,6 +661,7 @@ import java.util.*;
     int t = -1;
     int indexT = -1;
     int arraySize = -1;
+    int leftIndex = -1;
     indent( spaces );
     System.out.println( "Expr:" );
     p.println("Expr:");
@@ -724,6 +720,7 @@ import java.util.*;
         } else if(sime.sime instanceof OpExp2) {
           System.out.println("Final OP answer: "+opResult);
           //System.out.println(arraySize);
+          leftIndex = opResult;
           if(opResult >= arraySize || opResult < 0) {
             indent (spaces);
             System.out.println("Error: Invalid index");
@@ -844,6 +841,7 @@ import java.util.*;
       { 
         SimpleExpr tempSime;
         int storeIndex;
+        int temp = opResult;
         op = (OpExp2) sime.sime;
         t = getOpTypeNR(op);
         if(type != null &&t != type.type)
@@ -861,9 +859,12 @@ import java.util.*;
             storeIndex = Integer.parseInt(arrayIndex.value);
             insertValue(aVar.id, opResult, storeIndex, spaces);
           } else if(tempSime.sime instanceof RegularVar) {
-
+            rVar = (RegularVar)tempSime.sime;
+            storeIndex = getValue(rVar.name);
+            insertValue(aVar.id,opResult,storeIndex,spaces);
           } else if(tempSime.sime instanceof OpExp2) {
-
+            storeIndex = opResult;
+            insertValue(aVar.id, storeIndex,leftIndex,spaces);
           }
         }
       }
@@ -1390,9 +1391,11 @@ import java.util.*;
       s = globalList.get(i);
       if(s.sID.equals(id)) {
         if(index == -1){
+          indent(spaces);
           System.out.println("Inserting value "+value+" into regularVar "+id);
           globalList.get(i).value = value;
         } else {
+          indent(spaces);
           System.out.println("Inserting value "+value+" into arrayVar "+id+" at index" + index);
           if(index < 0 || index >= globalList.get(i).arrSize) {
             indent(spaces);

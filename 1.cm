@@ -40,9 +40,10 @@ int main(int p) {
 	c = c + 1;
 	c = bbb[2] + 22;
 	bbb[0] = 1 + c;
-
-	/*NEEDS WORK*/
+	bbb[c] = 1 + c;
 	
+	/*NEEDS WORK*/
+	bbb[1+1] = 1 + bbb[2];
 
 
     return 5;
