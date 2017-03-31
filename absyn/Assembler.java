@@ -766,9 +766,9 @@ public class Assembler
         emitRM("ST", AC, retFO, FP, "* store return address"); // b
 
         //TODO - function instruction loop
-        //1. Local Args
-        //2. Instructions
-        //3. calculated instruction cnt
+        //1. Local Args - done
+        //2. Instructions - chris still neeeds to implement
+        //3. calculated instruction cnt - still needs to be implemented
 
         //reserve space for ofp and return address
         currentFrameOffset = -2;
