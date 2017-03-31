@@ -32,6 +32,8 @@ public class Function {
 	private int updateInstructionCnt()
 	{
 		//TODO
+
+		return 0
 	}
 
 
