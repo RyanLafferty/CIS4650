@@ -38,6 +38,7 @@ public class Assembler
     private String functionOutput = "";
     private Function testFunction = null;
     private Function testFunction2 = null;
+    private ArrayList <variable> globalVars = new ArrayList <variable>();
 
 
     /*
@@ -404,6 +405,7 @@ public class Assembler
             {
                 System.out.println(s.sID + ": " + currentDataOffset);
                 s.offset = currentDataOffset;
+                globalVars.add(new variable(s.sID, s.offset, true));
                 if(s.arrSize > 0)
                 {
                     currentDataOffset -= s.arrSize + 1; // we will store the size of the array at the end of the array
