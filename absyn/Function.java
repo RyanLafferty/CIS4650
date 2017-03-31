@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Function {
 
-	public ArrayList<variable> symbolList = new ArrayList<variable>();
+	public ArrayList <variable> symbolList = new ArrayList<variable>();
 	public String name;
 	public int iCnt = 0; // instruction cnt
 	public int entry = 0; //function entry point
@@ -43,6 +43,7 @@ public class Function {
 		return -1;
 	}
 
+
 	public static void updateValue(String funName, ArrayList<Function> funList, String varName, int value, int index) {
  
 		int i;
@@ -70,11 +71,27 @@ public class Function {
 		}
 	}
 
+	public int getOffset(String vName)
+	{
+		int i = 0;
+
+		for(i = 0; i < symbolList.size(); i++)
+		{
+			if(vName.equals(symbolList.get(i).name))
+			{
+				return symbolList.get(i).offset;
+			}
+		}
+
+		return -1;
+	}
+
+
+
 	private int updateInstructionCnt()
 	{
 
 		return 0;
-
 	}
 
 

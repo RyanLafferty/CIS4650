@@ -8,6 +8,7 @@ public class variable {
 	public int value = 0;
 	public int valueArray[];
 	public int arraySize = -1;
+    public int offset;
 
 	public variable(String name) {
 		this.name = name;
