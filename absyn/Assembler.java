@@ -35,6 +35,7 @@ public class Assembler
     private int currentFrameOffset = 0; //frame offset
     private int entry = 13;
     private int instructionCnt = 0;
+    private String functionOutput = "";
 
 
     /*
@@ -719,14 +720,21 @@ public class Assembler
             return false;
         }
 
-        this.instructionCnt = 2 + 2 + 2; //calculate size of function
-        //this.instructionCnt =
-        jumpAround(instructionCnt); //jump around main
-        this.entry = this.currentLine;
-        emitRM("ST", AC, retFO, FP, "* store return address"); // b
+        jumpAround(fun.iCnt); //jump around function
+        if(fun.name.equals("main"))
+        {
+            this.entry = this.currentLine; //set main entry point
+        }
         
-        assignConstant(5, getDataOffset("x")); // + 2
-        assignConstant(1, getDataOffset("y")); // + 2
+        emitRM("ST", AC, retFO, FP, "* store return address"); // b
+
+        //TODO - function instruction loop
+        //1. Local Args
+        //2. Instructions
+        //3. calculated instruction cnt
+        
+        //assignConstant(5, getDataOffset("x")); // + 2
+        //assignConstant(1, getDataOffset("y")); // + 2
         emitRM("LD", PC, retFO, FP, "* return to caller"); // c
 
         return true;
