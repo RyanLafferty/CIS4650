@@ -13,6 +13,7 @@ import java.util.*;
   public ArrayList<Symbol> table = new ArrayList<Symbol>();
   public ArrayList<Symbol> argList = new ArrayList<Symbol>();
   public ArrayList<Symbol> localArgs = new ArrayList<Symbol>();
+  public ArrayList<Function> functionList = new ArrayList<Function>();
   public Hashtable<Integer,ArrayList<Symbol>> hash = new Hashtable<Integer,ArrayList<Symbol>>();
   public int opResult = 0;
   final  int SPACES = 4;
@@ -66,6 +67,7 @@ import java.util.*;
       Assembler a = new Assembler(fileName, this.globalList);
       a.run();
     }
+    System.out.println(functionList);
   }
 
   public void dumpArgs(DecList tree) {
@@ -1156,7 +1158,10 @@ import java.util.*;
   }
 
  private void showTree( FunDec tree, int spaces ) {
-
+    Function f;
+    if(!Function.alreadyDeclared(tree.id,functionList)) {
+      functionList.add(new Function(tree.id));
+    }
     hash.put(currentDID,Symbol.getCopy(table));
     table.clear();
     depth++;
@@ -1177,6 +1182,7 @@ import java.util.*;
 
         globalList.add(new Symbol(depth, currentDID, tree.id,tree.type, true, argList));
         table.add(new Symbol(depth, currentDID, tree.id,tree.type, true, argList));
+
     }
     showTree( tree.type, spaces );
     showTree( tree.id, spaces );
