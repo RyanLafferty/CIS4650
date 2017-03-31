@@ -39,9 +39,10 @@ int main(int p) {
 	c = 1 + 2;
 	c = c + 1;
 	c = bbb[2] + 22;
+	bbb[0] = 1 + c;
 
 	/*NEEDS WORK*/
-	bbb[0] = 1 + 2;
+	
 
 
     return 5;

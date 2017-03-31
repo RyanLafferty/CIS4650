@@ -842,6 +842,8 @@ import java.util.*;
       }
       else if(sime.sime instanceof OpExp2)
       { 
+        SimpleExpr tempSime;
+        int storeIndex;
         op = (OpExp2) sime.sime;
         t = getOpTypeNR(op);
         if(type != null &&t != type.type)
@@ -850,10 +852,19 @@ import java.util.*;
           System.out.println("Assignment type mismatch error");
         } else if(tree.var instanceof RegularVar) {
           rVar = (RegularVar) tree.var;
-          System.out.println("TEST" + opResult);
           insertValue(rVar.name,opResult,-1,spaces);
         } else if(tree.var instanceof ArrayVar) {
-          //TODO
+          aVar = (ArrayVar) tree.var;
+          tempSime = (SimpleExpr) aVar.number;
+          if(tempSime.sime instanceof IntExp) {
+            arrayIndex = (IntExp)tempSime.sime;
+            storeIndex = Integer.parseInt(arrayIndex.value);
+            insertValue(aVar.id, opResult, storeIndex, spaces);
+          } else if(tempSime.sime instanceof RegularVar) {
+
+          } else if(tempSime.sime instanceof OpExp2) {
+
+          }
         }
       }
       else if(sime.sime instanceof Call) {
