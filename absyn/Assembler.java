@@ -792,7 +792,8 @@ public class Assembler
             assignConstant2(11, fun.getOffset("aa"), "assign");
             outputArithmeticExpr2(fun.getOffset("aaa"), 
                                   9, 
-                                  fun.getOffset("aa"), OpExp2.PLUS, 1, 0, 
+                                  fun.getOffset("aa"), 
+                                  OpExp2.PLUS, 1, 0, 
                                   "arith1", 
                                   false, false, false);
             assignVariable2(fun.getOffset("a"), fun.getOffset("aa"), "", false);
