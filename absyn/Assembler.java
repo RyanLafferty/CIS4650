@@ -719,9 +719,8 @@ public class Assembler
             return false;
         }
 
-        this.instructionCnt = 2 + 2 + 2; //calculate size of function
-        //this.instructionCnt =
-        jumpAround(instructionCnt); //jump around main
+        jumpAround(fun.iCnt); //jump around main
+        if(fun.na)
         this.entry = this.currentLine;
         emitRM("ST", AC, retFO, FP, "* store return address"); // b
         
