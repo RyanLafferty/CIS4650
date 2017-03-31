@@ -790,12 +790,12 @@ public class Assembler
             //this is where args would be calculated
             callSequence(testFunction2);
             assignConstant2(11, fun.getOffset("aa"), "assign");
-            outputArithmeticExpr2(fun.getOffset("aaa"), 
-                                  9, 
-                                  fun.getOffset("aa"), 
-                                  OpExp2.PLUS, 1, 0, 
-                                  "arith1", 
-                                  false, false, false);
+            outputArithmeticExpr2(fun.getOffset("aaa"), /*x*/
+                                  9,                    /*y*/
+                                  fun.getOffset("aa"),  /*z*/
+                                  OpExp2.PLUS, 1, 0,    /*op, #Constants, ConPos*/
+                                  "arith1",             /*comment*/
+                                  false, false, false); /*global flags (x,y,z)*/
             assignVariable2(fun.getOffset("a"), fun.getOffset("aa"), "", false);
         }
 
