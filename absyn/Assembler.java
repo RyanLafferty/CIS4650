@@ -780,16 +780,16 @@ public class Assembler
         //testing
         if(fun.name.equals("fun"))
         {
-            assignConstant2(9, fun.getOffset("c"), "assign");
+            assignConstant2(9, fun.getOffset("c"), "assign", false);
         }
 
         //testing
         if(fun.name.equals("main"))
         {
-            assignConstant2(9, fun.getOffset("a"), "assign");
+            assignConstant2(9, fun.getOffset("a"), "assign", false);
             //this is where args would be calculated
             callSequence(testFunction2);
-            assignConstant2(11, fun.getOffset("aa"), "assign");
+            assignConstant2(11, fun.getOffset("aa"), "assign", false);
             outputArithmeticExpr2(fun.getOffset("aaa"), /*x*/
                                   9,                    /*y*/
                                   fun.getOffset("aa"),  /*z*/
@@ -869,10 +869,15 @@ public class Assembler
     Args: 
     Ret: 
     */
-    private void assignConstant2(int constant, int offset, String comment)
+    private void assignConstant2(int constant, int offset, String comment, boolean glob)
     {
+        int reg = FP;
+        if(glob)
+        {
+            reg = GP;
+        }
         emitRM("LDC", AC, constant, AC, comment);
-        emitRM("ST", AC, offset, FP, comment);
+        emitRM("ST", AC, offset, reg, comment);
     }
 
 
