@@ -7,16 +7,7 @@ int asb(int y){
 
 void main(void) {
 	int x;
-	void y;
+	int bbb[3];
 	x = 2;
-	if(x > 2) {
-		int s;
-	}
-}
-
-int test(void) {
-	int q;
-	int bbb[2];
-	bbb[0] = 2;
-	return 5;
+	bbb[1] = 2 +  12 * 2; 
 }

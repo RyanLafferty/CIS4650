@@ -15,6 +15,7 @@ import java.util.*;
   public ArrayList<Symbol> argList = new ArrayList<Symbol>();
   public ArrayList<Symbol> localArgs = new ArrayList<Symbol>();
   public ArrayList<Function> functionList = new ArrayList<Function>();
+  public ArrayList<Instruction> instructionList = new ArrayList<Instruction>();
   public Hashtable<Integer,ArrayList<Symbol>> hash = new Hashtable<Integer,ArrayList<Symbol>>();
   public int opResult = 0;
   final  int SPACES = 4;
@@ -484,8 +485,8 @@ import java.util.*;
 
     showTree( tree.left, spaces );
     showTree( tree.right, spaces ); 
-    //System.out.println(tree.left);
-    //System.out.println(tree.right);
+    System.out.println(tree.left);
+    System.out.println(tree.right);
     if((tree.left instanceof IntExp || tree.left instanceof RegularVar || tree.left instanceof ArrayVar) && (tree.right instanceof IntExp || tree.right instanceof RegularVar || tree.right instanceof ArrayVar)) {
       if(tree.right instanceof IntExp) {
         intExp = (IntExp)tree.right;
@@ -971,6 +972,7 @@ import java.util.*;
         int temp = opResult;
         op = (OpExp2) sime.sime;
         t = getOpTypeNR(op);
+        System.out.println("T IS" + t +"and  type is "+ type.type);
         if(type != null &&t != type.type)
         { 
           indent(spaces);
@@ -1382,6 +1384,7 @@ import java.util.*;
 
   public int getOpType(OpExp2 tree)
   {
+    System.out.println("THE TREE:" + tree.left+" " + tree.right);
     int left, right = 0;
     OpExp2 opExp;
     if(tree.left instanceof OpExp2)
@@ -1459,12 +1462,12 @@ import java.util.*;
 
   public int getOpTypeNR(OpExp2 tree)
   {
+    System.out.println("THE TREENR:" + tree.left+" " + tree.right);
     int typeL = -1;
       int typeR = -1;
 
       RegularVar var = null;
       ArrayVar av = null;
-
       if(tree.left instanceof RegularVar)
       {
         var = (RegularVar) tree.left;
@@ -1504,6 +1507,10 @@ import java.util.*;
         typeR = Symbol.getGlobalType(av.id, depth, currentDID, globalList);
         //System.out.println("TypeR: "+ typeR);
       }
+      else if (tree.right instanceof OpExp2)
+      {
+        typeR = getOpType((OpExp2) tree.right);
+      }
       else
       {
         if(tree.right instanceof IntExp)
@@ -1536,7 +1543,6 @@ import java.util.*;
           System.out.println("Inserting value "+value+" into regularVar "+id);
           globalList.get(i).value = value;
           Function.updateValue(currentFun,functionList,id,value,-1);
-          a.assignConstant2(value,2,"test",false);
         } else {
           indent(spaces);
           System.out.println("Inserting value "+value+" into arrayVar "+id+" at index" + index);
