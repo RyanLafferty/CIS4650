@@ -37,6 +37,7 @@ public class Assembler
     private int instructionCnt = 0;
     private String functionOutput = "";
     private Function testFunction = null;
+    private Function testFunction2 = null;
 
 
     /*
@@ -53,7 +54,7 @@ public class Assembler
     public void createTempMain()
     {
         testFunction = new Function("main");
-        testFunction.iCnt = 6;
+        testFunction.iCnt = 11;
         testFunction.symbolList.add(new variable("a"));
         testFunction.symbolList.add(new variable("aa"));
         testFunction.symbolList.add(new variable("aaa"));
@@ -61,11 +62,11 @@ public class Assembler
 
     public void createTempFun()
     {
-        testFunction = new Function("fun");
-        testFunction.iCnt = 6;
-        testFunction.symbolList.add(new variable("c"));
-        testFunction.symbolList.add(new variable("cc"));
-        testFunction.symbolList.add(new variable("ccc"));
+        testFunction2 = new Function("fun");
+        testFunction2.iCnt = 4;
+        testFunction2.symbolList.add(new variable("c"));
+        testFunction2.symbolList.add(new variable("cc"));
+        testFunction2.symbolList.add(new variable("ccc"));
     }
 
 
@@ -122,6 +123,8 @@ public class Assembler
         emitRM("LD", PC, retFO, FP, "* return to caller"); // c*/
 
         createTempMain();
+        createTempFun();
+        outputFunction(this.testFunction2);
         outputFunction(this.testFunction);
 
         //returnSequence(); // +2
@@ -751,11 +754,12 @@ public class Assembler
             return false;
         }
 
-        jumpAround(fun.iCnt); //jump around function
+        jumpAround(fun.iCnt, fun.name); //jump around function
         if(fun.name.equals("main"))
         {
             this.entry = this.currentLine; //set main entry point
         }
+        fun.entry = this.currentLine;
         
         emitRM("ST", AC, retFO, FP, "* store return address"); // b
 
@@ -765,18 +769,26 @@ public class Assembler
         //3. calculated instruction cnt
 
         //reserve space for ofp and return address
-        currentFrameOffset = 2;
+        currentFrameOffset = -2;
         for(i = 0; i < fun.symbolList.size(); i++)
         {
             v = fun.symbolList.get(i);
-            v.offset = currentFrameOffset * -1;
-            currentFrameOffset++;
+            v.offset = currentFrameOffset;
+            currentFrameOffset--;
+        }
+
+        //testing
+        if(fun.name.equals("fun"))
+        {
+            assignConstant2(9, fun.getOffset("c"), "assign");
         }
 
         //testing
         if(fun.name.equals("main"))
         {
             assignConstant2(9, fun.getOffset("a"), "assign");
+            //this is where args would be calculated
+            callSequence(testFunction2);
             assignConstant2(9, fun.getOffset("aa"), "assign");
         }
         
@@ -785,9 +797,9 @@ public class Assembler
         return true;
     }
 
-    private void jumpAround(int instructionCnt)
+    private void jumpAround(int instructionCnt, String name)
     {
-        emitRM("LDA", PC, instructionCnt, PC, "* jump around main");
+        emitRM("LDA", PC, instructionCnt, PC, "* jump around " + name);
     }
 
     /*
@@ -799,6 +811,19 @@ public class Assembler
     {
         emitRM("LDC", AC, constant, AC, comment);
         emitRM("ST", AC, offset, FP, comment);
+    }
+
+    private void callSequence(Function fun)
+    {
+        //emitRM("LDA", PC, instructionCnt, PC, "* jump around main");
+        //TODO Calculate Args
+
+        emitRM("ST", FP, currentFrameOffset + ofpFO, FP, "* store current fp");
+        emitRM("LDA", FP, currentFrameOffset, FP, "* push new frame");
+        emitRM("LDA", AC, 1, PC, "* save return in ac");
+        //emitRM("LDA", PC, fun.entry, PC, "* relative jump to function entry");
+        emitRM("LDC", PC, fun.entry, AC, "* jump to function entry");
+        emitRM("LD", FP, ofpFO, FP, "* pop current frame");
     }
 
     private void emitRO(String opCode, int r, int s, int t, String comment)
