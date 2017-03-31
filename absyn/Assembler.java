@@ -776,7 +776,14 @@ public class Assembler
         {
             v = fun.symbolList.get(i);
             v.offset = currentFrameOffset;
-            currentFrameOffset--;
+            if(v.arraySize > 0)
+            {
+                currentFrameOffset -= v.arraySize + 1; // we will store the size of the array at the end of the array
+            }
+            else
+            {
+                currentFrameOffset--;
+            }
         }
 
         //testing
@@ -810,12 +817,26 @@ public class Assembler
         return true;
     }
 
+
+    /*
+    Desc: Outputs a jump around a function
+    Args: 
+    (int) instructionCnt: the number of instructions in the function to jump around
+    (String) name: the name of the function to jump around, used for a comment
+    Ret: Nothing
+    */
     private void jumpAround(int instructionCnt, String name)
     {
         emitRM("LDA", PC, instructionCnt, PC, "* jump around " + name);
     }
 
 
+    /*
+    Desc: Outputs a function call sequence -TODO
+    Args: 
+    (Function) fun: the offset into the frame of a variable
+    Ret: Nothing
+    */
     private void callSequence(Function fun)
     {
         //emitRM("LDA", PC, instructionCnt, PC, "* jump around main");
@@ -829,52 +850,18 @@ public class Assembler
         emitRM("LD", FP, ofpFO, FP, "* pop current frame");
     }
 
-    private void emitRO(String opCode, int r, int s, int t, String comment)
-    {
-        String line = "";
-
-        line = currentLine + ": " + opCode + " " + r + ", " + s + ", " + t + "    " + comment;
-        out.println(line);
-        this.currentLine++;
-    }
-
-    private void emitRM(String opCode, int r, int d, int s, String comment)
-    {
-        String line = "";
-
-        line = currentLine + ": " + opCode + " " + r + ", " + d + "(" + s+ ")    " + comment;
-        out.println(line);
-        this.currentLine++;
-    }
-
-    private void emitRM_Abs(String opCode, int r, int a, String comment)
-    {
-        String line = "";
-
-        line = currentLine + ": " + opCode + " " + r + ", " + (a - (this.currentLine + 1)) + "(" + "7" + ")    " + comment;
-        out.println(line);
-        this.currentLine++;
-    }
-
-    private void emitComment(String comment)
-    {
-        String line = "";
-
-        line = "* " + comment;
-        out.println(line);
-        this.currentLine++;
-    }
-
-
     /*
-    Desc: TODO
+    Desc: Outputs an assignment expression of the form (x = c) where c is a constant using the supplied information
     Args: 
-    Ret: 
+    (int) offset: the offset into the frame of a variable
+    (String) comment: a comment to go at the end of the line
+    (boolean) global: the global flag that determine if it is a global variable
+    Ret: Nothing
     */
-    private void assignConstant2(int constant, int offset, String comment, boolean glob)
+    private void assignConstant2(int constant, int offset, String comment, boolean global)
     {
         int reg = FP;
-        if(glob)
+        if(global)
         {
             reg = GP;
         }
@@ -884,9 +871,12 @@ public class Assembler
 
 
     /*
-    Desc: TODO
+    Desc: Outputs an assignment expression of the form (x = y) using the supplied information
     Args: 
-    Ret: 
+    (int) offset[X/Y]: the offset into the frame of a variable
+    (String) comment: a comment to go at the end of the line
+    (boolean) global: the global flag that determine if it is a global variable
+    Ret: Nothing
     */
     private void assignVariable2(int offsetX, int offsetY, String comment, boolean global)
     {
@@ -901,11 +891,16 @@ public class Assembler
     }
 
     /*
-    Desc: TODO
+    Desc: Outputs an arithmetic expression of the form (x = y op z) using the supplied information
     Args: 
-    Ret: 
+    (int) offset[X/Y/Z]: the offset into the frame if a variable or the constant value
+    (int) operation: the arithmetic operation (using the OpExp2 static values)
+    (int) constants: the number of constants
+    (int) conPos: the constant position if there is a single constant (0 - left (y), 1 - right (z))
+    (String) comment: a comment to go at the end of the line
+    (boolean) [x/y/z]glob: the global flags for x, y and z that determine if they are global variables
+    Ret: Nothing
     */
-    //x = y *+-/ z
     private void outputArithmeticExpr2(int offsetX, int offsetY, int offsetZ, int operation, int constants, int conPos, String comment, boolean xglob, boolean yglob, boolean zglob)
     {
         String op = "";
@@ -989,5 +984,49 @@ public class Assembler
         emitRM("ST", AC, offsetX, reg3, comment + " store x");
     }
 
+
+    ///////////emit functions//////////
+
+    //emit operation instruction
+    private void emitRO(String opCode, int r, int s, int t, String comment)
+    {
+        String line = "";
+
+        line = currentLine + ": " + opCode + " " + r + ", " + s + ", " + t + "    " + comment;
+        out.println(line);
+        this.currentLine++;
+    }
+
+    //emit memory instruction
+    private void emitRM(String opCode, int r, int d, int s, String comment)
+    {
+        String line = "";
+
+        line = currentLine + ": " + opCode + " " + r + ", " + d + "(" + s+ ")    " + comment;
+        out.println(line);
+        this.currentLine++;
+    }
+
+    //emit memory instruction
+    private void emitRM_Abs(String opCode, int r, int a, String comment)
+    {
+        String line = "";
+
+        line = currentLine + ": " + opCode + " " + r + ", " + (a - (this.currentLine + 1)) + "(" + "7" + ")    " + comment;
+        out.println(line);
+        this.currentLine++;
+    }
+
+    //emit full line comment
+    private void emitComment(String comment)
+    {
+        String line = "";
+
+        line = "* " + comment;
+        out.println(line);
+        this.currentLine++;
+    }
+
+    ///////////emit functions//////////
 
 }
