@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Function {
 
-	public ArrayList<String> symbolList = new ArrayList<String>();
+	public ArrayList<variable> symbolList = new ArrayList<variable>();
 	public String name;
 
 	public Function(String funName) {
@@ -25,6 +25,6 @@ public class Function {
 		}
 		return false;
 	}
-	
+
 
 }
