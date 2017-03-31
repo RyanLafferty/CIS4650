@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Function {
 
-	public ArrayList<variable> symbolList = new ArrayList<variable>();
+	public ArrayList <variable> symbolList = new ArrayList<variable>();
 	public String name;
 	public int iCnt = 0; // instruction cnt
 	public int entry = 0; //function entry point
@@ -33,7 +33,7 @@ public class Function {
 	{
 		//TODO
 
-		return 0
+		return 0;
 	}
 
 

@@ -36,6 +36,7 @@ public class Assembler
     private int entry = 13;
     private int instructionCnt = 0;
     private String functionOutput = "";
+    private Function testFunction = null;
 
 
     /*
@@ -47,6 +48,24 @@ public class Assembler
     {
         this.fileName = fileName;
         this.symbolTable = symbolTable;
+    }
+
+    public void createTempMain()
+    {
+        testFunction = new Function("main");
+        testFunction.iCnt = 6;
+        testFunction.symbolList.add(new variable("a"));
+        testFunction.symbolList.add(new variable("aa"));
+        testFunction.symbolList.add(new variable("aaa"));
+    }
+
+    public void createTempFun()
+    {
+        testFunction = new Function("fun");
+        testFunction.iCnt = 6;
+        testFunction.symbolList.add(new variable("c"));
+        testFunction.symbolList.add(new variable("cc"));
+        testFunction.symbolList.add(new variable("ccc"));
     }
 
 
@@ -93,14 +112,18 @@ public class Assembler
         }
 
         //TESTING
-        this.instructionCnt = 2 + 2 + 2; //calculate size of main
+        /*this.instructionCnt = 2 + 2 + 2; //calculate size of main
         jumpAround(instructionCnt); //jump around main
         this.entry = this.currentLine;
         emitRM("ST", AC, retFO, FP, "* store return address"); // b
         
         assignConstant(5, getDataOffset("x")); // + 2
         assignConstant(1, getDataOffset("y")); // + 2
-        emitRM("LD", PC, retFO, FP, "* return to caller"); // c
+        emitRM("LD", PC, retFO, FP, "* return to caller"); // c*/
+
+        createTempMain();
+        outputFunction(this.testFunction);
+
         //returnSequence(); // +2
         /*outputLogicalExpr(7, 
                              getArrayDataOffset("bbb", 0), 
@@ -501,6 +524,7 @@ public class Assembler
         return true;
     }
 
+
     /*
     Desc: TODO
     Args: 
@@ -713,8 +737,15 @@ public class Assembler
     }
 */
 
+    //TODO
     private boolean outputFunction(Function fun)
     {
+        int i = 0;
+        variable v = null;
+
+        functionOutput = "";
+        currentFrameOffset = 0;
+
         if(fun == null)
         {
             return false;
@@ -732,9 +763,21 @@ public class Assembler
         //1. Local Args
         //2. Instructions
         //3. calculated instruction cnt
+
+        for(i = 0; i < fun.symbolList.size(); i++)
+        {
+            v = fun.symbolList.get(i);
+            v.offset = currentFrameOffset;
+            currentFrameOffset++;
+        }
+
+        //testing
+        if(fun.name.equals("main"))
+        {
+            assignConstant(5, getDataOffset("x")); // + 2
+            assignConstant(1, getDataOffset("y")); // + 2
+        }
         
-        //assignConstant(5, getDataOffset("x")); // + 2
-        //assignConstant(1, getDataOffset("y")); // + 2
         emitRM("LD", PC, retFO, FP, "* return to caller"); // c
 
         return true;
@@ -745,6 +788,25 @@ public class Assembler
         emitRM("LDA", PC, instructionCnt, PC, "* jump around main");
     }
 
+    /*
+    Desc: TODO
+    Args: 
+    Ret: 
+    */
+    private boolean assignConstant2(int constant, int offset)
+    {
+        String line = "";
+
+        line  = this.currentLine + ": LDC 0, " + constant + "(0)";
+        out.println(line);
+        this.currentLine++;
+
+        line  = this.currentLine + ": ST 0, " + offset + "(5)";
+        out.println(line);
+        this.currentLine++;
+
+        return true;
+    }
 
     private void emitRO(String opCode, int r, int s, int t, String comment)
     {
