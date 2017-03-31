@@ -43,6 +43,21 @@ public class Function {
 		return -1;
 	}
 
+	public int getOffset(String vName)
+	{
+		int i = 0;
+
+		for(i = 0; i < symbolList.size(); i++)
+		{
+			if(vName.equals(symbolList.get(i).name))
+			{
+				return symbolList.get(i).offset;
+			}
+		}
+
+		return -1;
+	}
+
 
 	private int updateInstructionCnt()
 	{

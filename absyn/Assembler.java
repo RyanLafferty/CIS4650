@@ -764,18 +764,20 @@ public class Assembler
         //2. Instructions
         //3. calculated instruction cnt
 
+        //reserve space for ofp and return address
+        currentFrameOffset = 2;
         for(i = 0; i < fun.symbolList.size(); i++)
         {
             v = fun.symbolList.get(i);
-            v.offset = currentFrameOffset;
+            v.offset = currentFrameOffset * -1;
             currentFrameOffset++;
         }
 
         //testing
         if(fun.name.equals("main"))
         {
-            assignConstant(5, getDataOffset("x")); // + 2
-            assignConstant(1, getDataOffset("y")); // + 2
+            assignConstant2(9, fun.getOffset("a"), "assign");
+            assignConstant2(9, fun.getOffset("aa"), "assign");
         }
         
         emitRM("LD", PC, retFO, FP, "* return to caller"); // c
@@ -793,19 +795,10 @@ public class Assembler
     Args: 
     Ret: 
     */
-    private boolean assignConstant2(int constant, int offset)
+    private void assignConstant2(int constant, int offset, String comment)
     {
-        String line = "";
-
-        line  = this.currentLine + ": LDC 0, " + constant + "(0)";
-        out.println(line);
-        this.currentLine++;
-
-        line  = this.currentLine + ": ST 0, " + offset + "(5)";
-        out.println(line);
-        this.currentLine++;
-
-        return true;
+        emitRM("LDC", AC, constant, AC, comment);
+        emitRM("ST", AC, offset, FP, comment);
     }
 
     private void emitRO(String opCode, int r, int s, int t, String comment)
