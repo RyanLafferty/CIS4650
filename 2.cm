@@ -9,5 +9,5 @@ void main(void) {
 	int x;
 	int bbb[3];
 	x = 2;
-	bbb[1] = 2 +  12 * 2; 
+	x = 2 * 2; 
 }

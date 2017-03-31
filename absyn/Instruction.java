@@ -8,7 +8,7 @@ public class Instruction {
 	public final static int ASSIGNVAR = 2;
 
 	public int type;
-	public boolean leftRightFlag;
+	public boolean leftRightFlag; //True means left var
 	public int numConstants;
 	public String x = null;
 	public String y = null;

@@ -70,13 +70,18 @@ import java.util.*;
       Assembler a = new Assembler(fileName, this.globalList);
       a.run();
     }
-    for(int i=0;i<functionList.size();i++) {
+    /*for(int i=0;i<functionList.size();i++) {
       System.out.println(functionList.get(i).symbolList);
       for(int j=0;j<functionList.get(i).symbolList.size();j++) {
         System.out.println(functionList.get(i).symbolList.get(j).name);
         System.out.println(functionList.get(i).symbolList.get(j).value);
       }
       System.out.println("____");
+    }*/
+    for(int i = 0;i<instructionList.size();i++) {
+      System.out.println("Instruction");
+      System.out.println(instructionList.get(i).x);
+      System.out.println(instructionList.get(i).constY);
     }
    
   }
@@ -869,7 +874,8 @@ import java.util.*;
         } else if(tree.var instanceof RegularVar && type != null) {
           rVar = (RegularVar) tree.var;
           varName = rVar.name;
-          insertValue(rVar.name, Integer.parseInt(intExp.value), -1,spaces); 
+          insertValue(rVar.name, Integer.parseInt(intExp.value), -1,spaces);
+          instructionList.add(new Instruction(Instruction.ASSIGNCONST,rVar.name,null,null,Integer.parseInt(intExp.value),0,1,false,-1)); 
         } else if(tree.var instanceof ArrayVar) {
           aVar = (ArrayVar) tree.var;
           varName = aVar.id;
@@ -1384,7 +1390,6 @@ import java.util.*;
 
   public int getOpType(OpExp2 tree)
   {
-    System.out.println("THE TREE:" + tree.left+" " + tree.right);
     int left, right = 0;
     OpExp2 opExp;
     if(tree.left instanceof OpExp2)
@@ -1462,7 +1467,6 @@ import java.util.*;
 
   public int getOpTypeNR(OpExp2 tree)
   {
-    System.out.println("THE TREENR:" + tree.left+" " + tree.right);
     int typeL = -1;
       int typeR = -1;
 
