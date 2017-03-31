@@ -5,6 +5,7 @@ import java.util.*;
 public class Function {
 
 	public ArrayList <variable> symbolList = new ArrayList<variable>();
+	public ArrayList <String> instructionList = new ArrayList<String>();
 	public String name;
 	public int iCnt = 0; // instruction cnt
 	public int entry = 0; //function entry point
@@ -52,7 +53,6 @@ public class Function {
 
 		for(i=0;i<funList.size();i++) {
 			f = funList.get(i);
-			System.out.println("TEST");
 			if(f.name.equals(funName)) {
 				for(j=0;j<f.symbolList.size();j++) {
 					
