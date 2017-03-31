@@ -1536,6 +1536,7 @@ import java.util.*;
           System.out.println("Inserting value "+value+" into regularVar "+id);
           globalList.get(i).value = value;
           Function.updateValue(currentFun,functionList,id,value,-1);
+          a.assignConstant2(value,2,"test",false);
         } else {
           indent(spaces);
           System.out.println("Inserting value "+value+" into arrayVar "+id+" at index" + index);
