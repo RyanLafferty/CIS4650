@@ -984,6 +984,96 @@ public class Assembler
         emitRM("ST", AC, offsetX, reg3, comment + " store x");
     }
 
+    /*
+    Desc: TODO
+    Args: 
+    Ret: 
+    */
+    //y OP z  -> jump x where x is the number of instuctions to skip
+    private void outputLogicalExpr2(int offsetX, int offsetY, int offsetZ, int operation, int constants, int conPos, String comment, boolean xglob, boolean yglob)
+    {
+        String op = "";
+        int reg1 = FP;
+        int reg2 = FP;
+        if(xglob)
+        {
+            reg1 = GP;
+        }
+        else if(yglob)
+        {
+            reg2 = GP;
+        }
+
+        //get operands
+        if(constants == 0)
+        {
+            //fetch y
+            emitRM("LD", AC, offsetY, reg1, comment + " load y");
+
+            //fetch z
+            emitRM("LD", AC1, offsetZ, reg2, comment + " load z");
+        }
+        else if (constants == 1)
+        {
+            if(conPos == 0)
+            {
+                //fetch y
+                emitRM("LDC", AC, offsetY, AC, comment + " load const y");
+
+                //fetch z
+                emitRM("LD", AC1, offsetZ, reg2, comment + " load z");
+            }
+            else if(conPos == 1)
+            {
+                //fetch y
+                emitRM("LD", AC, offsetY, reg1, comment + " load y");
+
+                //fetch z
+                emitRM("LDC", AC1, offsetZ, AC, comment + " load const z");
+            }
+        }
+        else if (constants == 2)
+        {
+            //fetch y
+            emitRM("LDC", AC, offsetY, AC, comment + " load const y");
+
+            //fetch z
+            emitRM("LDC", AC1, offsetZ, AC, comment + " load const z");
+        }
+
+        //update register 0
+        emitRO("SUB", AC, AC, AC1, comment + " " + "SUB" + " x = y - z");
+
+        //output logical jump code
+        if(operation == OpExp2.EQ)
+        {
+            op = "JNE";
+        }
+        else if(operation == OpExp2.LT)
+        {
+            op = "JGE";
+        }
+        else if(operation == OpExp2.GT)
+        {
+            op = "JLE";
+        }
+        else if(operation == OpExp2.LTE)
+        {
+            op = "JGT";
+        }
+        else if(operation == OpExp2.GTE)
+        {
+            op = "JLT";
+        }
+        else if(operation == OpExp2.NE)
+        {
+            op = "JEQ";
+        }
+
+        //output jump statement
+        emitRM(op, AC, (offsetX - 1), PC, comment + op + " logical expr");
+    }
+
 
     ///////////emit functions//////////
 
