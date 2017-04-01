@@ -87,6 +87,7 @@ import java.util.*;
         System.out.println(instructionList.get(i).constZ);
         System.out.println(instructionList.get(i).y);
         System.out.println(instructionList.get(i).z);
+        System.out.println(instructionList.get(i).globalX);
       } else {
         System.out.println(instructionList.get(i).x);
         System.out.println(instructionList.get(i).constY);
