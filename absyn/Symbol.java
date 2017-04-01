@@ -408,4 +408,21 @@ public Symbol(int depth, int dID, String sID, boolean isFunction) {
     //If the symbol is not found
     return -1;
   }
+
+  public static boolean getScope(String id, ArrayList <Symbol> globalList) {
+    int i = 0;
+    Symbol s;
+
+    for(i=0;i<globalList.size();i++) {
+      s = globalList.get(i);
+      if(s.sID.equals(id)) {
+        if(s.depth == 0) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+    }
+    return false;
+  }
 }

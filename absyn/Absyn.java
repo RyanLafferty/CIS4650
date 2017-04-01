@@ -8,6 +8,7 @@ import java.util.*;
   public int depth = 0;
   public int currentDID = 0;
   public String currentFun;
+  public String xVar;
   public boolean returnValue = false; //Used to identify if there is a return value statement in a function
   public PrintWriter p;
   public ArrayList<Symbol> globalList = new ArrayList<Symbol>();
@@ -80,8 +81,16 @@ import java.util.*;
     }*/
     for(int i = 0;i<instructionList.size();i++) {
       System.out.println("Instruction");
-      System.out.println(instructionList.get(i).x);
-      System.out.println(instructionList.get(i).constY);
+      if(instructionList.get(i).type == 1 ){
+        System.out.println(instructionList.get(i).x);
+        System.out.println(instructionList.get(i).constY);
+        System.out.println(instructionList.get(i).constZ);
+        System.out.println(instructionList.get(i).y);
+        System.out.println(instructionList.get(i).z);
+      } else {
+        System.out.println(instructionList.get(i).x);
+        System.out.println(instructionList.get(i).constY);
+      }
     }
    
   }
@@ -355,12 +364,14 @@ import java.util.*;
    private void showTree( OpExp2 tree, int spaces ) {
     indent( spaces );
     IntExp intExp;
-    RegularVar rVar;
-    ArrayVar aVar;
-    SimpleExpr sime;
+    RegularVar rVar = null;
+    ArrayVar aVar = null;
+    SimpleExpr sime = null;
     Symbol s;
     int leftInt = 0;
     int rightInt = 0;
+    String leftName = null;
+    String rightName = null;
     int arrayIndex = -1;
 
 
@@ -498,7 +509,7 @@ import java.util.*;
         rightInt = Integer.parseInt(intExp.value);
       } else if(tree.right instanceof RegularVar) {
         rVar = (RegularVar) tree.right;
-
+        rightName = rVar.name;
         for(int i=0;i<globalList.size();i++) {
           s = globalList.get(i);
           if(s.sID.equals(rVar.name)) {
@@ -535,7 +546,7 @@ import java.util.*;
         leftInt = Integer.parseInt(intExp.value);
       } else if(tree.left instanceof RegularVar) {
         rVar = (RegularVar) tree.left;
-
+        leftName = rVar.name;
         for(int i=0;i<globalList.size();i++) {
           s = globalList.get(i);
           if(s.sID.equals(rVar.name)) {
@@ -565,7 +576,17 @@ import java.util.*;
           }
         }
       }
-
+      //Creates instructions
+      if(tree.left instanceof IntExp && tree.right instanceof IntExp) {
+        instructionList.add(new Instruction(Instruction.ARITHMETIC,xVar,null,null,Symbol.getScope(xVar,globalList),false,false,leftInt,rightInt,2,-1,tree.op));  
+      } else if (tree.left instanceof IntExp && tree.right instanceof RegularVar) {
+        instructionList.add(new Instruction(Instruction.ARITHMETIC,xVar,null,rightName,Symbol.getScope(xVar,globalList),false,Symbol.getScope(rightName,globalList),leftInt,0,1,-1,tree.op));
+      } else if (tree.left instanceof RegularVar && tree.right instanceof IntExp) {
+        instructionList.add(new Instruction(Instruction.ARITHMETIC,xVar,leftName,null,Symbol.getScope(xVar,globalList),Symbol.getScope(leftName,globalList),false,0,rightInt,1,-1,tree.op));
+      } else if (tree.left instanceof RegularVar && tree.right instanceof RegularVar) {
+        instructionList.add(new Instruction(Instruction.ARITHMETIC,xVar,leftName,rightName,Symbol.getScope(xVar,globalList),Symbol.getScope(leftName,globalList),Symbol.getScope(rightName,globalList),0,rightInt,0,-1,tree.op));
+      }
+      
       if(tree.op == OpExp2.PLUS) {
         opResult = rightInt + leftInt;
       } else if(tree.op == OpExp2.MINUS) {
@@ -803,6 +824,7 @@ import java.util.*;
     if(tree.var instanceof RegularVar) {
       rVar = (RegularVar) tree.var;
       varName = rVar.name;
+      xVar = rVar.name;
       for (int i = 0; i < globalList.size(); i++) {
         s = globalList.get(i);
         if(varName.equals(s.sID)) {
@@ -876,7 +898,7 @@ import java.util.*;
           rVar = (RegularVar) tree.var;
           varName = rVar.name;
           insertValue(rVar.name, Integer.parseInt(intExp.value), -1,spaces);
-          instructionList.add(new Instruction(Instruction.ASSIGNCONST,rVar.name,null,null,Integer.parseInt(intExp.value),0,1,false,-1)); 
+          instructionList.add(new Instruction(Instruction.ASSIGNCONST,rVar.name,null,Symbol.getScope(rVar.name,globalList),false,Integer.parseInt(intExp.value),1,false,-1)); 
         } else if(tree.var instanceof ArrayVar) {
           aVar = (ArrayVar) tree.var;
           varName = aVar.id;
@@ -895,7 +917,7 @@ import java.util.*;
             insertValue(aVar.id, Integer.parseInt(intExp.value), getValue(varName), spaces);
             instructionIndex = getValue(varName);
           }
-          instructionList.add(new Instruction(Instruction.ASSIGNCONST,aVar.id,null,null,Integer.parseInt(intExp.value),0,1,false,instructionIndex));
+          instructionList.add(new Instruction(Instruction.ASSIGNCONST,aVar.id,null,Symbol.getScope(aVar.id,globalList),false,Integer.parseInt(intExp.value),1,false,instructionIndex));
         }
       }
       //check singular assignment
@@ -910,6 +932,7 @@ import java.util.*;
         } else if(tree.var instanceof RegularVar) {
           temp = (RegularVar) tree.var;
           insertValue(temp.name, getValue(rVar.name),-1,spaces);
+          instructionList.add(new Instruction(Instruction.ASSIGNVAR,temp.name,rVar.name,Symbol.getScope(temp.name,globalList),Symbol.getScope(rVar.name,globalList),0,0,false,-1)); 
         } else if(tree.var instanceof ArrayVar) {
           aVar = (ArrayVar) tree.var;
           sime = (SimpleExpr)aVar.number;
@@ -984,7 +1007,6 @@ import java.util.*;
         int temp = opResult;
         op = (OpExp2) sime.sime;
         t = getOpTypeNR(op);
-        System.out.println("T IS" + t +"and  type is "+ type.type);
         if(type != null &&t != type.type)
         { 
           indent(spaces);

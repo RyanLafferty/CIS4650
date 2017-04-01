@@ -16,8 +16,27 @@ public class Instruction {
 	public int constY;
 	public int constZ;
 	public int arrayIndex = -1;
+	public boolean globalX;
+	public boolean globalY;
+	public boolean globalZ;
+	public int op;
 
-	public Instruction(int type, String x, String y, String z, int constY, int constZ, int numConstants, boolean leftRightFlag, int arrayIndex) {
+	//Used for assign Var and assign const
+	public Instruction(int type, String x, String y, boolean globalX, boolean globalY, int constY, int numConstants, boolean leftRightFlag, int arrayIndex) {
+
+		this.type = type;
+		this.x = x;
+		this.y = y;
+		this.constY = constY;
+		this.numConstants = numConstants;
+		this.leftRightFlag = leftRightFlag;
+		this.arrayIndex = arrayIndex;
+		this.globalX = globalX;
+		this.globalY = globalY;
+	}
+	
+	//Used for arithmetic expressions
+	public Instruction(int type, String x, String y, String z,boolean globalX, boolean globalY, boolean globalZ, int constY, int constZ, int numConstants, int arrayIndex, int op) {
 
 		this.type = type;
 		this.x = x;
@@ -26,7 +45,10 @@ public class Instruction {
 		this.constY = constY;
 		this.constZ = constZ;
 		this.numConstants = numConstants;
-		this.leftRightFlag = leftRightFlag;
 		this.arrayIndex = arrayIndex;
+		this.op = op;
+		this.globalX = globalX;
+		this.globalY = globalY;
+		this.globalZ = globalZ;
 	}
 }

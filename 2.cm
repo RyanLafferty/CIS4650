@@ -1,5 +1,5 @@
 /*Tests test case 5 of typechecking outline*/
-
+int b;
 int asb(int y){
 	
 	return y;
@@ -7,8 +7,12 @@ int asb(int y){
 
 void main(void) {
 	int x;
+	int c;
 	int bbb[3];
 	x = 2;
-	bbb[0] = 44;
-	x = 2 * 2; 
+	b = 1;
+	x = 2 * b;
+	x = c * 2;
+	x = 2 + 2;
+	x = c * c;
 }
