@@ -15,6 +15,7 @@ import java.util.*;
   public ArrayList<Symbol> argList = new ArrayList<Symbol>();
   public ArrayList<Symbol> localArgs = new ArrayList<Symbol>();
   public ArrayList<Function> functionList = new ArrayList<Function>();
+  public ArrayList<Instruction> instructionList = new ArrayList<Instruction>();
   public Hashtable<Integer,ArrayList<Symbol>> hash = new Hashtable<Integer,ArrayList<Symbol>>();
   public int opResult = 0;
   final  int SPACES = 4;
@@ -69,13 +70,18 @@ import java.util.*;
       Assembler a = new Assembler(fileName, this.globalList);
       a.run();
     }
-    for(int i=0;i<functionList.size();i++) {
+    /*for(int i=0;i<functionList.size();i++) {
       System.out.println(functionList.get(i).symbolList);
       for(int j=0;j<functionList.get(i).symbolList.size();j++) {
         System.out.println(functionList.get(i).symbolList.get(j).name);
         System.out.println(functionList.get(i).symbolList.get(j).value);
       }
       System.out.println("____");
+    }*/
+    for(int i = 0;i<instructionList.size();i++) {
+      System.out.println("Instruction");
+      System.out.println(instructionList.get(i).x);
+      System.out.println(instructionList.get(i).constY);
     }
    
   }
@@ -484,8 +490,8 @@ import java.util.*;
 
     showTree( tree.left, spaces );
     showTree( tree.right, spaces ); 
-    //System.out.println(tree.left);
-    //System.out.println(tree.right);
+    System.out.println(tree.left);
+    System.out.println(tree.right);
     if((tree.left instanceof IntExp || tree.left instanceof RegularVar || tree.left instanceof ArrayVar) && (tree.right instanceof IntExp || tree.right instanceof RegularVar || tree.right instanceof ArrayVar)) {
       if(tree.right instanceof IntExp) {
         intExp = (IntExp)tree.right;
@@ -789,6 +795,7 @@ import java.util.*;
     int indexT = -1;
     int arraySize = -1;
     int leftIndex = -1;
+    int instructionIndex = -1;
     indent( spaces );
     System.out.println( "Expr:" );
     p.println("Expr:");
@@ -868,21 +875,27 @@ import java.util.*;
         } else if(tree.var instanceof RegularVar && type != null) {
           rVar = (RegularVar) tree.var;
           varName = rVar.name;
-          insertValue(rVar.name, Integer.parseInt(intExp.value), -1,spaces); 
+          insertValue(rVar.name, Integer.parseInt(intExp.value), -1,spaces);
+          instructionList.add(new Instruction(Instruction.ASSIGNCONST,rVar.name,null,null,Integer.parseInt(intExp.value),0,1,false,-1)); 
         } else if(tree.var instanceof ArrayVar) {
           aVar = (ArrayVar) tree.var;
           varName = aVar.id;
+
           sime = (SimpleExpr)aVar.number;
           if(sime.sime instanceof IntExp){
             arrayIndex = (IntExp)sime.sime;
             insertValue(aVar.id, Integer.parseInt(intExp.value), Integer.parseInt(arrayIndex.value),spaces);
+            instructionIndex = Integer.parseInt(arrayIndex.value);
           } else if(sime.sime instanceof OpExp2) {
             insertValue(aVar.id, Integer.parseInt(intExp.value), opResult,spaces);
+            instructionIndex = opResult;
           } else if(sime.sime instanceof RegularVar) {
             rVar = (RegularVar) sime.sime;
             varName = rVar.name;
             insertValue(aVar.id, Integer.parseInt(intExp.value), getValue(varName), spaces);
+            instructionIndex = getValue(varName);
           }
+          instructionList.add(new Instruction(Instruction.ASSIGNCONST,aVar.id,null,null,Integer.parseInt(intExp.value),0,1,false,instructionIndex));
         }
       }
       //check singular assignment
@@ -971,6 +984,7 @@ import java.util.*;
         int temp = opResult;
         op = (OpExp2) sime.sime;
         t = getOpTypeNR(op);
+        System.out.println("T IS" + t +"and  type is "+ type.type);
         if(type != null &&t != type.type)
         { 
           indent(spaces);
@@ -1464,7 +1478,6 @@ import java.util.*;
 
       RegularVar var = null;
       ArrayVar av = null;
-
       if(tree.left instanceof RegularVar)
       {
         var = (RegularVar) tree.left;
@@ -1504,6 +1517,10 @@ import java.util.*;
         typeR = Symbol.getGlobalType(av.id, depth, currentDID, globalList);
         //System.out.println("TypeR: "+ typeR);
       }
+      else if (tree.right instanceof OpExp2)
+      {
+        typeR = getOpType((OpExp2) tree.right);
+      }
       else
       {
         if(tree.right instanceof IntExp)
@@ -1536,7 +1553,6 @@ import java.util.*;
           System.out.println("Inserting value "+value+" into regularVar "+id);
           globalList.get(i).value = value;
           Function.updateValue(currentFun,functionList,id,value,-1);
-          a.assignConstant2(value,2,"test",false);
         } else {
           indent(spaces);
           System.out.println("Inserting value "+value+" into arrayVar "+id+" at index" + index);
