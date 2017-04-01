@@ -990,7 +990,7 @@ public class Assembler
     Ret: 
     */
     //y OP z  -> jump x where x is the number of instuctions to skip
-    private boolean outputLogicalExpr2(int offsetX, int offsetY, int offsetZ, int operation, int constants, int conPos, String comment, boolean xglob, boolean yglob)
+    private void outputLogicalExpr2(int offsetX, int offsetY, int offsetZ, int operation, int constants, int conPos, String comment, boolean xglob, boolean yglob)
     {
         String op = "";
         int reg1 = FP;
