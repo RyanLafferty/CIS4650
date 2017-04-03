@@ -849,6 +849,14 @@ public class Assembler
     {
         //emitRM("LDA", PC, instructionCnt, PC, "* jump around main");
         //TODO Calculate Args
+        //1. how to store args in function being called
+        //this can be done just before the sequence
+        /*
+        starting point  = currentFrameOffset - 3
+        for each arg:
+            store arg in
+            starting point --
+        */
 
         emitRM("ST", FP, currentFrameOffset + ofpFO, FP, "* store current fp");
         emitRM("LDA", FP, currentFrameOffset, FP, "* push new frame");
