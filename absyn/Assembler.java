@@ -55,7 +55,7 @@ public class Assembler
     public void createTempMain()
     {
         testFunction = new Function("main");
-        testFunction.iCnt = 17;
+        testFunction.iCnt = 17 + 13;
         testFunction.symbolList.add(new variable("a"));
         testFunction.symbolList.add(new variable("aa"));
         testFunction.symbolList.add(new variable("aaa"));
@@ -302,7 +302,7 @@ public class Assembler
         //this.currentLine++;
 
         //emitRM( "ST", fp, globalOffset+ofpFO, fp, "push ofp" );
-        emitRM( "ST", FP, globalOffset + ofpFO, FP, "push ofp" );
+        emitRM( "ST", FP, globalOffset + ofpFO, FP, "finale: push ofp" );
         emitRM( "LDA", FP, globalOffset, FP, "push frame" ); 
         emitRM( "LDA", AC, 1, PC, "load ac with ret ptr" ); 
         emitRM_Abs( "LDA", PC, entry, "jump to main loc" ); 
@@ -798,6 +798,11 @@ public class Assembler
             assignConstant2(9, fun.getOffset("a"), "assign", false);
             //this is where args would be calculated
             callSequence(testFunction2);
+
+            //test io calls
+            outputCall(fun.getOffset("a"), "output", false);
+            inputCall(fun.getOffset("a"), "input", false);
+
             assignConstant2(11, fun.getOffset("aa"), "assign", false);
             outputArithmeticExpr2(fun.getOffset("aaa"), /*x*/
                                   9,                    /*y*/
