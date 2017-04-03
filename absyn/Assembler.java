@@ -1102,7 +1102,7 @@ public class Assembler
         }
 
         //load value to be output
-        emitRM("LD", AC1, offsetx, reg, comment + " load x");
+        emitRM("LD", AC1, offsetX, reg, comment + " load x");
 
         //standard function jump setup
         emitRM("ST", FP, currentFrameOffset + ofpFO, FP, "* store current fp");
