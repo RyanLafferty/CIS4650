@@ -521,8 +521,16 @@ import java.util.*;
       System.out.println("Type mismatch error");
     }
 
-    showTree( tree.left, spaces );
-    showTree( tree.right, spaces ); 
+    //TODO : REQUIRES TESTING!
+    if(tree.left instanceof OpExp2) {
+      showTree( tree.right, spaces ); 
+      showTree( tree.left, spaces );
+    }  
+    else {
+      showTree( tree.left, spaces );
+      showTree( tree.right, spaces ); 
+    }
+    
     System.out.println(tree.left);
     System.out.println(tree.right);
     if((tree.left instanceof IntExp || tree.left instanceof RegularVar || tree.left instanceof ArrayVar) && (tree.right instanceof IntExp || tree.right instanceof RegularVar || tree.right instanceof ArrayVar)) {
@@ -707,7 +715,7 @@ import java.util.*;
           opResult = 0;
         }
       }
-       System.out.println("OP RESULT"+ opResult);
+
     } else if(tree.right instanceof IntExp || tree.right instanceof RegularVar || tree.right instanceof ArrayVar) {
       if(tree.right instanceof IntExp) {
         intExp = (IntExp)tree.right;
@@ -755,8 +763,8 @@ import java.util.*;
         } else if(tree.right instanceof ArrayVar) {
           if(sime.sime instanceof OpExp2) {
             int length = indexStack.size();
+            System.out.println(indexStack);
             arrayIndex = indexStack.remove(length-1);
-            length = indexStack.size();
             rightInt = getArrayValue(rightName, arrayIndex,spaces);
           }
           
@@ -811,7 +819,7 @@ import java.util.*;
           opResult = 0;
         }
       }
-      System.out.println("THE OP RESULT FOR THIS IS "+ opResult);
+      System.out.println("RIGHT OP IS "+ opResult);
 
     } else if(tree.left instanceof IntExp || tree.left instanceof RegularVar || tree.left instanceof ArrayVar) {
       if(tree.left instanceof IntExp) {
