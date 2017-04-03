@@ -770,7 +770,7 @@ public class Assembler
         //2. Instructions - chris still neeeds to implement
         //3. calculated instruction cnt - still needs to be implemented
 
-        //reserve space for ofp and return address
+        //reserve space for ofp and return address //TODO modify to add a third reserved slot
         currentFrameOffset = -2;
         for(i = 0; i < fun.symbolList.size(); i++)
         {
@@ -1072,6 +1072,51 @@ public class Assembler
 
         //output jump statement
         emitRM(op, AC, (offsetX - 1), PC, comment + op + " logical expr");
+    }
+
+    private void inputCall(int offsetX, String comment, boolean global)
+    {
+        int reg = FP;
+        if(global)
+        {
+            reg = GP;
+        }
+
+        emitRM("ST", FP, currentFrameOffset + ofpFO, FP, "* store current fp");
+        emitRM("LDA", FP, currentFrameOffset, FP, "* push new frame");
+        emitRM("LDA", AC, 1, PC, "* save return in ac");
+        //emitRM("LDA", PC, fun.entry, PC, "* relative jump to function entry");
+        emitRM("LDC", PC, 4, AC, "* jump to function entry");
+        emitRM("LD", FP, ofpFO, FP, "* pop current frame");
+
+        //store result
+        emitRM("ST", 0, offsetX, reg, "assign");
+    }
+
+    private void outputCall(int offsetX, String comment, boolean global)
+    {
+        int reg = FP;
+        if(global)
+        {
+            reg = GP;
+        }
+
+        //load value to be output
+        emitRM("LD", AC1, offsetx, reg, comment + " load x");
+
+        //standard function jump setup
+        emitRM("ST", FP, currentFrameOffset + ofpFO, FP, "* store current fp");
+        emitRM("LDA", FP, currentFrameOffset, FP, "* push new frame");
+        
+        //store data to output (-2)
+        emitRM("ST", AC1, -2, reg, "store output value");
+
+        //store return value
+        emitRM("LDA", AC, 1, PC, "* save return in ac");
+
+        //standard function call finale
+        emitRM("LDC", PC, 7, AC, "* jump to function entry");
+        emitRM("LD", FP, ofpFO, FP, "* pop current frame");
     }
 
 
