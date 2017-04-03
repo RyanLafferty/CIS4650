@@ -14,6 +14,7 @@ import java.util.*;
   public int zVarIndex = -1;
   public boolean returnValue = false; //Used to identify if there is a return value statement in a function
   public PrintWriter p;
+  public ArrayList<Integer> indexStack = new ArrayList<Integer>();
   public ArrayList<Symbol> globalList = new ArrayList<Symbol>();
   public ArrayList<Symbol> table = new ArrayList<Symbol>();
   public ArrayList<Symbol> argList = new ArrayList<Symbol>();
@@ -104,6 +105,7 @@ import java.util.*;
       }
       System.out.println("***********");
     }
+    System.out.println(indexStack);
    
   }
 
@@ -346,6 +348,7 @@ import java.util.*;
 
     showTree ((SimpleExpr)tree.number, spaces);
     writeFlag = true;
+    indexStack.add(opResult);
   }
 
    private void showTree( AssignExp tree, int spaces ) {
@@ -633,9 +636,11 @@ import java.util.*;
           instructionList.add(new Instruction(Instruction.ARITHMETIC,xVar,leftName,rightName,Symbol.getScope(xVar,globalList),Symbol.getScope(leftName,globalList),Symbol.getScope(rightName,globalList),0,0,0,xVarIndex,leftIndex,-1,tree.op));
 
         } else if(tree.left instanceof ArrayVar && tree.right instanceof ArrayVar) {
+          int length  = indexStack.size();
+          rightIndex = indexStack.remove(length-1);
+          leftIndex = indexStack.remove(length-2);
+
           instructionList.add(new Instruction(Instruction.ARITHMETIC,xVar,leftName,rightName,Symbol.getScope(xVar,globalList),Symbol.getScope(leftName,globalList),Symbol.getScope(rightName,globalList),0,0,0,xVarIndex,leftIndex,rightIndex,tree.op));
-          yVarIndex = -1;
-          zVarIndex = -1;
         }
       }
 
