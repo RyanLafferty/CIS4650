@@ -639,6 +639,8 @@ import java.util.*;
           int length  = indexStack.size();
           rightIndex = indexStack.remove(length-1);
           leftIndex = indexStack.remove(length-2);
+          leftInt = getArrayValue(leftName, leftIndex,spaces);
+          rightInt = getArrayValue(rightName, rightIndex,spaces);
 
           instructionList.add(new Instruction(Instruction.ARITHMETIC,xVar,leftName,rightName,Symbol.getScope(xVar,globalList),Symbol.getScope(leftName,globalList),Symbol.getScope(rightName,globalList),0,0,0,xVarIndex,leftIndex,rightIndex,tree.op));
         }
