@@ -17,8 +17,6 @@ public class Assembler
     public final static int retFO = -1;
     public final static int tempRET = -2;
 
-    //private final static int 
-
     /*Object References*/
 
     /*Object Variables*/
