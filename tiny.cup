@@ -101,6 +101,9 @@ precedence left NUM, ID ,OBRACE, CBRACE;
 precedence left ID ,OBRACK, CBRACK;
 precedence left OPAREN, CPAREN;
 precedence left IF, ELSE;
+precedence nonassoc EQ, NE;
+precedence left PLUS, MINUS;
+precedence left STAR, SLASH;
 
 
 
