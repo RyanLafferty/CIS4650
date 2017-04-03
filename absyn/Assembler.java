@@ -13,9 +13,9 @@ public class Assembler
     public final static int AC = 0;
     public final static int AC1 = 1;
 
-    public final static int ofpFO = 0;
-    public final static int retFO = -1;
-    public final static int tempRET = -2;
+    public final static int ofpFO = 0; //original frame pointer
+    public final static int retFO = -1; //return address
+    public final static int tempRET = -2; //temp / return value slot
 
     /*Object References*/
 
