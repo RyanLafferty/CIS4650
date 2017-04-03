@@ -5,18 +5,17 @@ import java.util.*;
 public class Assembler
 {   
     /*Constants*/
-    private final static int DSIZE = 1024;
-    private final static int ISIZE = 1024;
-    private final static int PC = 7;
-    private final static int GP = 6;
-    private final static int FP = 5;
-    private final static int AC = 0;
-    private final static int AC1 = 1;
+    public final static int DSIZE = 1024;
+    public final static int ISIZE = 1024;
+    public final static int PC = 7;
+    public final static int GP = 6;
+    public final static int FP = 5;
+    public final static int AC = 0;
+    public final static int AC1 = 1;
 
-    private final static int ofpFO = 0;
-    private final static int retFO = -1;
-
-    //private final static int 
+    public final static int ofpFO = 0; //original frame pointer
+    public final static int retFO = -1; //return address
+    public final static int tempRET = -2; //temp / return value slot
 
     /*Object References*/
 
@@ -55,7 +54,7 @@ public class Assembler
     public void createTempMain()
     {
         testFunction = new Function("main");
-        testFunction.iCnt = 17;
+        testFunction.iCnt = 19 + 13;
         testFunction.symbolList.add(new variable("a"));
         testFunction.symbolList.add(new variable("aa"));
         testFunction.symbolList.add(new variable("aaa"));
@@ -64,7 +63,7 @@ public class Assembler
     public void createTempFun()
     {
         testFunction2 = new Function("fun");
-        testFunction2.iCnt = 4;
+        testFunction2.iCnt = 4 + 2;
         testFunction2.symbolList.add(new variable("c"));
         testFunction2.symbolList.add(new variable("cc"));
         testFunction2.symbolList.add(new variable("ccc"));
@@ -302,7 +301,7 @@ public class Assembler
         //this.currentLine++;
 
         //emitRM( "ST", fp, globalOffset+ofpFO, fp, "push ofp" );
-        emitRM( "ST", FP, globalOffset + ofpFO, FP, "push ofp" );
+        emitRM( "ST", FP, globalOffset + ofpFO, FP, "finale: push ofp" );
         emitRM( "LDA", FP, globalOffset, FP, "push frame" ); 
         emitRM( "LDA", AC, 1, PC, "load ac with ret ptr" ); 
         emitRM_Abs( "LDA", PC, entry, "jump to main loc" ); 
@@ -771,7 +770,7 @@ public class Assembler
         //3. calculated instruction cnt - still needs to be implemented
 
         //reserve space for ofp and return address
-        currentFrameOffset = -2;
+        currentFrameOffset = -3;
         for(i = 0; i < fun.symbolList.size(); i++)
         {
             v = fun.symbolList.get(i);
@@ -790,6 +789,8 @@ public class Assembler
         if(fun.name.equals("fun"))
         {
             assignConstant2(9, fun.getOffset("c"), "assign", false);
+            //return 99
+            assignConstant2(99, tempRET, "return 99", false);
         }
 
         //testing
@@ -798,6 +799,11 @@ public class Assembler
             assignConstant2(9, fun.getOffset("a"), "assign", false);
             //this is where args would be calculated
             callSequence(testFunction2);
+
+            //test io calls
+            outputCall(fun.getOffset("a"), "output", false);
+            inputCall(fun.getOffset("a"), "input", false);
+
             assignConstant2(11, fun.getOffset("aa"), "assign", false);
             outputArithmeticExpr2(fun.getOffset("aaa"), /*x*/
                                   9,                    /*y*/
@@ -812,6 +818,8 @@ public class Assembler
         //also you need to precalculate the number of instructions
         //given the instruction type
         
+        //TODO store return value in tempRET
+
         emitRM("LD", PC, retFO, FP, "* return to caller"); // c
 
         return true;
@@ -847,7 +855,14 @@ public class Assembler
         emitRM("LDA", AC, 1, PC, "* save return in ac");
         //emitRM("LDA", PC, fun.entry, PC, "* relative jump to function entry");
         emitRM("LDC", PC, fun.entry, AC, "* jump to function entry");
+
+        //load return value
+        emitRM("LD", AC, tempRET, FP, "* load return value");
+
         emitRM("LD", FP, ofpFO, FP, "* pop current frame");
+
+        //store return value
+        emitRM("ST", AC, tempRET, FP, "* store return value");
     }
 
     /*
@@ -1072,6 +1087,51 @@ public class Assembler
 
         //output jump statement
         emitRM(op, AC, (offsetX - 1), PC, comment + op + " logical expr");
+    }
+
+    private void inputCall(int offsetX, String comment, boolean global)
+    {
+        int reg = FP;
+        if(global)
+        {
+            reg = GP;
+        }
+
+        emitRM("ST", FP, currentFrameOffset + ofpFO, FP, "* store current fp");
+        emitRM("LDA", FP, currentFrameOffset, FP, "* push new frame");
+        emitRM("LDA", AC, 1, PC, "* save return in ac");
+        //emitRM("LDA", PC, fun.entry, PC, "* relative jump to function entry");
+        emitRM("LDC", PC, 4, AC, "* jump to function entry");
+        emitRM("LD", FP, ofpFO, FP, "* pop current frame");
+
+        //store result
+        emitRM("ST", 0, offsetX, reg, "assign");
+    }
+
+    private void outputCall(int offsetX, String comment, boolean global)
+    {
+        int reg = FP;
+        if(global)
+        {
+            reg = GP;
+        }
+
+        //load value to be output
+        emitRM("LD", AC1, offsetX, reg, comment + " load x");
+
+        //standard function jump setup
+        emitRM("ST", FP, currentFrameOffset + ofpFO, FP, "* store current fp");
+        emitRM("LDA", FP, currentFrameOffset, FP, "* push new frame");
+        
+        //store data to output (-2)
+        emitRM("ST", AC1, -2, reg, "store output value");
+
+        //store return value
+        emitRM("LDA", AC, 1, PC, "* save return in ac");
+
+        //standard function call finale
+        emitRM("LDC", PC, 7, AC, "* jump to function entry");
+        emitRM("LD", FP, ofpFO, FP, "* pop current frame");
     }
 
 
