@@ -21,6 +21,7 @@ import java.util.*;
   public Hashtable<Integer,ArrayList<Symbol>> hash = new Hashtable<Integer,ArrayList<Symbol>>();
   public int opResult = 0;
   final  int SPACES = 4;
+  public boolean writeFlag;
 
 
    private void indent( int spaces ) {
@@ -93,8 +94,10 @@ import java.util.*;
         System.out.println("Array IndexY: "+instructionList.get(i).arrayIndexY);
         System.out.println("Array IndexZ: "+instructionList.get(i).arrayIndexZ);
       } else {
-        System.out.println(instructionList.get(i).x);
-        System.out.println(instructionList.get(i).constY);
+        System.out.println("X: "+instructionList.get(i).x);
+        System.out.println("Y: "+instructionList.get(i).y);
+        System.out.println("Const Y: "+instructionList.get(i).constY);
+
       }
       System.out.println("***********");
     }
@@ -319,7 +322,7 @@ import java.util.*;
     p.println(tree.name);
   }
    private void showTree( ArrayVar tree, int spaces ) {
-    
+    SimpleExpr sime;
     if(Symbol.isDeclared2(tree.id, depth, currentDID, hash, globalList) == false) {
       indent( spaces );
       System.out.println("Error: variable not declared");
@@ -331,6 +334,15 @@ import java.util.*;
     indent( spaces );
     System.out.println(tree.id);
     p.println(tree.id);
+    sime = (SimpleExpr) tree.number;
+    if(sime.sime instanceof OpExp2) {
+      System.out.println("TESTFALSE");
+      writeFlag = false;
+    } else {
+      writeFlag = true;
+      System.out.println("TESTTRUE");
+    }
+
     showTree ((SimpleExpr)tree.number, spaces);
   }
 
@@ -590,33 +602,35 @@ import java.util.*;
           }
         }
       }
-      //Creates instructions
-      if(tree.left instanceof IntExp && tree.right instanceof IntExp) {
-        instructionList.add(new Instruction(Instruction.ARITHMETIC,xVar,null,null,Symbol.getScope(xVar,globalList),false,false,leftInt,rightInt,2,xVarIndex,-1,-1,tree.op));  
+      if(writeFlag == true){
+        //Creates instructions
+        if(tree.left instanceof IntExp && tree.right instanceof IntExp) {
+          instructionList.add(new Instruction(Instruction.ARITHMETIC,xVar,null,null,Symbol.getScope(xVar,globalList),false,false,leftInt,rightInt,2,xVarIndex,-1,-1,tree.op));  
 
-      } else if (tree.left instanceof IntExp && tree.right instanceof RegularVar) {
-        instructionList.add(new Instruction(Instruction.ARITHMETIC,xVar,null,rightName,Symbol.getScope(xVar,globalList),false,Symbol.getScope(rightName,globalList),leftInt,0,1,xVarIndex,-1,-1,tree.op));
+        } else if (tree.left instanceof IntExp && tree.right instanceof RegularVar) {
+          instructionList.add(new Instruction(Instruction.ARITHMETIC,xVar,null,rightName,Symbol.getScope(xVar,globalList),false,Symbol.getScope(rightName,globalList),leftInt,0,1,xVarIndex,-1,-1,tree.op));
 
-      } else if(tree.left instanceof IntExp && tree.right instanceof ArrayVar) {
-        instructionList.add(new Instruction(Instruction.ARITHMETIC,xVar,null,rightName,Symbol.getScope(xVar,globalList),false,Symbol.getScope(rightName,globalList),leftInt,0,1,xVarIndex,-1,rightIndex,tree.op));
+        } else if(tree.left instanceof IntExp && tree.right instanceof ArrayVar) {
+          instructionList.add(new Instruction(Instruction.ARITHMETIC,xVar,null,rightName,Symbol.getScope(xVar,globalList),false,Symbol.getScope(rightName,globalList),leftInt,0,1,xVarIndex,-1,rightIndex,tree.op));
 
-      } else if (tree.left instanceof RegularVar && tree.right instanceof IntExp) {
-        instructionList.add(new Instruction(Instruction.ARITHMETIC,xVar,leftName,null,Symbol.getScope(xVar,globalList),Symbol.getScope(leftName,globalList),false,0,rightInt,1,xVarIndex,-1,-1,tree.op));
+        } else if (tree.left instanceof RegularVar && tree.right instanceof IntExp) {
+          instructionList.add(new Instruction(Instruction.ARITHMETIC,xVar,leftName,null,Symbol.getScope(xVar,globalList),Symbol.getScope(leftName,globalList),false,0,rightInt,1,xVarIndex,-1,-1,tree.op));
 
-      } else if(tree.left instanceof RegularVar && tree.right instanceof ArrayVar) {
-        instructionList.add(new Instruction(Instruction.ARITHMETIC,xVar,leftName,rightName,Symbol.getScope(xVar,globalList),Symbol.getScope(leftName,globalList),Symbol.getScope(rightName,globalList),0,0,0,xVarIndex,-1,rightIndex,tree.op));
+        } else if(tree.left instanceof RegularVar && tree.right instanceof ArrayVar) {
+          instructionList.add(new Instruction(Instruction.ARITHMETIC,xVar,leftName,rightName,Symbol.getScope(xVar,globalList),Symbol.getScope(leftName,globalList),Symbol.getScope(rightName,globalList),0,0,0,xVarIndex,-1,rightIndex,tree.op));
 
-      } else if (tree.left instanceof RegularVar && tree.right instanceof RegularVar) {
-        instructionList.add(new Instruction(Instruction.ARITHMETIC,xVar,leftName,rightName,Symbol.getScope(xVar,globalList),Symbol.getScope(leftName,globalList),Symbol.getScope(rightName,globalList),0,rightInt,0,xVarIndex,-1,-1,tree.op));
+        } else if (tree.left instanceof RegularVar && tree.right instanceof RegularVar) {
+          instructionList.add(new Instruction(Instruction.ARITHMETIC,xVar,leftName,rightName,Symbol.getScope(xVar,globalList),Symbol.getScope(leftName,globalList),Symbol.getScope(rightName,globalList),0,rightInt,0,xVarIndex,-1,-1,tree.op));
 
-      } else if(tree.left instanceof ArrayVar && tree.right instanceof IntExp) {
-        instructionList.add(new Instruction(Instruction.ARITHMETIC,xVar,leftName,null,Symbol.getScope(xVar,globalList),Symbol.getScope(leftName,globalList),false,0,rightInt,1,xVarIndex,leftIndex,-1,tree.op));
+        } else if(tree.left instanceof ArrayVar && tree.right instanceof IntExp) {
+          instructionList.add(new Instruction(Instruction.ARITHMETIC,xVar,leftName,null,Symbol.getScope(xVar,globalList),Symbol.getScope(leftName,globalList),false,0,rightInt,1,xVarIndex,leftIndex,-1,tree.op));
 
-      } else if(tree.left instanceof ArrayVar && tree.right instanceof RegularVar) {
-        instructionList.add(new Instruction(Instruction.ARITHMETIC,xVar,leftName,rightName,Symbol.getScope(xVar,globalList),Symbol.getScope(leftName,globalList),Symbol.getScope(rightName,globalList),0,0,0,xVarIndex,leftIndex,-1,tree.op));
+        } else if(tree.left instanceof ArrayVar && tree.right instanceof RegularVar) {
+          instructionList.add(new Instruction(Instruction.ARITHMETIC,xVar,leftName,rightName,Symbol.getScope(xVar,globalList),Symbol.getScope(leftName,globalList),Symbol.getScope(rightName,globalList),0,0,0,xVarIndex,leftIndex,-1,tree.op));
 
-      } else if(tree.left instanceof ArrayVar && tree.right instanceof ArrayVar) {
-        instructionList.add(new Instruction(Instruction.ARITHMETIC,xVar,leftName,rightName,Symbol.getScope(xVar,globalList),Symbol.getScope(leftName,globalList),Symbol.getScope(rightName,globalList),0,0,0,xVarIndex,leftIndex,rightIndex,tree.op));
+        } else if(tree.left instanceof ArrayVar && tree.right instanceof ArrayVar) {
+          instructionList.add(new Instruction(Instruction.ARITHMETIC,xVar,leftName,rightName,Symbol.getScope(xVar,globalList),Symbol.getScope(leftName,globalList),Symbol.getScope(rightName,globalList),0,0,0,xVarIndex,leftIndex,rightIndex,tree.op));
+        }
       }
 
       if(tree.op == OpExp2.PLUS) {
@@ -701,15 +715,15 @@ import java.util.*;
           }
         }
       }
-      
-      if(tree.right instanceof IntExp) {
-        instructionList.add(new Instruction(Instruction.ARITHMETIC,xVar,null,null,Symbol.getScope(xVar,globalList),false,false,opResult,rightInt,2,xVarIndex,-1,-1,tree.op));
-      } else if(tree.right instanceof RegularVar) {
-        instructionList.add(new Instruction(Instruction.ARITHMETIC,xVar,null,rightName,Symbol.getScope(xVar,globalList),false,Symbol.getScope(rightName,globalList),opResult,0,1,xVarIndex,-1,-1,tree.op));
-      } else if(tree.right instanceof ArrayVar) {
-        instructionList.add(new Instruction(Instruction.ARITHMETIC,xVar,null,rightName,Symbol.getScope(xVar,globalList),false,Symbol.getScope(rightName,globalList),opResult,0,1,xVarIndex,-1,arrayIndex,tree.op));
-        System.out.println("THE ANSWER"+opResult);
-      }
+      if(writeFlag == true){
+        if(tree.right instanceof IntExp) {
+          instructionList.add(new Instruction(Instruction.ARITHMETIC,xVar,null,null,Symbol.getScope(xVar,globalList),false,false,opResult,rightInt,2,xVarIndex,-1,-1,tree.op));
+        } else if(tree.right instanceof RegularVar) {
+          instructionList.add(new Instruction(Instruction.ARITHMETIC,xVar,null,rightName,Symbol.getScope(xVar,globalList),false,Symbol.getScope(rightName,globalList),opResult,0,1,xVarIndex,-1,-1,tree.op));
+        } else if(tree.right instanceof ArrayVar) {
+          instructionList.add(new Instruction(Instruction.ARITHMETIC,xVar,null,rightName,Symbol.getScope(xVar,globalList),false,Symbol.getScope(rightName,globalList),opResult,0,1,xVarIndex,-1,arrayIndex,tree.op));
+        }
+      } 
  
       if(tree.op == OpExp2.PLUS) {
         opResult += rightInt;
@@ -794,13 +808,14 @@ import java.util.*;
           }
         }
       }
-
-      if(tree.left instanceof IntExp) {
-        instructionList.add(new Instruction(Instruction.ARITHMETIC,xVar,null,null,Symbol.getScope(xVar,globalList),false,false,leftInt,opResult,2,xVarIndex,-1,-1,tree.op));
-      } else if(tree.left instanceof RegularVar) {
-        instructionList.add(new Instruction(Instruction.ARITHMETIC,xVar,leftName,null,Symbol.getScope(xVar,globalList),Symbol.getScope(leftName,globalList),false,0,opResult,1,xVarIndex,-1,-1,tree.op));
-      } else if(tree.left instanceof ArrayVar) {
-         instructionList.add(new Instruction(Instruction.ARITHMETIC,xVar,leftName,null,Symbol.getScope(xVar,globalList),Symbol.getScope(leftName,globalList),false,0,opResult,1,xVarIndex,-1,arrayIndex,tree.op));
+      if(writeFlag == true){
+        if(tree.left instanceof IntExp) {
+          instructionList.add(new Instruction(Instruction.ARITHMETIC,xVar,null,null,Symbol.getScope(xVar,globalList),false,false,leftInt,opResult,2,xVarIndex,-1,-1,tree.op));
+        } else if(tree.left instanceof RegularVar) {
+          instructionList.add(new Instruction(Instruction.ARITHMETIC,xVar,leftName,null,Symbol.getScope(xVar,globalList),Symbol.getScope(leftName,globalList),false,0,opResult,1,xVarIndex,-1,-1,tree.op));
+        } else if(tree.left instanceof ArrayVar) {
+           instructionList.add(new Instruction(Instruction.ARITHMETIC,xVar,leftName,null,Symbol.getScope(xVar,globalList),Symbol.getScope(leftName,globalList),false,0,opResult,1,xVarIndex,-1,arrayIndex,tree.op));
+        }
       }
 
       if(tree.op == OpExp2.PLUS) {
@@ -850,6 +865,8 @@ import java.util.*;
       }
     }
 
+    writeFlag = true;
+
   }
 
    private void showTree( Expr tree, int spaces ) {
@@ -869,6 +886,8 @@ import java.util.*;
     int leftIndex = -1;
     int instructionIndex = -1;
     indent( spaces );
+    boolean test = false;
+    writeFlag = true;
     System.out.println( "Expr:" );
     p.println("Expr:");
     spaces += SPACES;
@@ -902,6 +921,7 @@ import java.util.*;
       } else if(tempSime.sime instanceof RegularVar) {
         rVar = (RegularVar)tempSime.sime;
         xVarIndex = getValue(rVar.name);
+        System.out.println("THE INDEX" + xVar+xVarIndex );
       }
       for (int i = 0; i < globalList.size(); i++) {
         s = globalList.get(i);
@@ -949,7 +969,7 @@ import java.util.*;
       }
     }
     
-    showTree ((Dec)tree.expression, spaces ); 
+    showTree ((Dec)tree.expression, spaces );
     //checks intexp assigned to void
     if(tree.expression instanceof SimpleExpr) {
       sime = (SimpleExpr)tree.expression;
@@ -962,7 +982,7 @@ import java.util.*;
           rVar = (RegularVar) tree.var;
           varName = rVar.name;
           insertValue(rVar.name, Integer.parseInt(intExp.value), -1,spaces);
-          instructionList.add(new Instruction(Instruction.ASSIGNCONST,rVar.name,null,Symbol.getScope(rVar.name,globalList),false,Integer.parseInt(intExp.value),1,false,-1)); 
+          instructionList.add(new Instruction(Instruction.ASSIGNCONST,rVar.name,null,Symbol.getScope(rVar.name,globalList),false,Integer.parseInt(intExp.value),1,false,-1,-1)); 
         } else if(tree.var instanceof ArrayVar) {
           aVar = (ArrayVar) tree.var;
           varName = aVar.id;
@@ -981,7 +1001,7 @@ import java.util.*;
             insertValue(aVar.id, Integer.parseInt(intExp.value), getValue(varName), spaces);
             instructionIndex = getValue(varName);
           }
-          instructionList.add(new Instruction(Instruction.ASSIGNCONST,aVar.id,null,Symbol.getScope(aVar.id,globalList),false,Integer.parseInt(intExp.value),1,false,instructionIndex));
+          instructionList.add(new Instruction(Instruction.ASSIGNCONST,aVar.id,null,Symbol.getScope(aVar.id,globalList),false,Integer.parseInt(intExp.value),1,false,instructionIndex,-1));
         }
       }
       //check singular assignment
@@ -996,7 +1016,7 @@ import java.util.*;
         } else if(tree.var instanceof RegularVar) {
           temp = (RegularVar) tree.var;
           insertValue(temp.name, getValue(rVar.name),-1,spaces);
-          instructionList.add(new Instruction(Instruction.ASSIGNVAR,temp.name,rVar.name,Symbol.getScope(temp.name,globalList),Symbol.getScope(rVar.name,globalList),0,0,false,-1)); 
+          instructionList.add(new Instruction(Instruction.ASSIGNVAR,temp.name,rVar.name,Symbol.getScope(temp.name,globalList),Symbol.getScope(rVar.name,globalList),0,0,false,-1,-1)); 
         } else if(tree.var instanceof ArrayVar) {
           aVar = (ArrayVar) tree.var;
           sime = (SimpleExpr)aVar.number;
@@ -1004,12 +1024,16 @@ import java.util.*;
             intExp = (IntExp)sime.sime;
             arrayIndex = (IntExp)sime.sime;
             insertValue(aVar.id, getValue(rVar.name), Integer.parseInt(arrayIndex.value),spaces);
+            instructionIndex = Integer.parseInt(arrayIndex.value);
           } else if(sime.sime instanceof OpExp2) {
             insertValue(aVar.id, getValue(rVar.name), opResult,spaces);
+            instructionIndex = opResult;
           } else if(sime.sime instanceof RegularVar) {
             temp = (RegularVar) sime.sime;
             insertValue(aVar.id, getValue(rVar.name), getValue(temp.name), spaces);
+            instructionIndex = getValue(varName);
           }
+          instructionList.add(new Instruction(Instruction.ASSIGNVAR,aVar.id,null,Symbol.getScope(aVar.id,globalList),Symbol.getScope(rVar.name,globalList),0,0,false,instructionIndex,-1));
         }
 
       }
@@ -1117,6 +1141,7 @@ import java.util.*;
     //System.out.println(tree.sime);
     if(tree.sime instanceof OpExp2) {
       showTree ((OpExp2)tree.sime, spaces);
+
     } 
     else if(tree.sime instanceof IntExp) {
       showTree ((IntExp)tree.sime, spaces);
