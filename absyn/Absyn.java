@@ -756,7 +756,11 @@ import java.util.*;
           if(sime.sime instanceof OpExp2) {
             int length = indexStack.size();
             arrayIndex = indexStack.remove(length-1);
+            length = indexStack.size();
+            rightInt = getArrayValue(rightName, arrayIndex,spaces);
           }
+          
+          System.out.println("THE RIGHT INT IS" + rightInt);
           instructionList.add(new Instruction(Instruction.ARITHMETIC,xVar,null,rightName,Symbol.getScope(xVar,globalList),false,Symbol.getScope(rightName,globalList),opResult,0,1,xVarIndex,-1,arrayIndex,tree.op));
         }
       } 
@@ -807,6 +811,7 @@ import java.util.*;
           opResult = 0;
         }
       }
+      System.out.println("THE OP RESULT FOR THIS IS "+ opResult);
 
     } else if(tree.left instanceof IntExp || tree.left instanceof RegularVar || tree.left instanceof ArrayVar) {
       if(tree.left instanceof IntExp) {
@@ -856,7 +861,10 @@ import java.util.*;
           if(sime.sime instanceof OpExp2) {
             int length = indexStack.size();
             arrayIndex = indexStack.remove(length-1);
+            length = indexStack.size();
+            leftInt = getArrayValue(leftName, arrayIndex,spaces);
           }
+           System.out.println("THE LEFT INT IS" +  leftInt);
           instructionList.add(new Instruction(Instruction.ARITHMETIC,xVar,leftName,null,Symbol.getScope(xVar,globalList),Symbol.getScope(leftName,globalList),false,0,opResult,1,xVarIndex,arrayIndex,-1,tree.op));  
         }
       }
