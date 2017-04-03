@@ -5,17 +5,17 @@ import java.util.*;
 public class Assembler
 {   
     /*Constants*/
-    private final static int DSIZE = 1024;
-    private final static int ISIZE = 1024;
-    private final static int PC = 7;
-    private final static int GP = 6;
-    private final static int FP = 5;
-    private final static int AC = 0;
-    private final static int AC1 = 1;
+    public final static int DSIZE = 1024;
+    public final static int ISIZE = 1024;
+    public final static int PC = 7;
+    public final static int GP = 6;
+    public final static int FP = 5;
+    public final static int AC = 0;
+    public final static int AC1 = 1;
 
-    private final static int ofpFO = 0;
-    private final static int retFO = -1;
-    private final static int tempRET = -2;
+    public final static int ofpFO = 0;
+    public final static int retFO = -1;
+    public final static int tempRET = -2;
 
     //private final static int 
 
