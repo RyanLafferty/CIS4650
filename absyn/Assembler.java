@@ -15,6 +15,7 @@ public class Assembler
 
     private final static int ofpFO = 0;
     private final static int retFO = -1;
+    private final static int tempRET = -2;
 
     //private final static int 
 
@@ -55,7 +56,7 @@ public class Assembler
     public void createTempMain()
     {
         testFunction = new Function("main");
-        testFunction.iCnt = 17 + 13;
+        testFunction.iCnt = 19 + 13;
         testFunction.symbolList.add(new variable("a"));
         testFunction.symbolList.add(new variable("aa"));
         testFunction.symbolList.add(new variable("aaa"));
@@ -64,7 +65,7 @@ public class Assembler
     public void createTempFun()
     {
         testFunction2 = new Function("fun");
-        testFunction2.iCnt = 4;
+        testFunction2.iCnt = 4 + 2;
         testFunction2.symbolList.add(new variable("c"));
         testFunction2.symbolList.add(new variable("cc"));
         testFunction2.symbolList.add(new variable("ccc"));
@@ -770,8 +771,8 @@ public class Assembler
         //2. Instructions - chris still neeeds to implement
         //3. calculated instruction cnt - still needs to be implemented
 
-        //reserve space for ofp and return address //TODO modify to add a third reserved slot
-        currentFrameOffset = -2;
+        //reserve space for ofp and return address
+        currentFrameOffset = -3;
         for(i = 0; i < fun.symbolList.size(); i++)
         {
             v = fun.symbolList.get(i);
@@ -790,6 +791,8 @@ public class Assembler
         if(fun.name.equals("fun"))
         {
             assignConstant2(9, fun.getOffset("c"), "assign", false);
+            //return 99
+            assignConstant2(99, tempRET, "return 99", false);
         }
 
         //testing
@@ -817,6 +820,8 @@ public class Assembler
         //also you need to precalculate the number of instructions
         //given the instruction type
         
+        //TODO store return value in tempRET
+
         emitRM("LD", PC, retFO, FP, "* return to caller"); // c
 
         return true;
@@ -852,7 +857,14 @@ public class Assembler
         emitRM("LDA", AC, 1, PC, "* save return in ac");
         //emitRM("LDA", PC, fun.entry, PC, "* relative jump to function entry");
         emitRM("LDC", PC, fun.entry, AC, "* jump to function entry");
+
+        //load return value
+        emitRM("LD", AC, tempRET, FP, "* load return value");
+
         emitRM("LD", FP, ofpFO, FP, "* pop current frame");
+
+        //store return value
+        emitRM("ST", AC, tempRET, FP, "* store return value");
     }
 
     /*
