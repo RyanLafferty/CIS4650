@@ -89,16 +89,17 @@ public class Function
 
 
 
-	private int updateInstructionCnt()
+	public int updateInstructionCnt()
 	{
 		int i = 0;
 		Instruction in = null;
 
 		this.instructionCnt = 0;
+		this.instructionCnt += Instruction.FUNC;
 		for(i = 0; i < instructionList.size(); i++)
 		{
 			in = instructionList.get(i);
-			System.out.println("instruction " + i + ": " + in.type);
+			//System.out.println("instruction " + i + ": " + in.type);
 			if(in.type == Instruction.ASSIGNCONST)
 			{
 				this.instructionCnt += Instruction.CONST;

@@ -93,6 +93,7 @@ import java.util.*;
 
     for(int j =0;j<functionList.size();j++) {
       Function f = functionList.get(j);
+      f.updateInstructionCnt();
       for(int i = 0;i<f.instructionList.size();i++) {
         System.out.println("Instruction");
         if(f.instructionList.get(i).type == 1 ){
@@ -115,6 +116,7 @@ import java.util.*;
         }
         System.out.println("***********");
       }
+        System.out.println("Function Instruction Count: " + f.instructionCnt);
     }
 
     System.out.println("FUNCTIONLIST");
