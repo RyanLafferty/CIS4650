@@ -723,6 +723,7 @@ public class Assembler
     }
 */
 
+    //Cost: 2 Instructions
     //TODO
     private boolean outputFunction(Function fun)
     {
@@ -831,6 +832,7 @@ public class Assembler
     }
 
 
+    //Cost: 7 Instructions
     /*
     Desc: Outputs a function call sequence -TODO
     Args: 
@@ -865,6 +867,7 @@ public class Assembler
         emitRM("ST", AC, tempRET, FP, "* store return value");
     }
 
+    //Cost: 2 Instructions
     /*
     Desc: Outputs an assignment expression of the form (x = c) where c is a constant using the supplied information
     Args: 
@@ -885,6 +888,7 @@ public class Assembler
     }
 
 
+    //Cost: 2 Instructions
     /*
     Desc: Outputs an assignment expression of the form (x = y) using the supplied information
     Args: 
@@ -905,6 +909,7 @@ public class Assembler
         emitRM("ST", AC, offsetX, reg, "assign");
     }
 
+    //Cost: 4 Instructions
     /*
     Desc: Outputs an arithmetic expression of the form (x = y op z) using the supplied information
     Args: 
@@ -999,6 +1004,7 @@ public class Assembler
         emitRM("ST", AC, offsetX, reg3, comment + " store x");
     }
 
+    //Cost: 4 Instructions
     /*
     Desc: TODO
     Args: 
@@ -1089,6 +1095,8 @@ public class Assembler
         emitRM(op, AC, (offsetX - 1), PC, comment + op + " logical expr");
     }
 
+    //Cost: 6 Instructions
+    //todo - docs
     private void inputCall(int offsetX, String comment, boolean global)
     {
         int reg = FP;
@@ -1108,6 +1116,8 @@ public class Assembler
         emitRM("ST", 0, offsetX, reg, "assign");
     }
 
+    //Cost: 7 Instructions
+    //TODO - docs
     private void outputCall(int offsetX, String comment, boolean global)
     {
         int reg = FP;
