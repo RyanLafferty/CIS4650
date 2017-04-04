@@ -112,6 +112,23 @@ public class Function
 			{
 				this.instructionCnt += Instruction.ARITH;
 			}
+			else if(in.type == Instruction.LOGIC_INS)
+			{
+				this.instructionCnt += Instruction.LOGIC;
+				//TODO calculate/add body cost
+			}
+			else if(in.type == Instruction.INPUT_INS)
+			{
+				this.instructionCnt += Instruction.INPUT;
+			}
+			else if(in.type == Instruction.OUTPUT_INS)
+			{
+				this.instructionCnt += Instruction.OUTPUT;
+			}
+			else if(in.type == Instruction.CALL_INS)
+			{
+				this.instructionCnt += Instruction.CALL;
+			}
 		}
 
 		return 0;
