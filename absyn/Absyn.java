@@ -99,6 +99,8 @@ import java.util.*;
         System.out.println("X: "+instructionList.get(i).x);
         System.out.println("Y: "+instructionList.get(i).y);
         System.out.println("Const Y: "+instructionList.get(i).constY);
+        System.out.println("xIndex: "+instructionList.get(i).arrayIndexX);
+        System.out.println("yIndex: "+instructionList.get(i).arrayIndexY);
 
       }
       System.out.println("***********");
@@ -768,7 +770,6 @@ import java.util.*;
             rightInt = getArrayValue(rightName, arrayIndex,spaces);
           }
           
-          System.out.println("THE RIGHT INT IS" + rightInt);
           instructionList.add(new Instruction(Instruction.ARITHMETIC,xVar,null,rightName,Symbol.getScope(xVar,globalList),false,Symbol.getScope(rightName,globalList),opResult,0,1,xVarIndex,-1,arrayIndex,tree.op));
         }
       } 
@@ -819,7 +820,6 @@ import java.util.*;
           opResult = 0;
         }
       }
-      System.out.println("RIGHT OP IS "+ opResult);
 
     } else if(tree.left instanceof IntExp || tree.left instanceof RegularVar || tree.left instanceof ArrayVar) {
       if(tree.left instanceof IntExp) {
@@ -832,7 +832,6 @@ import java.util.*;
           s = globalList.get(i);
           if(s.sID.equals(rVar.name)) {
             leftInt = s.value;
-            //System.out.println("THE LEFT" + leftInt);
           }
         }
       } else if(tree.left instanceof ArrayVar) {
@@ -872,7 +871,6 @@ import java.util.*;
             length = indexStack.size();
             leftInt = getArrayValue(leftName, arrayIndex,spaces);
           }
-           System.out.println("THE LEFT INT IS" +  leftInt);
           instructionList.add(new Instruction(Instruction.ARITHMETIC,xVar,leftName,null,Symbol.getScope(xVar,globalList),Symbol.getScope(leftName,globalList),false,0,opResult,1,xVarIndex,arrayIndex,-1,tree.op));  
         }
       }
@@ -1102,6 +1100,8 @@ import java.util.*;
         ArrayVar tempA;
         SimpleExpr tempSime;
         OpExp2 exp;
+        int yIndex = -1;
+        int xIndex = -1;
         aVar = (ArrayVar) sime.sime;
         sime = (SimpleExpr)aVar.number;
         t = Symbol.getGlobalType(aVar.id, depth, currentDID, globalList);
@@ -1113,13 +1113,18 @@ import java.util.*;
           if(sime.sime instanceof IntExp) {
             intExp = (IntExp)sime.sime;
             arrayIndex = (IntExp)sime.sime;
+            yIndex = Integer.parseInt(arrayIndex.value);
             insertValue(temp.name, getArrayValue(aVar.id,Integer.parseInt(arrayIndex.value),spaces), -1,spaces);
           } else if(sime.sime instanceof OpExp2) {
+            yIndex = opResult;
             insertValue(temp.name, getArrayValue(aVar.id,opResult,spaces), -1, spaces);
           } else if(sime.sime instanceof RegularVar) {
             rVar = (RegularVar) sime.sime;
+            yIndex = getValue(rVar.name);
             insertValue(temp.name, getArrayValue(aVar.id,getValue(rVar.name),spaces), -1, spaces);            
           }
+
+          instructionList.add(new Instruction(Instruction.ASSIGNVAR,temp.name,aVar.id,Symbol.getScope(temp.name,globalList),Symbol.getScope(aVar.id,globalList),0,0,false,-1,yIndex)); 
         } else if(tree.var instanceof ArrayVar) {
           tempA = (ArrayVar) tree.var;
           int storeIndex = 0;
@@ -1127,22 +1132,30 @@ import java.util.*;
 
           if(tempSime.sime instanceof IntExp) {
             arrayIndex = (IntExp)tempSime.sime;
+            xIndex = Integer.parseInt(arrayIndex.value);
             storeIndex = Integer.parseInt(arrayIndex.value);
           } else if(tempSime.sime instanceof OpExp2) {
+            xIndex = opResult;
             storeIndex = opResult;
           } else if(tempSime.sime instanceof RegularVar) {
             rVar = (RegularVar)tempSime.sime;
+            xIndex = getValue(rVar.name);
             storeIndex = getValue(rVar.name);
           }
           if(sime.sime instanceof IntExp) {
             intExp = (IntExp)sime.sime;
             arrayIndex = (IntExp)sime.sime;
+            yIndex = Integer.parseInt(arrayIndex.value);
             insertValue(tempA.id, getArrayValue(aVar.id,Integer.parseInt(arrayIndex.value),spaces),storeIndex,spaces);
           } else if(sime.sime instanceof OpExp2) {
+            yIndex = opResult;
             insertValue(tempA.id,getArrayValue(aVar.id,opResult,spaces),storeIndex,spaces);
           } else if(sime.sime instanceof RegularVar) {
+            rVar = (RegularVar) sime.sime;
+            yIndex = getValue(rVar.name);
             insertValue(tempA.id,getArrayValue(aVar.id,getValue(rVar.name),spaces),storeIndex,spaces);
           }
+          instructionList.add(new Instruction(Instruction.ASSIGNVAR,tempA.id,aVar.id,Symbol.getScope(tempA.id,globalList),Symbol.getScope(aVar.id,globalList),0,0,false,xIndex,yIndex)); 
         }
 
       }

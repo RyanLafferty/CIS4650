@@ -36,6 +36,8 @@ public class Instruction {
 		this.arrayIndex = arrayIndex;
 		this.globalX = globalX;
 		this.globalY = globalY;
+		this.arrayIndexX = arrayIndexX;
+		this.arrayIndexY = arrayIndexY;
 	}
 	
 	//Used for arithmetic expressions

@@ -41,4 +41,8 @@ void main(void) {
 	test[1] = 55;
 	bbb[q+1] = rock[1+2] + lock[5-2] * test[2*2] + lock[2-1]; /*3 5 2 2*/
 	bbb[1] = 1 + c;
+	x = 2;
+	bbb[1] = 2;
+	x = rock[1];
+	rock[1] = rock[2];
 }
