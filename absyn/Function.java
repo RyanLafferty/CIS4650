@@ -2,14 +2,15 @@ package absyn;
 import java.io.*;
 import java.util.*;
 
-public class Function {
-
+public class Function 
+{
 	public ArrayList <variable> symbolList = new ArrayList<variable>();
 	public ArrayList <Instruction> instructionList = new ArrayList<Instruction>();
 	public String name;
 	public int iCnt = 0; // instruction cnt
 	public int entry = 0; //function entry point
 	public int offset = 0; //offset in dMem to address location
+	public int instructionCnt = 0;
 
 	public Function(String funName) {
 		this.name = funName;
@@ -90,6 +91,27 @@ public class Function {
 
 	private int updateInstructionCnt()
 	{
+		int i = 0;
+		Instruction in = null;
+
+		this.instructionCnt = 0;
+		for(i = 0; i < instructionList.size(); i++)
+		{
+			in = instructionList.get(i);
+			System.out.println("instruction " + i + ": " + in.type);
+			if(in.type == Instruction.ASSIGNCONST)
+			{
+				this.instructionCnt += Instruction.CONST;
+			}
+			else if(in.type == Instruction.ASSIGNVAR)
+			{
+				this.instructionCnt += Instruction.VAR;
+			}
+			else if(in.type == Instruction.ARITHMETIC)
+			{
+				this.instructionCnt += Instruction.ARITH;
+			}
+		}
 
 		return 0;
 	}

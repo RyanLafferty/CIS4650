@@ -717,6 +717,7 @@ public class Assembler
     }
 */
 
+    //Cost: 2 Instructions
     //TODO
     private boolean outputFunction(Function fun)
     {

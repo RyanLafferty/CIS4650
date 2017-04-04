@@ -3,6 +3,20 @@ import java.io.*;
 import java.util.*;
 
 public class Instruction {
+
+	/*Constants*/
+
+	//costs
+    public final static int CONST = 2;
+    public final static int VAR = 2;
+    public final static int FUNC = 2;
+    public final static int ARITH = 4;
+    public final static int LOGIC = 4;
+    public final static int CALL = 7;
+    public final static int INPUT = 6;
+    public final static int OUTPUT = 7;
+
+    //types
 	public final static int ASSIGNCONST = 0;
 	public final static int ARITHMETIC = 1;
 	public final static int ASSIGNVAR = 2;
