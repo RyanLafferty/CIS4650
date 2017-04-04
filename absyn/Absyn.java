@@ -58,8 +58,15 @@ import java.util.*;
 
 //main showTree
  public void showTree( DecList tree, int spaces, PrintWriter p, String fileName, int checkpoint) 
- {
-    this.p = p;
+ {  
+    TypeSpec inOut = new TypeSpec(0,1);
+    this.p = p; 
+    //Adds the two reserved functions before parsing begins
+    globalList.add(new Symbol(0, 0, "output" ,inOut, true));
+    table.add(new Symbol(0,0,"output",inOut, true));
+    globalList.add(new Symbol(0, 0, "input" ,inOut, true));
+    table.add(new Symbol(0,0,"input",inOut, true));
+
     while( tree != null )
     {
       showTree( tree.head, spaces );
@@ -83,27 +90,31 @@ import java.util.*;
       }
       System.out.println("____");
     }*/
-    for(int i = 0;i<instructionList.size();i++) {
-      System.out.println("Instruction");
-      if(instructionList.get(i).type == 1 ){
-        System.out.println("X: "+instructionList.get(i).x);
-        System.out.println("OP: "+instructionList.get(i).op);
-        System.out.println("Const Y: "+instructionList.get(i).constY);
-        System.out.println("Const Z: "+instructionList.get(i).constZ);
-        System.out.println("Y: "+instructionList.get(i).y);
-        System.out.println("Z: "+instructionList.get(i).z);
-        System.out.println("Array IndexX: "+instructionList.get(i).arrayIndexX);
-        System.out.println("Array IndexY: "+instructionList.get(i).arrayIndexY);
-        System.out.println("Array IndexZ: "+instructionList.get(i).arrayIndexZ);
-      } else {
-        System.out.println("X: "+instructionList.get(i).x);
-        System.out.println("Y: "+instructionList.get(i).y);
-        System.out.println("Const Y: "+instructionList.get(i).constY);
-        System.out.println("xIndex: "+instructionList.get(i).arrayIndexX);
-        System.out.println("yIndex: "+instructionList.get(i).arrayIndexY);
 
+    for(int j =0;j<functionList.size();j++) {
+      Function f = functionList.get(j);
+      for(int i = 0;i<f.instructionList.size();i++) {
+        System.out.println("Instruction");
+        if(f.instructionList.get(i).type == 1 ){
+          System.out.println("X: "+f.instructionList.get(i).x);
+          System.out.println("OP: "+f.instructionList.get(i).op);
+          System.out.println("Const Y: "+f.instructionList.get(i).constY);
+          System.out.println("Const Z: "+f.instructionList.get(i).constZ);
+          System.out.println("Y: "+f.instructionList.get(i).y);
+          System.out.println("Z: "+f.instructionList.get(i).z);
+          System.out.println("Array IndexX: "+f.instructionList.get(i).arrayIndexX);
+          System.out.println("Array IndexY: "+f.instructionList.get(i).arrayIndexY);
+          System.out.println("Array IndexZ: "+f.instructionList.get(i).arrayIndexZ);
+        } else {
+          System.out.println("X: "+f.instructionList.get(i).x);
+          System.out.println("Y: "+f.instructionList.get(i).y);
+          System.out.println("Const Y: "+f.instructionList.get(i).constY);
+          System.out.println("xIndex: "+f.instructionList.get(i).arrayIndexX);
+          System.out.println("yIndex: "+f.instructionList.get(i).arrayIndexY);
+
+        }
+        System.out.println("***********");
       }
-      System.out.println("***********");
     }
 
     System.out.println("FUNCTIONLIST");
@@ -1433,7 +1444,6 @@ import java.util.*;
     if(!instructionList.isEmpty()) {
       for (Instruction test : instructionList) {
           f.instructionList.add(test);
-          System.out.print(test);
       }
     }
     instructionList.clear();

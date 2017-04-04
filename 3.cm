@@ -3,31 +3,10 @@ that were in Fei's rubric. Tests issues such
 as return values and assignments*/
 
 void main(void) {
-    int a[2];
-    int x;
-    void y;
-    a[x] = 1;
-    a[y] = y;
-}
-
-void mains(void) {
-    int x;
-    void y;
-    void z;
-    x = main();
-   
-}
-
-int funone(int fff) {
-    int x;
-    int y;
-    void z;
-    x = x * 2;
-    y = x + z;
-}
-
-void funtwo(void) {
-    int x;
-    x = 2;
-    return x;
+    int a;
+    int c;
+    int bbb[2];
+    a = 5;
+    bbb[a] = 2;
+    c = bbb[1] * 3;
 }
