@@ -112,38 +112,14 @@ public class Assembler
             return false;
         }
 
-        //TESTING
-        /*this.instructionCnt = 2 + 2 + 2; //calculate size of main
-        jumpAround(instructionCnt); //jump around main
-        this.entry = this.currentLine;
-        emitRM("ST", AC, retFO, FP, "* store return address"); // b
         
-        assignConstant(5, getDataOffset("x")); // + 2
-        assignConstant(1, getDataOffset("y")); // + 2
-        emitRM("LD", PC, retFO, FP, "* return to caller"); // c*/
 
         createTempMain();
         createTempFun();
         outputFunction(this.testFunction2);
         outputFunction(this.testFunction);
 
-        //returnSequence(); // +2
-        /*outputLogicalExpr(7, 
-                             getArrayDataOffset("bbb", 0), 
-                             getDataOffset("y"),
-                             OpExp2.EQ,
-                             0,
-                             0);*/
-        /*assignConstant(22, getArrayDataOffset("bbb", 1));
-        assignVariable(getDataOffset("x"), getDataOffset("y"));
-        assignVariable(getArrayDataOffset("bbb", 0), getDataOffset("y"));
-        outputArithmeticExpr(getDataOffset("x"), 
-                             getArrayDataOffset("bbb", 0), 
-                             getArrayDataOffset("bbb", 1),
-                             OpExp2.PLUS,
-                             0,
-                             0);*/
-
+        
 
         //output the finale to the file
         succ = outputFinale();

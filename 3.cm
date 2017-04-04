@@ -10,3 +10,8 @@ void main(void) {
     bbb[a] = 2;
     c = bbb[1] * 3;
 }
+
+int test(void) {
+    
+    return 5;
+}

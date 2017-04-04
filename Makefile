@@ -50,7 +50,7 @@ test2:
 	java $(CLASSPATH) Main 2.cm -s
 
 test3:
-	java $(CLASSPATH) Main 3.cm -s
+	java $(CLASSPATH) Main 3.cm -c
 
 test4:
 	java $(CLASSPATH) Main 4.cm -s

@@ -45,5 +45,4 @@ void main(void) {
 	bbb[1] = 2;
 	x = rock[1];
 	rock[1] = rock[2];
-	c = bbb[1] * 3;
 }
