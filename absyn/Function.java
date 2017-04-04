@@ -5,7 +5,7 @@ import java.util.*;
 public class Function {
 
 	public ArrayList <variable> symbolList = new ArrayList<variable>();
-	//public ArrayList <String> instructionList = new ArrayList<String>();
+	public ArrayList <Instruction> instructionList = new ArrayList<Instruction>();
 	public String name;
 	public int iCnt = 0; // instruction cnt
 	public int entry = 0; //function entry point

@@ -105,6 +105,18 @@ import java.util.*;
       }
       System.out.println("***********");
     }
+
+    System.out.println("FUNCTIONLIST");
+    for(int i=0;i<functionList.size();i++) {
+      Function f;
+      Instruction instruct;
+      f = functionList.get(i);
+      System.out.println(f.name);
+      for(int j=0;j<f.instructionList.size();j++) {
+        instruct = f.instructionList.get(j);
+        System.out.println(instruct);
+      }
+    }
    
   }
 
@@ -1370,10 +1382,10 @@ import java.util.*;
   }
 
  private void showTree( FunDec tree, int spaces ) {
-    Function f = null;
+    Function f = new Function(tree.id);
     int i;
     if(!Function.alreadyDeclared(tree.id,functionList)) {
-      functionList.add(new Function(tree.id));
+      functionList.add(f);
       currentFun = tree.id;
     }
     hash.put(currentDID,Symbol.getCopy(table));
@@ -1418,6 +1430,13 @@ import java.util.*;
       indent( spaces );
       System.out.println("Error: Int function expects return value");
     }
+    if(!instructionList.isEmpty()) {
+      for (Instruction test : instructionList) {
+          f.instructionList.add(test);
+          System.out.print(test);
+      }
+    }
+    instructionList.clear();
     returnValue = false; //Resets value for next function
     currentDID++;
     depth--;

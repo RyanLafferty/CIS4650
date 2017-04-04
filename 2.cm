@@ -1,7 +1,7 @@
 /*Tests test case 5 of typechecking outline*/
 int b;
 int asb(int y){
-	
+	b = 5;
 	return y;
 }
 
