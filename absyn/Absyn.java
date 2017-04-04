@@ -79,7 +79,7 @@ import java.util.*;
 
     if(checkpoint == 3)
     {
-      Assembler a = new Assembler(fileName, this.globalList);
+      Assembler a = new Assembler(fileName, this.globalList, functionList);
       a.run();
     }
     /*for(int i=0;i<functionList.size();i++) {

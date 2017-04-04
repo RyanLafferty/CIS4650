@@ -38,6 +38,7 @@ public class Assembler
     private Function testFunction = null;
     private Function testFunction2 = null;
     private ArrayList <variable> globalVars = new ArrayList <variable>();
+    private ArrayList <Function> functionList = new ArrayList <Function>();
 
 
     /*
@@ -45,10 +46,11 @@ public class Assembler
     Args: 
     Ret: 
     */
-    public Assembler(String fileName, ArrayList <Symbol> symbolTable)
+    public Assembler(String fileName, ArrayList <Symbol> symbolTable, ArrayList <Function> functionList)
     {
         this.fileName = fileName;
         this.symbolTable = symbolTable;
+        this.functionList = functionList;
     }
 
     public void createTempMain()
@@ -114,10 +116,14 @@ public class Assembler
 
         
 
-        createTempMain();
-        createTempFun();
-        outputFunction(this.testFunction2);
-        outputFunction(this.testFunction);
+        //createTempMain();
+        //createTempFun();
+        //outputFunction(this.testFunction2);
+        //outputFunction(this.testFunction);
+        for(int i=0;i<functionList.size();i++) {
+            Function f = functionList.get(i);
+            outputFunction(f);
+        }
 
         
 
@@ -762,7 +768,7 @@ public class Assembler
         }
 
         //testing
-        if(fun.name.equals("fun"))
+        /*if(fun.name.equals("fun"))
         {
             assignConstant2(9, fun.getOffset("c"), "assign", false);
             //return 99
@@ -781,18 +787,28 @@ public class Assembler
             inputCall(fun.getOffset("a"), "input", false);
 
             assignConstant2(11, fun.getOffset("aa"), "assign", false);
-            outputArithmeticExpr2(fun.getOffset("aaa"), /*x*/
-                                  9,                    /*y*/
-                                  fun.getOffset("aa"),  /*z*/
-                                  OpExp2.PLUS, 1, 0,    /*op, #Constants, ConPos*/
-                                  "arith1",             /*comment*/
-                                  false, false, false); /*global flags (x,y,z)*/
+            outputArithmeticExpr2(fun.getOffset("aaa"), /*x
+                                  9,                    /*y
+                                  fun.getOffset("aa"),  /*z
+                                  OpExp2.PLUS, 1, 0,    /*op, #Constants, ConPos
+                                  "arith1",             /*comment
+                                  false, false, false); /*global flags (x,y,z)
             assignVariable2(fun.getOffset("a"), fun.getOffset("aa"), "", false);
-        }
+        }*/
 
-        //this is where the instruction loop would go
-        //also you need to precalculate the number of instructions
-        //given the instruction type
+        for(i=0;i<fun.instructionList.size();i++){
+            System.out.println(fun.instructionList.get(i));
+            Instruction instruct = fun.instructionList.get(i);
+            if(instruct.type == 0) {
+                System.out.println("ASSIGN CONST");
+                assignConstant2(instruct.constY,fun.getOffset(instruct.x), "Assign const", instruct.globalX);
+            } else if(instruct.type == 2) {
+                System.out.println("ASSIGN VAR");
+                assignVariable2()
+
+            }
+
+        }
         
         //TODO store return value in tempRET
 
