@@ -129,6 +129,7 @@ public class Instruction {
 		{
 			//TODO add cost
 			cost = Instruction.LOGIC + Instruction.ITERJUMP;
+			System.out.println("THE COSADSRASKDDASLDDASDASDADADASDADADS" + cost);
 			return cost;
 		}
 

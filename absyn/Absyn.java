@@ -1394,13 +1394,26 @@ import java.util.*;
 
     if(iterSeleList.get(length-1).cut == true) {
       //System.out.println("Cut statement");
+      int cost = 0;
       int test = seleIterCount + iterSeleList.get(length-1).numInstructions;
       //System.out.println("NUM TO ADD "+test +" TO "+ length2);
       instructionList.get(length2-test).numInstructions = test;
+
+      for(int i=test;i > 0;i--) {
+        cost += instructionList.get(i).getCost();
+        //System.out.println("COST "+ cost);
+      }
+      instructionList.get(length2-test).totalCost = cost;
     } else {
+      int cost = 0;
       //System.out.println("Not cut");
       //System.out.println("NUM TO ADD "+seleIterCount);
       instructionList.get(length2-seleIterCount).numInstructions = seleIterCount;
+      for(int i=seleIterCount;i > 0;i--) {
+        cost += instructionList.get(i).getCost();
+        System.out.println("COST "+ cost);
+      }
+      instructionList.get(length2-seleIterCount).totalCost = cost;
     }
     if(!iterSeleList.isEmpty()){
       iterSeleList.remove(length-1);
