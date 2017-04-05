@@ -816,18 +816,27 @@ public class Assembler
                 int xIndexOffset = 0;
                 int yIndexOffset = 0;
                 System.out.println("ASSIGN VAR");
+
+                xOff = fun.getOffset(instruct.x);
+                if(xOff > 0)
+                {
+                    //check global araarylist
+                    xOff = this.getOffset(instruct.x);
+                }
+
                 if(instruct.arrayIndexX != -1) {
                     xIndexOffset += instruct.arrayIndexX;
                 }
                 if(instruct.arrayIndexY != -1) {
                     yIndexOffset += instruct.arrayIndexY;
                 }
-                assignVariable2(fun.getOffset(instruct.x)-xIndexOffset,fun.getOffset(instruct.y)-yIndexOffset,"Assign var",instruct.globalX);
+                assignVariable2(xOff-xIndexOffset,fun.getOffset(instruct.y)-yIndexOffset,"Assign var",instruct.globalX);
                 //assignVariable2(int offsetX, int offsetY, String comment, boolean global)
             } else if(instruct.type == 1) {
                 int xIndexOffset = 0;
                 int yIndexOffset = 0;
                 int zIndexOffset = 0;
+                int conPos = -1;
                 System.out.println("ARITHMETIC");
 
                 if(instruct.arrayIndexX != -1) {
@@ -841,8 +850,25 @@ public class Assembler
                 } else {
                     yIndexOffset = fun.getOffset(instruct.y);
                 }
-                System.out.println("ASDASDASD"+yIndexOffset);
-                //outputArithmeticExpr2(fun.getOffset(instruct.x)-xIndexOffset,yIndexOffset);
+
+                if(instruct.z == null) {
+                    zIndexOffset = instruct.constZ;
+                } else if(instruct.arrayIndexY != -1) {
+                    zIndexOffset = fun.getOffset(instruct.z) - instruct.arrayIndexZ;
+                } else {
+                    zIndexOffset = fun.getOffset(instruct.z);
+                }
+
+                if(instruct.numConstants == 1) {
+                    if(instruct.y != null && instruct.z == null) {
+                        conPos = 1;
+                    } else if(instruct.y == null && instruct.z != null) {
+                        conPos = 0;
+                    }
+                }
+                System.out.println("THE CON POS IS "+ conPos);
+
+                outputArithmeticExpr2(fun.getOffset(instruct.x)-xIndexOffset,yIndexOffset,zIndexOffset,instruct.op,instruct.numConstants,conPos,"Arithmetic Expr",instruct.globalX,instruct.globalY,instruct.globalZ);
                 //outputArithmeticExpr2(int offsetX, int offsetY, int offsetZ, int operation, int constants, int conPos, String comment, boolean xglob, boolean yglob, boolean zglob)
 
             }
