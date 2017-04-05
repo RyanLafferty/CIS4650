@@ -1209,6 +1209,21 @@ public class Assembler
     }
 
 
+    //Cost: 1 Instruction
+    private void outputIter(int cnt)
+    {
+        emitRM("LDC", 3, cnt, AC, "* init register");
+    }
+
+
+    //Cost: 2 Instructions
+    private void outputDecrement()
+    {
+        emitRM("LDC", 4, 1, AC, "* jump to function entry");
+        emitR0("SUB", 3, 3, 4, "* jump to function entry");
+    }
+
+
     ///////////emit functions//////////
 
     //emit operation instruction
