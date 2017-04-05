@@ -88,5 +88,46 @@ public class Instruction {
 		this.type = type;
 		this.truth = truth;
 	}
+	
 	//MAKE GET COST
+	public int getCost()
+	{
+		int cost = 0;
+		if(this.type == Instruction.ASSIGNCONST)
+		{
+			return Instruction.CONST;
+		}
+		else if(this.type == Instruction.ASSIGNVAR)
+		{
+			return Instruction.VAR;
+		}
+		else if(this.type == Instruction.ARITHMETIC)
+		{
+			return Instruction.ARITH;
+		}
+		else if(this.type == Instruction.LOGIC_INS)
+		{
+			cost = Instruction.LOGIC;
+			//TODO calculate/add body cost
+			return cost;
+		}
+		else if(this.type == Instruction.INPUT_INS)
+		{
+			return Instruction.INPUT;
+		}
+		else if(this.type == Instruction.OUTPUT_INS)
+		{
+			return Instruction.OUTPUT;
+		}
+		else if(this.type == Instruction.CALL_INS)
+		{
+			return Instruction.CALL;
+		}
+		else if(this.type == Instruction.ITER_INS)
+		{
+			//TODO add cost
+		}
+
+		return -1;
+	}
 }
