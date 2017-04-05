@@ -129,6 +129,10 @@ public class Function
 			{
 				this.iCnt += Instruction.CALL;
 			}
+			else if(in.type == Instruction.ITER_INS)
+			{
+				//TODO add cost
+			}
 		}
 
 		instructionCnt = iCnt;
