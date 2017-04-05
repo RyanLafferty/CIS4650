@@ -117,6 +117,11 @@ import java.util.*;
           System.out.println("yIndex: "+f.instructionList.get(i).arrayIndexY);
 
         } else if(f.instructionList.get(i).type == 3) {
+          System.out.println("SeleSTMT");
+          System.out.println("Truth: "+f.instructionList.get(i).truth);
+          System.out.println("# instructions: "+f.instructionList.get(i).numInstructions);
+        } else if(f.instructionList.get(i).type == 7) {
+          System.out.println("IterSTMT");
           System.out.println("Truth: "+f.instructionList.get(i).truth);
           System.out.println("# instructions: "+f.instructionList.get(i).numInstructions);
         }
@@ -1337,6 +1342,22 @@ import java.util.*;
  private void showTree( IterStmt tree, int spaces ) {
     SimpleExpr exp = null;
     int type = -1;
+    boolean truthVal = false;
+
+    globalCount += seleIterCount;
+    
+    if(!iterSeleList.isEmpty()) {
+      int length = iterSeleList.size();
+      iterSeleList.get(length-1).numInstructions += seleIterCount;
+      iterSeleList.get(length-1).cut = true;
+      //System.out.println("SELEITER COUNT" + seleIterCount);
+      //System.out.println("NOT EMPTY");
+    } else {
+
+      //System.out.println("EMPTY");
+    }
+    seleIterCount = 0;
+
     depth++;
     currentDID++;
     indent( spaces );
@@ -1356,7 +1377,33 @@ import java.util.*;
       }
     }
     showTree( tree.expression, spaces );
+
+    if(opResult != 0) {
+        truthVal = true;
+    }
+    instructionList.add(new Instruction(7,truthVal));
+    seleIterCount++;
+    iterSeleList.add(new Instruction(7,truthVal));
+
     showTree( tree.stmt, spaces );
+
+    int length2 = instructionList.size();
+    int length = iterSeleList.size();
+
+    if(iterSeleList.get(length-1).cut == true) {
+      //System.out.println("Cut statement");
+      int test = seleIterCount + iterSeleList.get(length-1).numInstructions;
+      //System.out.println("NUM TO ADD "+test +" TO "+ length2);
+      instructionList.get(length2-test).numInstructions = test;
+    } else {
+      //System.out.println("Not cut");
+      //System.out.println("NUM TO ADD "+seleIterCount);
+      instructionList.get(length2-seleIterCount).numInstructions = seleIterCount;
+    }
+    if(!iterSeleList.isEmpty()){
+      iterSeleList.remove(length-1);
+    }
+   globalCount += seleIterCount;
     depth--;
   }
 
@@ -1370,11 +1417,11 @@ import java.util.*;
       int length = iterSeleList.size();
       iterSeleList.get(length-1).numInstructions += seleIterCount;
       iterSeleList.get(length-1).cut = true;
-      System.out.println("SELEITER COUNT" + seleIterCount);
-      System.out.println("NOT EMPTY");
+      //System.out.println("SELEITER COUNT" + seleIterCount);
+      //System.out.println("NOT EMPTY");
     } else {
 
-      System.out.println("EMPTY");
+      //System.out.println("EMPTY");
     }
     seleIterCount = 0;
     depth++;
@@ -1421,13 +1468,13 @@ import java.util.*;
     int length = iterSeleList.size();
 
     if(iterSeleList.get(length-1).cut == true) {
-      System.out.println("Cut statement");
+      //System.out.println("Cut statement");
       int test = seleIterCount + iterSeleList.get(length-1).numInstructions;
-      System.out.println("NUM TO ADD "+test +" TO "+ length2);
+      //System.out.println("NUM TO ADD "+test +" TO "+ length2);
       instructionList.get(length2-test).numInstructions = test;
     } else {
-      System.out.println("Not cut");
-      System.out.println("NUM TO ADD "+seleIterCount);
+      //System.out.println("Not cut");
+      //System.out.println("NUM TO ADD "+seleIterCount);
       instructionList.get(length2-seleIterCount).numInstructions = seleIterCount;
     }
     if(!iterSeleList.isEmpty()){

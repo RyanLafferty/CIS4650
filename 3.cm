@@ -11,13 +11,13 @@ void main(void) {
         a = 5;
         a = 2;
         a = 3;
-        if(c > 2) {
-            a = 2;
-        }
-        a = 2;
 
-        if(c < 2){
-            
+    }
+
+    while(a > 1){
+        a = 1;
+        while(c > 2) {
+        
         }
     }
 }
