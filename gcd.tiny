@@ -5,9 +5,15 @@ int z;
 void y; 
 int bbb[3];
 
+int add(int a)
+{
+    a = a + 1;
+}
+
 int main(int p) {
     x = 1 + 2;
-    x = bbb[1]; 
+    x = bbb[1];
+    add(2); 
 
     return 5;
 }
