@@ -48,6 +48,7 @@ public class Instruction {
 	public boolean truth;
 	public int numInstructions = 0;
 	public boolean cut = false;
+	public int totalCost = 0;
 
 	//Used for assign Var and assign const
 	public Instruction(int type, String x, String y, boolean globalX, boolean globalY, int constY, int numConstants, boolean leftRightFlag, int arrayIndexX, int arrayIndexY) {
