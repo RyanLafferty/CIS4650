@@ -5,10 +5,12 @@ as return values and assignments*/
 void main(void) {
     int a;
     int c;
-    int bbb[1];
     a = 5;
+    a = 4;
     if(a > 2) {
         a = 5 + 1;
+        if(c < 2) {
+        	a = 2 - 2;
+        }
     }
-    
 }
