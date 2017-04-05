@@ -16,6 +16,7 @@ public class Instruction {
     public final static int INPUT = 6;
     public final static int OUTPUT = 7;
     public final static int ITERINIT = 1;
+    public final static int ITERJUMP = 1;
     public final static int ITER = 2;
 
     //types
@@ -126,6 +127,8 @@ public class Instruction {
 		else if(this.type == Instruction.ITER_INS)
 		{
 			//TODO add cost
+			cost = Instruction.LOGIC + Instruction.ITERJUMP;
+			return cost;
 		}
 
 		return -1;

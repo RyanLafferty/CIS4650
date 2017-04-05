@@ -132,6 +132,8 @@ public class Function
 			else if(in.type == Instruction.ITER_INS)
 			{
 				//TODO add cost
+				this.iCnt += Instruction.LOGIC;
+				this.iCnt += Instruction.ITERJUMP;
 			}
 		}
 
