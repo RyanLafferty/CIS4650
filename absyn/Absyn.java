@@ -23,7 +23,7 @@ import java.util.*;
   public Hashtable<Integer,ArrayList<Symbol>> hash = new Hashtable<Integer,ArrayList<Symbol>>();
   public int opResult = 0;
   final  int SPACES = 4;
-  public boolean writeFlag;
+  public boolean writeFlag = true;
   public int tempIndex;
   public int seleIterCount = 0; //Counts instructions within sele or iter
   public int globalCount = 0;
