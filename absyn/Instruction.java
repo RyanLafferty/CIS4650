@@ -15,6 +15,8 @@ public class Instruction {
     public final static int CALL = 7;
     public final static int INPUT = 6;
     public final static int OUTPUT = 7;
+    public final static int ITERINIT = 1;
+    public final static int ITER = 2;
 
     //types
 	public final static int ASSIGNCONST = 0;
@@ -24,6 +26,7 @@ public class Instruction {
 	public final static int INPUT_INS = 4;
 	public final static int OUTPUT_INS = 5;
 	public final static int CALL_INS = 6;
+	public final static int ITER_INS = 7;
 
 	public int type;
 	public boolean leftRightFlag; //True means left var
