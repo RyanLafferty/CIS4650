@@ -35,6 +35,7 @@ public class Instruction {
 	public String x = null;
 	public String y = null;
 	public String z = null;
+	public int constX;
 	public int constY;
 	public int constZ;
 	public int arrayIndexX = -1;
@@ -129,7 +130,6 @@ public class Instruction {
 		{
 			//TODO add cost
 			cost = Instruction.LOGIC + Instruction.ITERJUMP;
-			System.out.println("THE COSADSRASKDDASLDDASDASDADADASDADADS" + cost);
 			return cost;
 		}
 

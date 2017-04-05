@@ -825,7 +825,7 @@ public class Assembler
 
                 if(instruct.z == null) {
                     zIndexOffset = instruct.constZ;
-                } else if(instruct.arrayIndexY != -1) {
+                } else if(instruct.arrayIndexZ != -1) {
                     zIndexOffset = fun.getOffset(instruct.z) - instruct.arrayIndexZ;
                 } else {
                     zIndexOffset = fun.getOffset(instruct.z);
@@ -840,8 +840,46 @@ public class Assembler
                 }
 
                 outputArithmeticExpr2(fun.getOffset(instruct.x)-xIndexOffset,yIndexOffset,zIndexOffset,instruct.op,instruct.numConstants,conPos,"Arithmetic Expr",instruct.globalX,instruct.globalY,instruct.globalZ);
+            } else if(instruct.type == 3){
 
-            }
+                int xIndexOffset = 0;
+                int yIndexOffset = 0;
+                int conPos = -1;
+                System.out.println("Logical");
+
+                if(instruct.x == null) {
+                    xIndexOffset = instruct.constX;
+                } else if(instruct.arrayIndexX != -1) {
+                    xIndexOffset = fun.getOffset(instruct.x) - instruct.arrayIndexX;
+                } else {
+                    xIndexOffset = fun.getOffset(instruct.x);
+                }
+
+                if(instruct.y == null) {
+                    yIndexOffset = instruct.constY;
+                } else if(instruct.arrayIndexY != -1) {
+                    yIndexOffset = fun.getOffset(instruct.y) - instruct.arrayIndexY;
+                } else {
+                    yIndexOffset = fun.getOffset(instruct.y);
+                }
+
+                if(instruct.numConstants == 1) {
+                    if(instruct.x != null && instruct.y == null) {
+                        conPos = 1;
+                    } else if(instruct.x == null && instruct.y != null) {
+                        conPos = 0;
+                    }
+                }
+
+                System.out.println("OFFSET X "+instruct.numInstructions);
+                System.out.println("OFFSET Y "+xIndexOffset);
+                System.out.println("OFFSET Z "+yIndexOffset);
+                System.out.println("OP "+instruct.op);
+                System.out.println("Num consts "+instruct.numConstants);
+
+                outputLogicalExpr2(instruct.numInstructions,xIndexOffset,yIndexOffset,instruct.op,instruct.numConstants,conPos,"Sele stmt",instruct.globalX,instruct.globalY);
+                //outputLogicalExpr2(int offsetX, int offsetY, int offsetZ, int operation, int constants, int conPos, String comment, boolean xglob, boolean yglob)
+            }   
 
         }
         
@@ -1052,7 +1090,7 @@ public class Assembler
     */
     //y OP z  -> jump x where x is the number of instuctions to skip
     private void outputLogicalExpr2(int offsetX, int offsetY, int offsetZ, int operation, int constants, int conPos, String comment, boolean xglob, boolean yglob)
-    {
+    {   
         String op = "";
         int reg1 = FP;
         int reg2 = FP;

@@ -1437,6 +1437,17 @@ import java.util.*;
     boolean truthVal = false;
     boolean state;
     int type = 0;
+    int l;
+    String x = null;
+    String y = null;
+    int constX = 0;
+    int constY = 0;
+    int xIndex = -1;
+    int yIndex = -1;
+    int constNum = 0;
+    int operation = 0;
+    boolean globalX = false;
+    boolean globalY = false;
     globalCount += seleIterCount;
     
     if(!iterSeleList.isEmpty()) {
@@ -1469,6 +1480,47 @@ import java.util.*;
           indent(spaces);
           System.out.println("Error: Test condition must be int");
         }
+
+        if(exp.sime instanceof OpExp2) {
+          OpExp2 op = (OpExp2) exp.sime;
+          RegularVar rVar;
+          ArrayVar aVar;
+          IntExp intExp;
+          
+          operation = op.op;
+          if(op.left instanceof IntExp) {
+            intExp = (IntExp) op.left;
+            constX  = Integer.parseInt(intExp.value);
+            constNum++;
+          } else if(op.left instanceof RegularVar) {
+            rVar = (RegularVar) op.left;
+            x = rVar.name;
+            globalX = Symbol.getScope(x,globalList);
+          } else if(op.left instanceof ArrayVar) {
+            aVar = (ArrayVar) op.left;
+            x = aVar.id;
+            globalX = Symbol.getScope(x,globalList);
+            //TODO, get index
+          }
+
+          if(op.right instanceof IntExp) {
+            intExp = (IntExp) op.right;
+            constY  = Integer.parseInt(intExp.value);
+            constNum++;
+          } else if(op.right instanceof RegularVar) {
+            rVar = (RegularVar) op.right;
+            y = rVar.name;
+            globalY = Symbol.getScope(y,globalList);
+          } else if(op.right instanceof ArrayVar) {
+            aVar = (ArrayVar) op.right;
+            y = aVar.id;
+            globalY = Symbol.getScope(y,globalList);
+            //TODO, get index
+          }
+          System.out.println("LEFT"+x);
+          System.out.println("RIGHT"+y);
+
+        }
       }
       state = writeFlag;
       writeFlag = false;
@@ -1478,6 +1530,19 @@ import java.util.*;
       }
       writeFlag = state;
       instructionList.add(new Instruction(3,truthVal));
+      l = instructionList.size();
+      instructionList.get(l-1).x = x;
+      instructionList.get(l-1).y = y;
+      instructionList.get(l-1).constX = constX;
+      instructionList.get(l-1).constY = constY;
+      instructionList.get(l-1).arrayIndexX = xIndex;
+      instructionList.get(l-1).arrayIndexY = yIndex;
+      instructionList.get(l-1).op = operation;
+      instructionList.get(l-1).globalX = globalX;
+      instructionList.get(l-1).globalY = globalY;
+      instructionList.get(l-1).numConstants = constNum;
+
+
       seleIterCount++;
       iterSeleList.add(new Instruction(3,truthVal));
       showTree( tree.stmt, spaces );
