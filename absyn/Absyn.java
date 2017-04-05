@@ -1345,18 +1345,19 @@ import java.util.*;
     SimpleExpr exp = null;
     int type = -1;
     boolean truthVal = false;
+    boolean state;
 
-   // globalCount += seleIterCount;
+   globalCount += seleIterCount;
     
     if(!iterSeleList.isEmpty()) {
       int length = iterSeleList.size();
       iterSeleList.get(length-1).numInstructions += seleIterCount;
       iterSeleList.get(length-1).cut = true;
-      //System.out.println("SELEITER COUNT" + seleIterCount);
-      //System.out.println("NOT EMPTY");
+      System.out.println("SELEITER COUNT" + seleIterCount);
+      System.out.println("NOT EMPTY");
     } else {
-
-      //System.out.println("EMPTY");
+      System.out.println("EMPTY");
+      System.out.println("SELEITER COUNT" + seleIterCount);
     }
     seleIterCount = 0;
 
@@ -1378,11 +1379,16 @@ import java.util.*;
         System.out.println("Error: Test condition must be int");
       }
     }
-    showTree( tree.expression, spaces );
+    //showTree( tree.expression, spaces );
 
+    state = writeFlag;
+    writeFlag = false;
+    showTree( tree.expression, spaces );
     if(opResult != 0) {
-        truthVal = true;
+      truthVal = true;
     }
+    writeFlag = state;
+
     instructionList.add(new Instruction(7,truthVal));
     seleIterCount++;
     iterSeleList.add(new Instruction(7,truthVal));
@@ -1393,33 +1399,37 @@ import java.util.*;
     int length = iterSeleList.size();
 
     if(iterSeleList.get(length-1).cut == true) {
-      //System.out.println("Cut statement");
+      System.out.println("Cut statement");
       int cost = 0;
       int test = seleIterCount + iterSeleList.get(length-1).numInstructions;
-      //System.out.println("NUM TO ADD "+test +" TO "+ length2);
+      System.out.println("NUM TO ADD "+test +" TO "+ length2);
       instructionList.get(length2-test).numInstructions = test;
-
       for(int i=test;i > 0;i--) {
         cost += instructionList.get(i).getCost();
-        //System.out.println("COST "+ cost);
+        System.out.println("COST "+ cost);
       }
       instructionList.get(length2-test).totalCost = cost;
+      System.out.println("INSERT SPOT" + length2 + "-"+ test);
+
     } else {
       int cost = 0;
-      //System.out.println("Not cut");
-      //System.out.println("NUM TO ADD "+seleIterCount);
+      System.out.println("Not cut");
+      System.out.println("NUM TO ADD "+seleIterCount + "length of instructList "+length2);
       instructionList.get(length2-seleIterCount).numInstructions = seleIterCount;
+      System.out.println(instructionList.get(length2-seleIterCount).numInstructions);
+      System.out.println("INSERT SPOT" + length2 + "-"+ seleIterCount);
       for(int i=seleIterCount;i > 0;i--) {
         cost += instructionList.get(i).getCost();
         System.out.println("COST "+ cost);
       }
       instructionList.get(length2-seleIterCount).totalCost = cost;
     }
+    System.out.println(instructionList.get(length2-seleIterCount).numInstructions);
     if(!iterSeleList.isEmpty()){
       iterSeleList.remove(length-1);
     }
    globalCount += seleIterCount;
-    depth--;
+   depth--;
   }
 
  private void showTree( SeleStmt tree, int spaces ) {
