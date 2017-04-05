@@ -5,9 +5,11 @@ as return values and assignments*/
 void main(int b, int bb) {
     int a;
     int c;
+    int bbb[2];
+    bbb[1] = 2;
     a = 5;
     a = 4;
-    if(2 > 5) {
+    if(bbb[1] > 5) {
     	a = 2;
     }
 }
