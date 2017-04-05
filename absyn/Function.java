@@ -84,7 +84,7 @@ public class Function
 			}
 		}
 
-		return -1;
+		return 1;
 	}
 
 

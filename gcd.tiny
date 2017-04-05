@@ -6,7 +6,7 @@ void y;
 int bbb[3];
 
 int main(int p) {
-    x = bbb[1] = 1;
+    x = 1;
     x = bbb[1]; 
 
     return 5;
