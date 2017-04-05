@@ -729,6 +729,7 @@ public class Assembler
     private boolean outputFunction(Function fun)
     {
         int i = 0;
+        int xOff = 0;
         variable v = null;
 
         functionOutput = "";
@@ -803,7 +804,14 @@ public class Assembler
             Instruction instruct = fun.instructionList.get(i);
             if(instruct.type == 0) {
                 System.out.println("ASSIGN CONST");
-                assignConstant2(instruct.constY,fun.getOffset(instruct.x), "Assign const", instruct.globalX);
+                xOff = fun.getOffset(instruct.x);
+                if(xOff > 0)
+                {
+                    //check global araarylist
+                    xOff = this.getOffset(instruct.x);
+                }
+                assignConstant2(instruct.constY,xOff, "Assign const", instruct.globalX);
+                System.out.println(instruct.constY + "," + fun.getOffset(instruct.x) + "," + instruct.globalX);
             } else if(instruct.type == 2) {
                 int xIndexOffset = 0;
                 int yIndexOffset = 0;
@@ -1197,5 +1205,20 @@ public class Assembler
     }
 
     ///////////emit functions//////////
+
+    public int getOffset(String vName)
+    {
+        int i = 0;
+        System.out.println("VNAME:"+vName);
+        for(i = 0; i < globalVars.size(); i++)
+        {   
+            if(vName.equals(globalVars.get(i).name))
+            {
+                return globalVars.get(i).offset;
+            }
+        }
+
+        return 1;
+    }
 
 }
