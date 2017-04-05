@@ -11,4 +11,5 @@ void main(void) {
     c = a;
     bbb[1] = a;
     bbb[0] = bbb[1];
+    c  = 1 + 2;
 }

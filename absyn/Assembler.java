@@ -816,6 +816,27 @@ public class Assembler
                 }
                 assignVariable2(fun.getOffset(instruct.x)-xIndexOffset,fun.getOffset(instruct.y)-yIndexOffset,"Assign var",instruct.globalX);
                 //assignVariable2(int offsetX, int offsetY, String comment, boolean global)
+            } else if(instruct.type == 1) {
+                int xIndexOffset = 0;
+                int yIndexOffset = 0;
+                int zIndexOffset = 0;
+                System.out.println("ARITHMETIC");
+
+                if(instruct.arrayIndexX != -1) {
+                    xIndexOffset += instruct.arrayIndexX;
+                }
+
+                if(instruct.y == null) {
+                    yIndexOffset = instruct.constY;
+                } else if(instruct.arrayIndexY != -1) {
+                    yIndexOffset = fun.getOffset(instruct.y) - instruct.arrayIndexY;
+                } else {
+                    yIndexOffset = fun.getOffset(instruct.y);
+                }
+                System.out.println("ASDASDASD"+yIndexOffset);
+                //outputArithmeticExpr2(fun.getOffset(instruct.x)-xIndexOffset,yIndexOffset);
+                //outputArithmeticExpr2(int offsetX, int offsetY, int offsetZ, int operation, int constants, int conPos, String comment, boolean xglob, boolean yglob, boolean zglob)
+
             }
 
         }
