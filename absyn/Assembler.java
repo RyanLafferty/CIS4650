@@ -1223,7 +1223,6 @@ public class Assembler
         emitR0("SUB", 3, 3, 4, "decrement counter");
     }
 
-
     ///////////emit functions//////////
 
     //emit operation instruction
