@@ -1171,7 +1171,7 @@ public class Assembler
         }
 
         //output jump statement
-        emitRM(op, AC, (offsetX - 1), PC, comment + op + " logical expr");
+        emitRM(op, AC, (offsetX), PC, comment + op + " logical expr");
     }
 
     //Cost: 6 Instructions
