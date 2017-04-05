@@ -41,11 +41,7 @@ public class Assembler
     private ArrayList <Function> functionList = new ArrayList <Function>();
 
 
-    /*
-    Desc: TODO
-    Args: 
-    Ret: 
-    */
+    //Constructor
     public Assembler(String fileName, ArrayList <Symbol> symbolTable, ArrayList <Function> functionList)
     {
         this.fileName = fileName;
@@ -53,6 +49,7 @@ public class Assembler
         this.functionList = functionList;
     }
 
+    //create test main
     public void createTempMain()
     {
         testFunction = new Function("main");
@@ -62,6 +59,7 @@ public class Assembler
         testFunction.symbolList.add(new variable("aaa"));
     }
 
+    //create test function
     public void createTempFun()
     {
         testFunction2 = new Function("fun");
@@ -73,9 +71,10 @@ public class Assembler
 
 
     /*
-    Desc: TODO
-    Args: 
-    Ret: 
+    Desc: The main loop responsible for calling the functions that will
+          output the assembly code to the file
+    Args: none
+    Ret: Returns true on success and false on failure
     */
     public boolean run()
     {
@@ -219,9 +218,9 @@ public class Assembler
 
 
     /*
-    Desc: TODO
-    Args: 
-    Ret: 
+    Desc: Outputs the prelude code and io setup code
+    Args: none
+    Ret: Returns true on success and false on failure
     */
     private boolean outputPrelude() 
     {
@@ -263,9 +262,9 @@ public class Assembler
     }
 
     /*
-    Desc: TODO
-    Args: 
-    Ret: 
+    Desc: Outputs the finale code
+    Args: none
+    Ret: Returns true on success and false on failure
     */
     private boolean outputFinale() 
     {
@@ -295,7 +294,7 @@ public class Assembler
     }
 
     /*
-    Desc: TODO
+    Desc: STATIC - NOT USED
     Args: 
     Ret: 
     */
@@ -343,19 +342,6 @@ public class Assembler
             }
         }
 
-
-
-        /*for(i = 0; i < symbolTable.size(); i++)
-        {
-            s = symbolTable.get(i);
-            s.offset = currentDataOffset;
-            if(s.isFunction == false)
-            {
-                System.out.println(s.sID + ": " + s.offset);
-                //currentDataOffset--;
-            }   
-        }*/
-
         globalPointer = currentDataOffset;
         globalOffset = globalPointer;
 
@@ -363,9 +349,10 @@ public class Assembler
     }
 
     /*
-    Desc: TODO
+    Desc: Loads the global offsets into the variable objects for later use
+          in code generation
     Args: 
-    Ret: 
+    Ret: Returns true on success and false on failure
     */
     private boolean loadGlobalDataOffsets()
     {
@@ -412,19 +399,6 @@ public class Assembler
             }
         }
 
-        
-
-        /*for(i = 0; i < symbolTable.size(); i++)
-        {
-            s = symbolTable.get(i);
-            s.offset = currentDataOffset;
-            if(s.isFunction == false)
-            {
-                System.out.println(s.sID + ": " + s.offset);
-                //currentDataOffset--;
-            }   
-        }*/
-
         globalPointer = currentDataOffset;
         globalOffset = globalPointer;
 
@@ -432,7 +406,7 @@ public class Assembler
     }
 
     /*
-    Desc: TODO
+    Desc: STATIC - NOT USED
     Args: 
     Ret: 
     */
@@ -459,7 +433,7 @@ public class Assembler
     }
 
     /*
-    Desc: TODO
+    Desc: STATIC - NOT USED
     Args: 
     Ret: 
     */
@@ -492,7 +466,7 @@ public class Assembler
     }
 
     /*
-    Desc: TODO
+    Desc: STATIC - NOT USED
     Args: 
     Ret: 
     */
@@ -513,7 +487,7 @@ public class Assembler
 
 
     /*
-    Desc: TODO
+    Desc: STATIC - NOT USED
     Args: 
     Ret: 
     */
@@ -533,7 +507,7 @@ public class Assembler
     }
 
     /*
-    Desc: TODO
+    Desc: STATIC - NOT USED
     Args: 
     Ret: 
     */
@@ -620,7 +594,7 @@ public class Assembler
     }
 
     /*
-    Desc: TODO
+    Desc: STATIC - NOT USED
     Args: 
     Ret: 
     */
@@ -628,7 +602,6 @@ public class Assembler
     private boolean outputLogicalExpr(int offsetX, int offsetY, int offsetZ, int operation, int constants, int conPos)
     {
         String line = "";
-        
 
         //get operands
         if(constants == 0)
@@ -717,16 +690,14 @@ public class Assembler
         return true;
     }
 
-
-
-/*    private void returnSequence()
-    {
-        
-    }
-*/
-
     //Cost: 2 Instructions
-    //TODO
+    /*
+    Desc: Outputs a function by iterating through a list of declarations and instructions
+    Args: 
+    (Function) fun: The function variable containing local declarations and instructions that are to be output
+                    using the assembler api
+    Ret: true if successful, false otherwise
+    */
     private boolean outputFunction(Function fun)
     {
         int i = 0;
@@ -1069,9 +1040,15 @@ public class Assembler
 
     //Cost: 4 Instructions
     /*
-    Desc: TODO
+    Desc: Outputs an arithmetic expression of the form (x = y op z) using the supplied information
     Args: 
-    Ret: 
+    (int) offset[X/Y/Z]: the offset into the frame if a variable or the constant value
+    (int) operation: the logical operation (using the OpExp2 static values)
+    (int) constants: the number of constants
+    (int) conPos: the constant position if there is a single constant (0 - left (y), 1 - right (z))
+    (String) comment: a comment to go at the end of the line
+    (boolean) [x/y]glob: the global flags for x and y that determine if they are global variables
+    Ret: Nothing
     */
     //y OP z  -> jump x where x is the number of instuctions to skip
     private void outputLogicalExpr2(int offsetX, int offsetY, int offsetZ, int operation, int constants, int conPos, String comment, boolean xglob, boolean yglob)
@@ -1159,7 +1136,14 @@ public class Assembler
     }
 
     //Cost: 6 Instructions
-    //todo - docs
+    /*
+    Desc: Outputs the code required to take input from the user and store it in a specified variable
+    Args: 
+    (int) offset[X]: the offset into the frame of a variable
+    (String) comment: a comment to go at the end of the line
+    (boolean) global: the global flags for x that determine if they are global variables
+    Ret: Nothing
+    */
     private void inputCall(int offsetX, String comment, boolean global)
     {
         int reg = FP;
@@ -1180,7 +1164,14 @@ public class Assembler
     }
 
     //Cost: 7 Instructions
-    //TODO - docs
+    /*
+    Desc: Outputs the code required to print output to the user and store it in a specified variable
+    Args: 
+    (int) offset[X]: the offset into the frame of a variable
+    (String) comment: a comment to go at the end of the line
+    (boolean) global: the global flags for x that determine if they are global variables
+    Ret: Nothing
+    */
     private void outputCall(int offsetX, String comment, boolean global)
     {
         int reg = FP;
@@ -1207,6 +1198,22 @@ public class Assembler
         emitRM("LD", FP, ofpFO, FP, "* pop current frame");
     }
 
+
+    //Cost: 1 Instruction
+    //Probably not used
+    private void outputIter(int cnt)
+    {
+        emitRM("LDC", 3, cnt, AC, "* init register");
+    }
+
+
+    //Cost: 2 Instructions
+    //Probably not used
+    private void outputDecrement()
+    {
+        emitRM("LDC", 4, 1, AC, "load decrement");
+        emitRO("SUB", 3, 3, 4, "decrement counter");
+    }
 
     ///////////emit functions//////////
 
