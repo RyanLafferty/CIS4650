@@ -94,42 +94,44 @@ public class Function
 		int i = 0;
 		Instruction in = null;
 
-		this.instructionCnt = 0;
-		this.instructionCnt += Instruction.FUNC;
+		this.iCnt = 0;
+		this.iCnt += Instruction.FUNC;
 		for(i = 0; i < instructionList.size(); i++)
 		{
 			in = instructionList.get(i);
 			//System.out.println("instruction " + i + ": " + in.type);
 			if(in.type == Instruction.ASSIGNCONST)
 			{
-				this.instructionCnt += Instruction.CONST;
+				this.iCnt += Instruction.CONST;
 			}
 			else if(in.type == Instruction.ASSIGNVAR)
 			{
-				this.instructionCnt += Instruction.VAR;
+				this.iCnt += Instruction.VAR;
 			}
 			else if(in.type == Instruction.ARITHMETIC)
 			{
-				this.instructionCnt += Instruction.ARITH;
+				this.iCnt += Instruction.ARITH;
 			}
 			else if(in.type == Instruction.LOGIC_INS)
 			{
-				this.instructionCnt += Instruction.LOGIC;
+				this.iCnt += Instruction.LOGIC;
 				//TODO calculate/add body cost
 			}
 			else if(in.type == Instruction.INPUT_INS)
 			{
-				this.instructionCnt += Instruction.INPUT;
+				this.iCnt += Instruction.INPUT;
 			}
 			else if(in.type == Instruction.OUTPUT_INS)
 			{
-				this.instructionCnt += Instruction.OUTPUT;
+				this.iCnt += Instruction.OUTPUT;
 			}
 			else if(in.type == Instruction.CALL_INS)
 			{
-				this.instructionCnt += Instruction.CALL;
+				this.iCnt += Instruction.CALL;
 			}
 		}
+
+		instructionCnt = iCnt;
 
 		return 0;
 	}
