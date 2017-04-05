@@ -1219,8 +1219,8 @@ public class Assembler
     //Cost: 2 Instructions
     private void outputDecrement()
     {
-        emitRM("LDC", 4, 1, AC, "* jump to function entry");
-        emitR0("SUB", 3, 3, 4, "* jump to function entry");
+        emitRM("LDC", 4, 1, AC, "load decrement");
+        emitR0("SUB", 3, 3, 4, "decrement counter");
     }
 
 
