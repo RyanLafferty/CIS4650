@@ -2,6 +2,22 @@ package absyn;
 import java.io.*;
 import java.util.*;
 
+/*
+implementation instructions
+function calls:
+pass arguments by
+//1. how to store args in function being called
+        //this can be done just before the sequence
+        starting point  = currentFrameOffset - 3 // this is where the first argument is stored
+        for each arg:
+            store arg in
+            starting point --
+Example, if a function has arguments in the following order int b, int bb
+load int b at currentFrameOffset - 3
+load int bb at currentFrameOffset - 4
+
+*/
+
 public class Function 
 {
 	public ArrayList <variable> symbolList = new ArrayList<variable>();
@@ -99,7 +115,7 @@ public class Function
 		for(i = 0; i < instructionList.size(); i++)
 		{
 			in = instructionList.get(i);
-			//System.out.println("instruction " + i + ": " + in.type);
+			System.out.println("instruction " + i + ": " + in.type);
 			if(in.type == Instruction.ASSIGNCONST)
 			{
 				this.iCnt += Instruction.CONST;
@@ -115,7 +131,7 @@ public class Function
 			else if(in.type == Instruction.LOGIC_INS)
 			{
 				this.iCnt += Instruction.LOGIC;
-				//TODO calculate/add body cost
+				//TODO calculate/add body cost - maybe
 			}
 			else if(in.type == Instruction.INPUT_INS)
 			{
@@ -131,7 +147,7 @@ public class Function
 			}
 			else if(in.type == Instruction.ITER_INS)
 			{
-				//TODO add cost
+				//TODO add cost - maybe
 				this.iCnt += Instruction.LOGIC;
 				this.iCnt += Instruction.ITERJUMP;
 			}
