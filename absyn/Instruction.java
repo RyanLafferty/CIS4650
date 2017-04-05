@@ -90,7 +90,7 @@ public class Instruction {
 		this.truth = truth;
 	}
 	
-	//MAKE GET COST
+	//get cost of instruction
 	public int getCost()
 	{
 		int cost = 0;
