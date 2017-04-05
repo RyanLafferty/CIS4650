@@ -41,6 +41,9 @@ public class Instruction {
 	public boolean globalY;
 	public boolean globalZ;
 	public int op;
+	public boolean truth;
+	public int numInstructions = 0;
+	public boolean cut = false;
 
 	//Used for assign Var and assign const
 	public Instruction(int type, String x, String y, boolean globalX, boolean globalY, int constY, int numConstants, boolean leftRightFlag, int arrayIndexX, int arrayIndexY) {
@@ -77,4 +80,10 @@ public class Instruction {
 		this.arrayIndexY = arrayIndexY;
 		this.arrayIndexZ = arrayIndexZ;
 	}
+
+	public Instruction(int type, boolean truth) {
+		this.type = type;
+		this.truth = truth;
+	}
+	//MAKE GET COST
 }

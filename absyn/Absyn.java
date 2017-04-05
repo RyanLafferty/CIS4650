@@ -14,6 +14,7 @@ import java.util.*;
   public PrintWriter p;
   public ArrayList<Integer> indexStack = new ArrayList<Integer>();
   public ArrayList<Symbol> globalList = new ArrayList<Symbol>();
+  public ArrayList<Instruction> iterSeleList = new ArrayList<Instruction>();
   public ArrayList<Symbol> table = new ArrayList<Symbol>();
   public ArrayList<Symbol> argList = new ArrayList<Symbol>();
   public ArrayList<Symbol> localArgs = new ArrayList<Symbol>();
@@ -24,6 +25,8 @@ import java.util.*;
   final  int SPACES = 4;
   public boolean writeFlag;
   public int tempIndex;
+  public int seleIterCount = 0; //Counts instructions within sele or iter
+  public int globalCount = 0;
 
 
    private void indent( int spaces ) {
@@ -82,14 +85,14 @@ import java.util.*;
       Assembler a = new Assembler(fileName, this.globalList, functionList);
       a.run();
     }
-    /*for(int i=0;i<functionList.size();i++) {
+    for(int i=0;i<functionList.size();i++) {
       System.out.println(functionList.get(i).symbolList);
       for(int j=0;j<functionList.get(i).symbolList.size();j++) {
         System.out.println(functionList.get(i).symbolList.get(j).name);
         System.out.println(functionList.get(i).symbolList.get(j).value);
       }
       System.out.println("____");
-    }*/
+    }
 
     for(int j =0;j<functionList.size();j++) {
       Function f = functionList.get(j);
@@ -106,13 +109,16 @@ import java.util.*;
           System.out.println("Array IndexX: "+f.instructionList.get(i).arrayIndexX);
           System.out.println("Array IndexY: "+f.instructionList.get(i).arrayIndexY);
           System.out.println("Array IndexZ: "+f.instructionList.get(i).arrayIndexZ);
-        } else {
+        } else if(f.instructionList.get(i).type == 0 || f.instructionList.get(i).type == 2) {
           System.out.println("X: "+f.instructionList.get(i).x);
           System.out.println("Y: "+f.instructionList.get(i).y);
           System.out.println("Const Y: "+f.instructionList.get(i).constY);
           System.out.println("xIndex: "+f.instructionList.get(i).arrayIndexX);
           System.out.println("yIndex: "+f.instructionList.get(i).arrayIndexY);
 
+        } else if(f.instructionList.get(i).type == 3) {
+          System.out.println("Truth: "+f.instructionList.get(i).truth);
+          System.out.println("# instructions: "+f.instructionList.get(i).numInstructions);
         }
         System.out.println("***********");
       }
@@ -643,6 +649,7 @@ import java.util.*;
       if(writeFlag == true){
         System.out.println("ADDING");
         //Creates instructions
+        seleIterCount++;
         if(tree.left instanceof IntExp && tree.right instanceof IntExp) {
           instructionList.add(new Instruction(Instruction.ARITHMETIC,xVar,null,null,Symbol.getScope(xVar,globalList),false,false,leftInt,rightInt,2,xVarIndex,-1,-1,tree.op));  
 
@@ -782,7 +789,8 @@ import java.util.*;
       }
      
       if(writeFlag == true){
-         System.out.println("ADDING1");
+        System.out.println("ADDING1");
+        seleIterCount++;
         if(tree.right instanceof IntExp) {
           instructionList.add(new Instruction(Instruction.ARITHMETIC,xVar,null,null,Symbol.getScope(xVar,globalList),false,false,opResult,rightInt,2,xVarIndex,-1,-1,tree.op));
         } else if(tree.right instanceof RegularVar) {
@@ -885,6 +893,7 @@ import java.util.*;
 
       if(writeFlag == true){
         System.out.println("ADDING2");
+        seleIterCount++;
         if(tree.left instanceof IntExp) {
           instructionList.add(new Instruction(Instruction.ARITHMETIC,xVar,null,null,Symbol.getScope(xVar,globalList),false,false,leftInt,opResult,2,xVarIndex,-1,-1,tree.op));
         } else if(tree.left instanceof RegularVar) {
@@ -1063,6 +1072,7 @@ import java.util.*;
           rVar = (RegularVar) tree.var;
           varName = rVar.name;
           insertValue(rVar.name, Integer.parseInt(intExp.value), -1,spaces);
+          seleIterCount++;
           instructionList.add(new Instruction(Instruction.ASSIGNCONST,rVar.name,null,Symbol.getScope(rVar.name,globalList),false,Integer.parseInt(intExp.value),1,false,-1,-1)); 
         } else if(tree.var instanceof ArrayVar) {
           aVar = (ArrayVar) tree.var;
@@ -1082,6 +1092,7 @@ import java.util.*;
             insertValue(aVar.id, Integer.parseInt(intExp.value), getValue(varName), spaces);
             instructionIndex = getValue(varName);
           }
+          seleIterCount++;
           instructionList.add(new Instruction(Instruction.ASSIGNCONST,aVar.id,null,Symbol.getScope(aVar.id,globalList),false,Integer.parseInt(intExp.value),1,false,instructionIndex,-1));
         }
       }
@@ -1097,6 +1108,7 @@ import java.util.*;
         } else if(tree.var instanceof RegularVar) {
           temp = (RegularVar) tree.var;
           insertValue(temp.name, getValue(rVar.name),-1,spaces);
+          seleIterCount++;
           instructionList.add(new Instruction(Instruction.ASSIGNVAR,temp.name,rVar.name,Symbol.getScope(temp.name,globalList),Symbol.getScope(rVar.name,globalList),0,0,false,-1,-1)); 
         } else if(tree.var instanceof ArrayVar) {
           aVar = (ArrayVar) tree.var;
@@ -1114,6 +1126,7 @@ import java.util.*;
             insertValue(aVar.id, getValue(rVar.name), getValue(temp.name), spaces);
             instructionIndex = getValue(varName);
           }
+          seleIterCount++;
           instructionList.add(new Instruction(Instruction.ASSIGNVAR,aVar.id,rVar.name,Symbol.getScope(aVar.id,globalList),Symbol.getScope(rVar.name,globalList),0,0,false,instructionIndex,-1));
         }
 
@@ -1148,7 +1161,7 @@ import java.util.*;
             yIndex = getValue(rVar.name);
             insertValue(temp.name, getArrayValue(aVar.id,getValue(rVar.name),spaces), -1, spaces);            
           }
-
+          seleIterCount++;
           instructionList.add(new Instruction(Instruction.ASSIGNVAR,temp.name,aVar.id,Symbol.getScope(temp.name,globalList),Symbol.getScope(aVar.id,globalList),0,0,false,-1,yIndex)); 
         } else if(tree.var instanceof ArrayVar) {
           tempA = (ArrayVar) tree.var;
@@ -1180,6 +1193,7 @@ import java.util.*;
             yIndex = getValue(rVar.name);
             insertValue(tempA.id,getArrayValue(aVar.id,getValue(rVar.name),spaces),storeIndex,spaces);
           }
+          seleIterCount++;
           instructionList.add(new Instruction(Instruction.ASSIGNVAR,tempA.id,aVar.id,Symbol.getScope(tempA.id,globalList),Symbol.getScope(aVar.id,globalList),0,0,false,xIndex,yIndex)); 
         }
 
@@ -1348,7 +1362,21 @@ import java.util.*;
 
  private void showTree( SeleStmt tree, int spaces ) {
     SimpleExpr exp = null;
+    boolean truthVal = false;
     int type = 0;
+    globalCount += seleIterCount;
+    
+    if(!iterSeleList.isEmpty()) {
+      int length = iterSeleList.size();
+      iterSeleList.get(length-1).numInstructions += seleIterCount;
+      iterSeleList.get(length-1).cut = true;
+      System.out.println("SELEITER COUNT" + seleIterCount);
+      System.out.println("NOT EMPTY");
+    } else {
+
+      System.out.println("EMPTY");
+    }
+    seleIterCount = 0;
     depth++;
     currentDID++;
     indent( spaces );
@@ -1369,7 +1397,14 @@ import java.util.*;
           System.out.println("Error: Test condition must be int");
         }
       }
+      //NEEDS WORK
       showTree( tree.expression, spaces );
+      if(opResult != 0) {
+        truthVal = true;
+      }
+      instructionList.add(new Instruction(3,truthVal));
+      seleIterCount++;
+      iterSeleList.add(new Instruction(3,truthVal));
       showTree( tree.stmt, spaces );
     }
     else if(tree.type == SeleStmt.ELSE)
@@ -1382,7 +1417,24 @@ import java.util.*;
     {
       System.out.println("WAT!");
     }
-    depth--;
+    int length2 = instructionList.size();
+    int length = iterSeleList.size();
+
+    if(iterSeleList.get(length-1).cut == true) {
+      System.out.println("Cut statement");
+      int test = seleIterCount + iterSeleList.get(length-1).numInstructions;
+      System.out.println("NUM TO ADD "+test +" TO "+ length2);
+      instructionList.get(length2-test).numInstructions = test;
+    } else {
+      System.out.println("Not cut");
+      System.out.println("NUM TO ADD "+seleIterCount);
+      instructionList.get(length2-seleIterCount).numInstructions = seleIterCount;
+    }
+    if(!iterSeleList.isEmpty()){
+      iterSeleList.remove(length-1);
+    }
+   globalCount += seleIterCount;
+   depth--;
   }
 
  private void showTree( CompStmt tree, int spaces ) {

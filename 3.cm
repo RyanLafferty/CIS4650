@@ -5,13 +5,19 @@ as return values and assignments*/
 void main(void) {
     int a;
     int c;
-    int bbb[2];
     a = 5;
-    c = 4;
-    c = a;
-    bbb[1] = a;
-    bbb[0] = bbb[1];
-    c  = 1 + 2;
-    c = 1 + a;
-    c = a + 1;
+
+    if(a > 1) {
+        a = 5;
+        a = 2;
+        a = 3;
+        if(c > 2) {
+            a = 2;
+        }
+        a = 2;
+
+        if(c < 2){
+            
+        }
+    }
 }

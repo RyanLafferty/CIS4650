@@ -866,10 +866,8 @@ public class Assembler
                         conPos = 0;
                     }
                 }
-                System.out.println("THE CON POS IS "+ conPos);
 
                 outputArithmeticExpr2(fun.getOffset(instruct.x)-xIndexOffset,yIndexOffset,zIndexOffset,instruct.op,instruct.numConstants,conPos,"Arithmetic Expr",instruct.globalX,instruct.globalY,instruct.globalZ);
-                //outputArithmeticExpr2(int offsetX, int offsetY, int offsetZ, int operation, int constants, int conPos, String comment, boolean xglob, boolean yglob, boolean zglob)
 
             }
 
@@ -1256,7 +1254,6 @@ public class Assembler
     public int getOffset(String vName)
     {
         int i = 0;
-        System.out.println("VNAME:"+vName);
         for(i = 0; i < globalVars.size(); i++)
         {   
             if(vName.equals(globalVars.get(i).name))

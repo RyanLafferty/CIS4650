@@ -75,7 +75,7 @@ public class Function
 	public int getOffset(String vName)
 	{
 		int i = 0;
-		System.out.println("VNAME:"+vName);
+
 		for(i = 0; i < symbolList.size(); i++)
 		{	
 			if(vName.equals(symbolList.get(i).name))
