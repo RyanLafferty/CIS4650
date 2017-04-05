@@ -2,7 +2,7 @@
 that were in Fei's rubric. Tests issues such
 as return values and assignments*/
 
-void main(void) {
+void main(int b, int bb) {
     int a;
     int c;
     a = 1;

@@ -732,6 +732,7 @@ public class Assembler
         {
             v = fun.symbolList.get(i);
             v.offset = currentFrameOffset;
+            System.out.println("local var offset " + v.name + ": " + currentFrameOffset);
             if(v.arraySize > 0)
             {
                 currentFrameOffset -= v.arraySize + 1; // we will store the size of the array at the end of the array

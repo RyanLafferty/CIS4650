@@ -2,6 +2,22 @@ package absyn;
 import java.io.*;
 import java.util.*;
 
+/*
+implementation instructions
+function calls:
+pass arguments by
+//1. how to store args in function being called
+        //this can be done just before the sequence
+        starting point  = currentFrameOffset - 3 // this is where the first argument is stored
+        for each arg:
+            store arg in
+            starting point --
+Example, if a function has arguments in the following order int b, int bb
+load int b at currentFrameOffset - 3
+load int bb at currentFrameOffset - 4
+
+*/
+
 public class Function 
 {
 	public ArrayList <variable> symbolList = new ArrayList<variable>();
