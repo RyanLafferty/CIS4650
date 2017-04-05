@@ -122,6 +122,7 @@ public class Assembler
         //outputFunction(this.testFunction);
         for(int i=0;i<functionList.size();i++) {
             Function f = functionList.get(i);
+            f.updateInstructionCnt();
             outputFunction(f);
         }
 
@@ -804,9 +805,17 @@ public class Assembler
                 System.out.println("ASSIGN CONST");
                 assignConstant2(instruct.constY,fun.getOffset(instruct.x), "Assign const", instruct.globalX);
             } else if(instruct.type == 2) {
+                int xIndexOffset = 0;
+                int yIndexOffset = 0;
                 System.out.println("ASSIGN VAR");
-                assignVariable2()
-
+                if(instruct.arrayIndexX != -1) {
+                    xIndexOffset += instruct.arrayIndexX;
+                }
+                if(instruct.arrayIndexY != -1) {
+                    yIndexOffset += instruct.arrayIndexY;
+                }
+                assignVariable2(fun.getOffset(instruct.x)-xIndexOffset,fun.getOffset(instruct.y)-yIndexOffset,"Assign var",instruct.globalX);
+                //assignVariable2(int offsetX, int offsetY, String comment, boolean global)
             }
 
         }

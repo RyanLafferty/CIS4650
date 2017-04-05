@@ -8,4 +8,7 @@ void main(void) {
     int bbb[2];
     a = 5;
     c = 4;
+    c = a;
+    bbb[1] = a;
+    bbb[0] = bbb[1];
 }

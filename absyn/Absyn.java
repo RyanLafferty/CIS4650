@@ -1114,7 +1114,7 @@ import java.util.*;
             insertValue(aVar.id, getValue(rVar.name), getValue(temp.name), spaces);
             instructionIndex = getValue(varName);
           }
-          instructionList.add(new Instruction(Instruction.ASSIGNVAR,aVar.id,null,Symbol.getScope(aVar.id,globalList),Symbol.getScope(rVar.name,globalList),0,0,false,instructionIndex,-1));
+          instructionList.add(new Instruction(Instruction.ASSIGNVAR,aVar.id,rVar.name,Symbol.getScope(aVar.id,globalList),Symbol.getScope(rVar.name,globalList),0,0,false,instructionIndex,-1));
         }
 
       }
