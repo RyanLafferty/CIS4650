@@ -1070,9 +1070,15 @@ public class Assembler
 
     //Cost: 4 Instructions
     /*
-    Desc: TODO
+    Desc: Outputs an arithmetic expression of the form (x = y op z) using the supplied information
     Args: 
-    Ret: 
+    (int) offset[X/Y/Z]: the offset into the frame if a variable or the constant value
+    (int) operation: the logical operation (using the OpExp2 static values)
+    (int) constants: the number of constants
+    (int) conPos: the constant position if there is a single constant (0 - left (y), 1 - right (z))
+    (String) comment: a comment to go at the end of the line
+    (boolean) [x/y]glob: the global flags for x and y that determine if they are global variables
+    Ret: Nothing
     */
     //y OP z  -> jump x where x is the number of instuctions to skip
     private void outputLogicalExpr2(int offsetX, int offsetY, int offsetZ, int operation, int constants, int conPos, String comment, boolean xglob, boolean yglob)
