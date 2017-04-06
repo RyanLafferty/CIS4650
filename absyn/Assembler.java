@@ -41,6 +41,7 @@ public class Assembler
     private ArrayList <Function> functionList = new ArrayList <Function>();
     private int iterInstructions = -1;
     private int iterJump = 0;
+    private int tempFrameOffset;
 
 
     //Constructor
@@ -926,8 +927,31 @@ public class Assembler
                 inputCall(fun.getOffset(instruct.x),"Input",instruct.globalX);
                 //inputCall(int offsetX, String comment, boolean global)
 
-            } 
-            System.out.println("ITER INSTRUCT"+iterInstructions);
+            } else if(instruct.type == 6) {
+                System.out.println("Call");
+                boolean global;
+                int j;
+                tempFrameOffset = currentFrameOffset - 3;
+                if(instruct.argList != null){
+                    for(j=0;j<instruct.argList.size();j++) {
+                        Arg a = instruct.argList.get(j);
+                        if(a.var == null) {
+                            assignConstant2(a.constX,tempFrameOffset,"Assign const",false);
+                        } else {
+                            if(fun.getOffset(a.var) == 1) {
+                                global = true; 
+                            } else {
+                                global = false;
+                            }
+                            assignVariable2(tempFrameOffset,fun.getOffset(a.var), "Assign var", global);
+
+                        }
+                        tempFrameOffset --;
+                    }
+                }
+                callSequence(fun);
+            }
+
             if(iterInstructions == 2){
                 iterJump = Math.abs(iterJump) * -1;
                 iterJump -= Instruction.LOGIC;

@@ -28,6 +28,9 @@ import java.util.*;
   public int tempIndex;
   public int seleIterCount = 0; //Counts instructions within sele or iter
   public int globalCount = 0;
+  public ArrayList<Arg> tempArgList = new ArrayList<Arg>();
+
+
 
 
    private void indent( int spaces ) {
@@ -174,21 +177,25 @@ import java.util.*;
     RegularDec argDec = null;
     RegularVar argVar = null;
     SimpleExpr s = null;
+    IntExp iexp = null;
     Dec d = null;
     Symbol arg = null;
     Symbol typeCheck;
     TypeSpec t = null;
+    int i = 0;
     
     argList.clear();
+    tempArgList.clear();
     while( tree != null ) {
       if(tree.head instanceof SimpleExpr)
       {
         s = (SimpleExpr) tree.head;
         d = s.sime;
+        System.out.println(d);
         if(d instanceof RegularVar)
         {
           argVar = (RegularVar) d;
-          for(int i = 0; i < globalList.size(); i++) {
+          for(i = 0; i < globalList.size(); i++) {
             typeCheck = globalList.get(i);
             if(argVar.name.equals(typeCheck.sID)) {
               t = typeCheck.type;
@@ -196,6 +203,8 @@ import java.util.*;
           }
           arg = new Symbol(depth, currentDID, argVar.name, t, false); 
           localArgs.add(arg);
+          //TODO add var arg here
+          tempArgList.add(new Arg(0, argVar.name));
         }
         else if(d instanceof OpExp2)
         {
@@ -203,9 +212,24 @@ import java.util.*;
           arg = new Symbol(depth, currentDID, "OpExp", t, false); 
           localArgs.add(arg);
         }
+        else if(d instanceof IntExp)
+        {
+          iexp = (IntExp) d;
+          System.out.println("aaaaa");
+          //TODO add const arg here since it is of type int expression
+          tempArgList.add(new Arg(Integer.parseInt(iexp.value), null));
+        }
       }
       tree = tree.tail;
     }
+
+    /*for(i = 0; i < tempArgList.size(); i++)
+    {
+      if(tempArgList.get(i).var == null)
+        System.out.println(tempArgList.get(i).constX);
+      else
+        System.out.println(tempArgList.get(i).var);
+    }*/
   }
 
    private void showTree( Exp tree, int spaces ) {
@@ -1741,13 +1765,12 @@ import java.util.*;
     int j = 0;
     boolean globalX = false;
     Symbol s = null;
+
     Symbol s2 = null;
     DecList d;
 
     if(tree.id.equals("output")) {
-      if(tree.args instanceof DecList){
-        D
-      }
+
       //instructionList.add(new Instruction(5,tree.id,));
     }
 
@@ -1835,6 +1858,15 @@ import java.util.*;
 
       //show tree
       showTree(tree.args, spaces);
+      if(tempArgList != null) {
+        for(i=0;i<tempArgList.size();i++) {
+          instructionList.get(instructionList.size()-1).argList.add(tempArgList.get(i)); 
+        }
+      } else {
+        instructionList.get(instructionList.size()-1).argList = null;
+      }
+      
+      
     }
     
   }
@@ -1977,6 +2009,7 @@ import java.util.*;
 
       return -1;
     }
+
   }
 
   public int getOpTypeNR(OpExp2 tree)
