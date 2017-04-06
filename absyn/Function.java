@@ -143,6 +143,7 @@ public class Function
 			else if(in.type == Instruction.CALL_INS)
 			{
 				this.iCnt += Instruction.CALL;
+				this.iCnt += in.argList.size() * Instruction.CONST;
 			}
 			else if(in.type == Instruction.ITER_INS)
 			{
