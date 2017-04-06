@@ -923,7 +923,7 @@ public class Assembler
                 outputLogicalExpr2(instruct.numInstructions,xIndexOffset,yIndexOffset,instruct.op,instruct.numConstants,conPos,"Iter stmt",instruct.globalX,instruct.globalY);
             } 
             System.out.println("ITER INSTRUCT"+iterInstructions);
-            if(iterInstructions == 1){
+            if(iterInstructions == 2){
                 iterJump = Math.abs(iterJump) * -1;
                 iterJump -= Instruction.LOGIC;
                 jumpAround(iterJump,"to top of iter");
