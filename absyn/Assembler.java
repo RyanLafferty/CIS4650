@@ -931,6 +931,11 @@ public class Assembler
                 System.out.println("Call");
                 boolean global;
                 int j;
+                int k;
+                Function f;
+
+
+
                 tempFrameOffset = currentFrameOffset - 3;
                 if(instruct.argList != null){
                     for(j=0;j<instruct.argList.size();j++) {
@@ -949,7 +954,13 @@ public class Assembler
                         tempFrameOffset --;
                     }
                 }
-                callSequence(fun);
+                for(k=0;k<functionList.size();k++) {
+                    f = functionList.get(k);
+                    if(f.name.equals(instruct.x)){
+                        callSequence(f);
+                        break;
+                    }
+                }
             }
 
             if(iterInstructions == 2){
