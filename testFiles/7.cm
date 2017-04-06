@@ -1,0 +1,14 @@
+int add(int a)
+{
+    a = a + 1;
+}
+
+int main(void) {
+    int b;
+    b = 0;
+    b = input();
+
+    add(b); 
+
+    return 5;
+}
