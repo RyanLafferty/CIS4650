@@ -28,6 +28,9 @@ import java.util.*;
   public int tempIndex;
   public int seleIterCount = 0; //Counts instructions within sele or iter
   public int globalCount = 0;
+  public ArrayList<Arg> tempArgList = new ArrayList<Arg>();
+
+
 
 
    private void indent( int spaces ) {
@@ -180,11 +183,13 @@ import java.util.*;
     TypeSpec t = null;
     
     argList.clear();
+    tempArgList.clear();
     while( tree != null ) {
       if(tree.head instanceof SimpleExpr)
       {
         s = (SimpleExpr) tree.head;
         d = s.sime;
+        System.out.println(d);
         if(d instanceof RegularVar)
         {
           argVar = (RegularVar) d;
@@ -196,12 +201,18 @@ import java.util.*;
           }
           arg = new Symbol(depth, currentDID, argVar.name, t, false); 
           localArgs.add(arg);
+          //TODO add var arg here
         }
         else if(d instanceof OpExp2)
         {
           t = new TypeSpec(0, 0);
           arg = new Symbol(depth, currentDID, "OpExp", t, false); 
           localArgs.add(arg);
+        }
+        else if(d instanceof IntExp)
+        {
+          System.out.println("aaaaa");
+          //TODO add const arg here since it is of type int expression
         }
       }
       tree = tree.tail;
@@ -1740,7 +1751,7 @@ import java.util.*;
     int i = 0;
     int j = 0;
     Symbol s = null;
-    Symbol s2 = null;
+    Symbol s2 = null;   
 
     if(Symbol.functionDeclared(tree.id, depth, currentDID, globalList) == false) {
       indent( spaces );
