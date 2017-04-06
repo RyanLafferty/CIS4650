@@ -1238,6 +1238,10 @@ import java.util.*;
       }
       else if(sime.sime instanceof Call) {
         call = (Call) sime.sime;
+        if(call.id.equals("input")) {
+          instructionList.add(new Instruction(4,xVar, Symbol.getScope(xVar,globalList)));
+          seleIterCount++;
+        }
         //t = Symbol.getType(aVar.id, depth, currentDID, globalList);
         t = Symbol.getGlobalType(call.id,depth,currentDID,globalList);
         if(t != type.type) {
@@ -1737,6 +1741,7 @@ import java.util.*;
     int j = 0;
     Symbol s = null;
     Symbol s2 = null;
+
     if(Symbol.functionDeclared(tree.id, depth, currentDID, globalList) == false) {
       indent( spaces );
       System.out.println("Error: function not declared");

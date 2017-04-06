@@ -91,6 +91,12 @@ public class Instruction {
 		this.type = type;
 		this.truth = truth;
 	}
+
+	public Instruction(int type, String x, boolean globalX) {
+		this.type = type;
+		this.x = x;
+		this.globalX = globalX;
+	}
 	
 	//get cost of instruction
 	public int getCost()

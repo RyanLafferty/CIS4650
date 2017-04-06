@@ -921,6 +921,11 @@ public class Assembler
                 iterJump = instruct.numInstructions;
                 System.out.println("THE INSTRUCTION NUMBER "+instruct.numInstructions);
                 outputLogicalExpr2(instruct.numInstructions,xIndexOffset,yIndexOffset,instruct.op,instruct.numConstants,conPos,"Iter stmt",instruct.globalX,instruct.globalY);
+            } else if(instruct.type == 4) {
+                System.out.println("Input");
+                inputCall(fun.getOffset(instruct.x),"Input",instruct.globalX);
+                //inputCall(int offsetX, String comment, boolean global)
+
             } 
             System.out.println("ITER INSTRUCT"+iterInstructions);
             if(iterInstructions == 2){
@@ -1239,7 +1244,7 @@ public class Assembler
             reg = GP;
         }
 
-        emitRM("ST", FP, currentFrameOffset + ofpFO, FP, "* store current fp");
+        emitRM("ST", FP, currentFrameOffset + ofpFO, FP, "*input store current fp");
         emitRM("LDA", FP, currentFrameOffset, FP, "* push new frame");
         emitRM("LDA", AC, 1, PC, "* save return in ac");
         //emitRM("LDA", PC, fun.entry, PC, "* relative jump to function entry");

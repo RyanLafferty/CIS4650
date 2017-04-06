@@ -12,6 +12,6 @@ void main(int b, int bb) {
     while(a < 2) {
     	a = 2;
     }
-
+    a = input();
 
 }
