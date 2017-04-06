@@ -1739,8 +1739,13 @@ import java.util.*;
  private void showTree( Call tree, int spaces ) {
     int i = 0;
     int j = 0;
+    boolean globalX = false;
     Symbol s = null;
     Symbol s2 = null;
+
+    if(tree.id.equals("output")) {
+      //instructionList.add(new Instruction(5,tree.id,));
+    }
 
     if(Symbol.functionDeclared(tree.id, depth, currentDID, globalList) == false) {
       indent( spaces );
@@ -1753,6 +1758,11 @@ import java.util.*;
     p.println("Call:");
     spaces += SPACES;
     showTree (tree.id, spaces );
+    if(xVar != null) {
+      globalX = Symbol.getScope(tree.id,globalList);
+    }
+
+    instructionList.add(new Instruction(6,tree.id,globalX));
     if(tree.args == null) {
       indent( spaces );
       System.out.println( "Args empty" );
@@ -1760,11 +1770,10 @@ import java.util.*;
     } else {
       Args a = (Args) tree.args;
       localArgs.clear();
-      dumpLocalArgs(a.args); 
+      dumpLocalArgs(a.args);
       for(i = 0; i < localArgs.size(); i++)
       {
         s = localArgs.get(i);
-        //System.out.println("args: " + s.sID);
       }
 
       for(i = 0; i < globalList.size(); i++)
