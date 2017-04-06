@@ -50,6 +50,7 @@ public class Instruction {
 	public int numInstructions = 0;
 	public boolean cut = false;
 	public int totalCost = 0;
+	public ArrayList <Arg> argList = new ArrayList<Arg>();
 
 	//Used for assign Var and assign const
 	public Instruction(int type, String x, String y, boolean globalX, boolean globalY, int constY, int numConstants, boolean leftRightFlag, int arrayIndexX, int arrayIndexY) {
