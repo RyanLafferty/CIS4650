@@ -1,0 +1,12 @@
+int x;
+int z;
+
+int main(void) {
+    x = 1;
+    z = 2;
+
+    x = x + z;
+
+
+    return 5;
+}

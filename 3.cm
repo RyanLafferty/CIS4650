@@ -1,7 +1,3 @@
-/*Contains first four typechecking examples
-that were in Fei's rubric. Tests issues such
-as return values and assignments*/
-
 void main(int b, int bb) {
     int a;
     int c;

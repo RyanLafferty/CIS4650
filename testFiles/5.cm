@@ -1,0 +1,13 @@
+int x;
+
+int main(void) {
+    int a;
+    x = 1 + 2;
+    a = 1;
+    if(x > 2)
+    {
+        a = x + a;
+    }
+
+    return 5;
+}

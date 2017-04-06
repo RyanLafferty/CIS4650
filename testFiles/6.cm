@@ -1,0 +1,11 @@
+int add(int a)
+{
+    a = a + 1;
+    output(a);
+}
+
+int main(void) {
+    add(2); 
+
+    return 5;
+}
