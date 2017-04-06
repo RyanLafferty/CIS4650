@@ -1482,8 +1482,7 @@ import java.util.*;
       int cost = 0;
       //System.out.println("Not cut");
       //System.out.println("NUM TO ADD "+seleIterCount + "length of instructList "+length2);
-      instructionList.get(length2-seleIterCount).numInstructions += 1;
-      instructionList.get(length2-seleIterCount).numInstructions = seleIterCount;
+      instructionList.get(length2-seleIterCount).numInstructions = seleIterCount + 1;
       //System.out.println(instructionList.get(length2-seleIterCount).numInstructions);
       //System.out.println("INSERT SPOT" + length2 + "-"+ seleIterCount);
       for(int i=seleIterCount;i > 0;i--) {

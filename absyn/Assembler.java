@@ -919,6 +919,7 @@ public class Assembler
                 System.out.println("Num consts "+instruct.numConstants);
                 iterInstructions = instruct.numInstructions;
                 iterJump = instruct.numInstructions;
+                System.out.println("THE INSTRUCTION NUMBER "+instruct.numInstructions);
                 outputLogicalExpr2(instruct.numInstructions,xIndexOffset,yIndexOffset,instruct.op,instruct.numConstants,conPos,"Iter stmt",instruct.globalX,instruct.globalY);
             } 
             System.out.println("ITER INSTRUCT"+iterInstructions);
