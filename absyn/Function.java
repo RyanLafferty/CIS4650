@@ -74,10 +74,10 @@ public class Function
 					
 					if(f.symbolList.get(j).name.equals(varName)) {
 						if(index == -1) {
-							System.out.println("Updating regularVar value");
+							//System.out.println("Updating regularVar value");
 							f.symbolList.get(j).value = value;
 						} else {
-							System.out.println("Updating arrayVar "+varName+" at index "+index+" with value "+value);
+							//System.out.println("Updating arrayVar "+varName+" at index "+index+" with value "+value);
 							f.symbolList.get(j).valueArray[index] = value;
 						}
 						

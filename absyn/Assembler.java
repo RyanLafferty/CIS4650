@@ -39,6 +39,8 @@ public class Assembler
     private Function testFunction2 = null;
     private ArrayList <variable> globalVars = new ArrayList <variable>();
     private ArrayList <Function> functionList = new ArrayList <Function>();
+    private int iterInstructions = -1;
+    private int iterJump = 0;
 
 
     //Constructor
@@ -773,6 +775,7 @@ public class Assembler
         }*/
 
         for(i=0;i<fun.instructionList.size();i++){
+            iterInstructions--;
             System.out.println(fun.instructionList.get(i));
             Instruction instruct = fun.instructionList.get(i);
             if(instruct.type == 0) {
@@ -880,7 +883,51 @@ public class Assembler
 
                 outputLogicalExpr2(instruct.numInstructions,xIndexOffset,yIndexOffset,instruct.op,instruct.numConstants,conPos,"Sele stmt",instruct.globalX,instruct.globalY);
                 //outputLogicalExpr2(int offsetX, int offsetY, int offsetZ, int operation, int constants, int conPos, String comment, boolean xglob, boolean yglob)
-            }   
+            } else if(instruct.type == 7) {
+                System.out.println("Iter stmt");
+                int xIndexOffset = 0;
+                int yIndexOffset = 0;
+                int conPos = -1;
+
+                if(instruct.x == null) {
+                    xIndexOffset = instruct.constX;
+                } else if(instruct.arrayIndexX != -1) {
+                    xIndexOffset = fun.getOffset(instruct.x) - instruct.arrayIndexX;
+                } else {
+                    xIndexOffset = fun.getOffset(instruct.x);
+                }
+
+                if(instruct.y == null) {
+                    yIndexOffset = instruct.constY;
+                } else if(instruct.arrayIndexY != -1) {
+                    yIndexOffset = fun.getOffset(instruct.y) - instruct.arrayIndexY;
+                } else {
+                    yIndexOffset = fun.getOffset(instruct.y);
+                }
+
+                if(instruct.numConstants == 1) {
+                    if(instruct.x != null && instruct.y == null) {
+                        conPos = 1;
+                    } else if(instruct.x == null && instruct.y != null) {
+                        conPos = 0;
+                    }
+                }
+                System.out.println("OFFSET X "+instruct.numInstructions);
+                System.out.println("OFFSET Y "+xIndexOffset);
+                System.out.println("OFFSET Z "+yIndexOffset);
+                System.out.println("OP "+instruct.op);
+                System.out.println("Num consts "+instruct.numConstants);
+                iterInstructions = instruct.numInstructions;
+                iterJump = instruct.numInstructions;
+                outputLogicalExpr2(instruct.numInstructions,xIndexOffset,yIndexOffset,instruct.op,instruct.numConstants,conPos,"Iter stmt",instruct.globalX,instruct.globalY);
+            } 
+            System.out.println("ITER INSTRUCT"+iterInstructions);
+            if(iterInstructions == 1){
+                iterJump = Math.abs(iterJump) * -1;
+                iterJump -= Instruction.LOGIC;
+                jumpAround(iterJump,"to top of iter");
+                iterInstructions = -1;
+            }  
 
         }
         

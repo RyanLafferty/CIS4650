@@ -24,6 +24,7 @@ import java.util.*;
   public int opResult = 0;
   final  int SPACES = 4;
   public boolean writeFlag = true;
+  public boolean seleFlag = false;
   public int tempIndex;
   public int seleIterCount = 0; //Counts instructions within sele or iter
   public int globalCount = 0;
@@ -377,7 +378,7 @@ import java.util.*;
     System.out.println(tree.id);
     p.println(tree.id);
     sime = (SimpleExpr) tree.number;
-    if(sime.sime instanceof OpExp2) {
+    if(sime.sime instanceof OpExp2 || seleFlag == true) {
       writeFlag = false;
     } else {
       writeFlag = true;
@@ -654,7 +655,6 @@ import java.util.*;
       }
 
       if(writeFlag == true){
-        System.out.println("ADDING");
         //Creates instructions
         seleIterCount++;
         if(tree.left instanceof IntExp && tree.right instanceof IntExp) {
@@ -1255,6 +1255,10 @@ import java.util.*;
     System.out.println( "SimpleExpr:" );
     p.println("SimpleExpr:");
     spaces += SPACES;
+    /*if(seleFlag == true) {
+      writeFlag = false;
+    }
+    System.out.println("SELE" + seleFlag);*/
     //System.out.println(tree.sime);
     if(tree.sime instanceof OpExp2) {
       showTree ((OpExp2)tree.sime, spaces);
@@ -1346,6 +1350,17 @@ import java.util.*;
     int type = -1;
     boolean truthVal = false;
     boolean state;
+    int l;
+    String x = null;
+    String y = null;
+    int constX = 0;
+    int constY = 0;
+    int xIndex = -1;
+    int yIndex = -1;
+    int constNum = 0;
+    int operation = 0;
+    boolean globalX = false;
+    boolean globalY = false;
 
    globalCount += seleIterCount;
     
@@ -1353,11 +1368,11 @@ import java.util.*;
       int length = iterSeleList.size();
       iterSeleList.get(length-1).numInstructions += seleIterCount;
       iterSeleList.get(length-1).cut = true;
-      System.out.println("SELEITER COUNT" + seleIterCount);
-      System.out.println("NOT EMPTY");
+     // System.out.println("SELEITER COUNT" + seleIterCount);
+      //System.out.println("NOT EMPTY");
     } else {
-      System.out.println("EMPTY");
-      System.out.println("SELEITER COUNT" + seleIterCount);
+     // System.out.println("EMPTY");
+      //System.out.println("SELEITER COUNT" + seleIterCount);
     }
     seleIterCount = 0;
 
@@ -1378,6 +1393,46 @@ import java.util.*;
         indent(spaces);
         System.out.println("Error: Test condition must be int");
       }
+      if(exp.sime instanceof OpExp2) {
+          OpExp2 op = (OpExp2) exp.sime;
+          RegularVar rVar;
+          ArrayVar aVar;
+          IntExp intExp;
+          
+          operation = op.op;
+          if(op.left instanceof IntExp) {
+            intExp = (IntExp) op.left;
+            constX  = Integer.parseInt(intExp.value);
+            constNum++;
+          } else if(op.left instanceof RegularVar) {
+            rVar = (RegularVar) op.left;
+            x = rVar.name;
+            globalX = Symbol.getScope(x,globalList);
+          } else if(op.left instanceof ArrayVar) {
+            aVar = (ArrayVar) op.left;
+            x = aVar.id;
+            globalX = Symbol.getScope(x,globalList);
+            //TODO, get index
+          }
+
+          if(op.right instanceof IntExp) {
+            intExp = (IntExp) op.right;
+            constY  = Integer.parseInt(intExp.value);
+            constNum++;
+          } else if(op.right instanceof RegularVar) {
+            rVar = (RegularVar) op.right;
+            y = rVar.name;
+            globalY = Symbol.getScope(y,globalList);
+          } else if(op.right instanceof ArrayVar) {
+            aVar = (ArrayVar) op.right;
+            y = aVar.id;
+            globalY = Symbol.getScope(y,globalList);
+            //TODO, get index
+          }
+          //System.out.println("LEFT"+x);
+          //System.out.println("RIGHT"+y);
+
+        }
     }
     //showTree( tree.expression, spaces );
 
@@ -1390,6 +1445,18 @@ import java.util.*;
     writeFlag = state;
 
     instructionList.add(new Instruction(7,truthVal));
+    l = instructionList.size();
+    instructionList.get(l-1).x = x;
+    instructionList.get(l-1).y = y;
+    instructionList.get(l-1).constX = constX;
+    instructionList.get(l-1).constY = constY;
+    instructionList.get(l-1).arrayIndexX = xIndex;
+    instructionList.get(l-1).arrayIndexY = yIndex;
+    instructionList.get(l-1).op = operation;
+    instructionList.get(l-1).globalX = globalX;
+    instructionList.get(l-1).globalY = globalY;
+    instructionList.get(l-1).numConstants = constNum;
+    
     seleIterCount++;
     iterSeleList.add(new Instruction(7,truthVal));
 
@@ -1399,28 +1466,28 @@ import java.util.*;
     int length = iterSeleList.size();
 
     if(iterSeleList.get(length-1).cut == true) {
-      System.out.println("Cut statement");
+     // System.out.println("Cut statement");
       int cost = 0;
       int test = seleIterCount + iterSeleList.get(length-1).numInstructions;
-      System.out.println("NUM TO ADD "+test +" TO "+ length2);
+      //System.out.println("NUM TO ADD "+test +" TO "+ length2);
       instructionList.get(length2-test).numInstructions = test;
       for(int i=test;i > 0;i--) {
         cost += instructionList.get(i).getCost();
-        System.out.println("COST "+ cost);
+        //System.out.println("COST "+ cost);
       }
       instructionList.get(length2-test).totalCost = cost;
-      System.out.println("INSERT SPOT" + length2 + "-"+ test);
+      //System.out.println("INSERT SPOT" + length2 + "-"+ test);
 
     } else {
       int cost = 0;
-      System.out.println("Not cut");
-      System.out.println("NUM TO ADD "+seleIterCount + "length of instructList "+length2);
+      //System.out.println("Not cut");
+      //System.out.println("NUM TO ADD "+seleIterCount + "length of instructList "+length2);
       instructionList.get(length2-seleIterCount).numInstructions = seleIterCount;
-      System.out.println(instructionList.get(length2-seleIterCount).numInstructions);
-      System.out.println("INSERT SPOT" + length2 + "-"+ seleIterCount);
+      //System.out.println(instructionList.get(length2-seleIterCount).numInstructions);
+      //System.out.println("INSERT SPOT" + length2 + "-"+ seleIterCount);
       for(int i=seleIterCount;i > 0;i--) {
         cost += instructionList.get(i).getCost();
-        System.out.println("COST "+ cost);
+        //System.out.println("COST "+ cost);
       }
       instructionList.get(length2-seleIterCount).totalCost = cost;
     }
@@ -1454,11 +1521,11 @@ import java.util.*;
       int length = iterSeleList.size();
       iterSeleList.get(length-1).numInstructions += seleIterCount;
       iterSeleList.get(length-1).cut = true;
-      System.out.println("SELEITER COUNT" + seleIterCount);
-      System.out.println("NOT EMPTY");
+      //System.out.println("SELEITER COUNT" + seleIterCount);
+      //System.out.println("NOT EMPTY");
     } else {
-      System.out.println("EMPTY");
-      System.out.println("SELEITER COUNT" + seleIterCount);
+      //System.out.println("EMPTY");
+      //System.out.println("SELEITER COUNT" + seleIterCount);
     }
     seleIterCount = 0;
     depth++;
@@ -1517,13 +1584,14 @@ import java.util.*;
             globalY = Symbol.getScope(y,globalList);
             //TODO, get index
           }
-          System.out.println("LEFT"+x);
-          System.out.println("RIGHT"+y);
+          //System.out.println("LEFT"+x);
+          //System.out.println("RIGHT"+y);
 
         }
       }
       state = writeFlag;
       writeFlag = false;
+      seleFlag = true;
       showTree( tree.expression, spaces );
       if(opResult != 0) {
         truthVal = true;
@@ -1545,6 +1613,7 @@ import java.util.*;
 
       seleIterCount++;
       iterSeleList.add(new Instruction(3,truthVal));
+      seleFlag = false;
       showTree( tree.stmt, spaces );
     }
     else if(tree.type == SeleStmt.ELSE)
@@ -1561,32 +1630,32 @@ import java.util.*;
     int length = iterSeleList.size();
 
     if(iterSeleList.get(length-1).cut == true) {
-      System.out.println("Cut statement");
+      //System.out.println("Cut statement");
       int cost = 0;
       int test = seleIterCount + iterSeleList.get(length-1).numInstructions;
-      System.out.println("NUM TO ADD "+test +" TO "+ length2);
+     // System.out.println("NUM TO ADD "+test +" TO "+ length2);
       instructionList.get(length2-test).numInstructions = test;
       for(int i=test;i > 0;i--) {
         cost += instructionList.get(i).getCost();
-        System.out.println("COST "+ cost);
+       // System.out.println("COST "+ cost);
       }
       instructionList.get(length2-test).totalCost = cost;
-      System.out.println("INSERT SPOT" + length2 + "-"+ test);
+      //System.out.println("INSERT SPOT" + length2 + "-"+ test);
 
     } else {
       int cost = 0;
-      System.out.println("Not cut");
-      System.out.println("NUM TO ADD "+seleIterCount + "length of instructList "+length2);
+      //System.out.println("Not cut");
+      //System.out.println("NUM TO ADD "+seleIterCount + "length of instructList "+length2);
       instructionList.get(length2-seleIterCount).numInstructions = seleIterCount;
-      System.out.println(instructionList.get(length2-seleIterCount).numInstructions);
-      System.out.println("INSERT SPOT" + length2 + "-"+ seleIterCount);
+     // System.out.println(instructionList.get(length2-seleIterCount).numInstructions);
+      //System.out.println("INSERT SPOT" + length2 + "-"+ seleIterCount);
       for(int i=seleIterCount;i > 0;i--) {
         cost += instructionList.get(i).getCost();
-        System.out.println("COST "+ cost);
+        //System.out.println("COST "+ cost);
       }
       instructionList.get(length2-seleIterCount).totalCost = cost;
     }
-    System.out.println(instructionList.get(length2-seleIterCount).numInstructions);
+   // System.out.println(instructionList.get(length2-seleIterCount).numInstructions);
     if(!iterSeleList.isEmpty()){
       iterSeleList.remove(length-1);
     }

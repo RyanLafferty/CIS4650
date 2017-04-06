@@ -9,7 +9,13 @@ void main(int b, int bb) {
     bbb[1] = 2;
     a = 5;
     a = 4;
-    if(bbb[1] > 5) {
+    if(a > 5) {
     	a = 2;
     }
+
+    while(a < 2) {
+    	a = 2;
+    }
+
+
 }
