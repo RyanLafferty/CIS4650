@@ -1456,7 +1456,7 @@ import java.util.*;
     instructionList.get(l-1).globalX = globalX;
     instructionList.get(l-1).globalY = globalY;
     instructionList.get(l-1).numConstants = constNum;
-
+    
     seleIterCount++;
     iterSeleList.add(new Instruction(7,truthVal));
 
@@ -1470,7 +1470,7 @@ import java.util.*;
       int cost = 0;
       int test = seleIterCount + iterSeleList.get(length-1).numInstructions;
       //System.out.println("NUM TO ADD "+test +" TO "+ length2);
-      instructionList.get(length2-test).numInstructions = test + 1;
+      instructionList.get(length2-test).numInstructions = test;
       for(int i=test;i > 0;i--) {
         cost += instructionList.get(i).getCost();
         //System.out.println("COST "+ cost);
@@ -1482,7 +1482,7 @@ import java.util.*;
       int cost = 0;
       //System.out.println("Not cut");
       //System.out.println("NUM TO ADD "+seleIterCount + "length of instructList "+length2);
-      instructionList.get(length2-seleIterCount).numInstructions = seleIterCount + 1;
+      instructionList.get(length2-seleIterCount).numInstructions = seleIterCount;
       //System.out.println(instructionList.get(length2-seleIterCount).numInstructions);
       //System.out.println("INSERT SPOT" + length2 + "-"+ seleIterCount);
       for(int i=seleIterCount;i > 0;i--) {
