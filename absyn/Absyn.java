@@ -177,10 +177,12 @@ import java.util.*;
     RegularDec argDec = null;
     RegularVar argVar = null;
     SimpleExpr s = null;
+    IntExp iexp = null;
     Dec d = null;
     Symbol arg = null;
     Symbol typeCheck;
     TypeSpec t = null;
+    int i = 0;
     
     argList.clear();
     tempArgList.clear();
@@ -193,7 +195,7 @@ import java.util.*;
         if(d instanceof RegularVar)
         {
           argVar = (RegularVar) d;
-          for(int i = 0; i < globalList.size(); i++) {
+          for(i = 0; i < globalList.size(); i++) {
             typeCheck = globalList.get(i);
             if(argVar.name.equals(typeCheck.sID)) {
               t = typeCheck.type;
@@ -202,6 +204,7 @@ import java.util.*;
           arg = new Symbol(depth, currentDID, argVar.name, t, false); 
           localArgs.add(arg);
           //TODO add var arg here
+          tempArgList.add(new Arg(0, argVar.name));
         }
         else if(d instanceof OpExp2)
         {
@@ -211,12 +214,22 @@ import java.util.*;
         }
         else if(d instanceof IntExp)
         {
+          iexp = (IntExp) d;
           System.out.println("aaaaa");
           //TODO add const arg here since it is of type int expression
+          tempArgList.add(new Arg(Integer.parseInt(iexp.value), null));
         }
       }
       tree = tree.tail;
     }
+
+    /*for(i = 0; i < tempArgList.size(); i++)
+    {
+      if(tempArgList.get(i).var == null)
+        System.out.println(tempArgList.get(i).constX);
+      else
+        System.out.println(tempArgList.get(i).var);
+    }*/
   }
 
    private void showTree( Exp tree, int spaces ) {
