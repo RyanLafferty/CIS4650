@@ -1742,8 +1742,12 @@ import java.util.*;
     boolean globalX = false;
     Symbol s = null;
     Symbol s2 = null;
+    DecList d;
 
     if(tree.id.equals("output")) {
+      if(tree.args instanceof DecList){
+        D
+      }
       //instructionList.add(new Instruction(5,tree.id,));
     }
 
@@ -1781,9 +1785,8 @@ import java.util.*;
         s = globalList.get(i);
         if(s.isFunction == true && tree.id.equals(s.sID))
         {
-          //System.out.println(s.sID);
           funArgs = s.args;
-          if(funArgs.size() == localArgs.size())
+          if(funArgs != null && funArgs.size() == localArgs.size())
           {
             for(j = 0; j < funArgs.size(); j++)
             {
